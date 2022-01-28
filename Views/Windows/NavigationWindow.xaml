@@ -21,9 +21,7 @@
                    HorizontalAlignment="Left"
                    Stretch="Uniform"></Image>
             <TextBlock Text="{Binding CurrentTitle}"
-                       FontSize="25"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"></TextBlock>
+                       Style="{StaticResource HeaderBlock}"></TextBlock>
         </Grid>
         <Frame Grid.Row="1"
                Name="MainFrame"></Frame>

@@ -27,6 +27,24 @@
             <Setter Property="Height"
                     Value="20" />
         </Style>
+        <Style x:Key="LabelBlock"
+               BasedOn="{StaticResource CommonBlock}"
+               TargetType="TextBlock">
+            <Setter Property="TextAlignment"
+                    Value="Right" />
+        </Style>
+        <Style x:Key="HeaderBlock"
+               BasedOn="{StaticResource CommonBlock}"
+               TargetType="TextBlock">
+            <Setter Property="Height"
+                    Value="auto" />
+            <Setter Property="FontSize"
+                    Value="25" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+        </Style>
         <Style TargetType="TextBox">
             <Setter Property="Margin"
                     Value="5" />
@@ -44,6 +62,8 @@
                     Value="20" />
             <Setter Property="Background"
                     Value="{StaticResource AttentionColor}" />
+            <Setter Property="Foreground"
+                    Value="White" />
         </Style>
         <Style TargetType="ComboBox">
             <Setter Property="Margin"

@@ -13,14 +13,12 @@
                     VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите логин:"
-                           Style="{StaticResource CommonBlock}"
-                           TextAlignment="Right"></TextBlock>
+                           Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="Login"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите пароль:"
-                           Style="{StaticResource CommonBlock}"
-                           TextAlignment="Right"></TextBlock>
+                           Style="{StaticResource LabelBlock}"></TextBlock>
                 <Grid>
                     <TextBox x:Name="PasswordVisible"></TextBox>
                     <PasswordBox x:Name="PasswordHidden"
