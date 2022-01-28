@@ -1,4 +1,5 @@
-﻿using MedicalLaboratoryNumber20App.Views.Pages;
+﻿using MedicalLaboratoryNumber20App.Models.Services;
+using MedicalLaboratoryNumber20App.Views.Pages;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,7 +19,8 @@ namespace MedicalLaboratoryNumber20App
 
             if (!MainFrame.Navigate(new LoginPage()))
             {
-                MessageBox.Show("Не удалось запустить приложение");
+                MessageBoxService.ShowError("Не удалось запустить приложение. Перезайдите");
+                App.Current.Shutdown();
             }
         }
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ab9fca2cc8241619894df271b118c3a" Name="Diagram1">
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Analyzer" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Blood" Width="1.5" PointX="9.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.BloodServiceOfUser" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.BloodStatus" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Country" Width="1.5" PointX="2.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.InsuranceAddress" Width="1.5" PointX="2.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.InsuranceCompany" Width="1.5" PointX="5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Patient" Width="1.5" PointX="7.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.PatientSocialType" Width="1.5" PointX="5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Service" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.User" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.UserType" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Analyzer" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_Blood_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_BloodStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Service" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_InsuranceCompany_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_InsuranceCompany_InsuranceAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_Patient_InsuranceCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_Patient_PatientSocialType" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_User_UserType" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalLaboratoryNumber20Model.ServiceOfUser" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

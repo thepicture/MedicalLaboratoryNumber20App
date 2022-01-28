@@ -20,9 +20,9 @@
                 <TextBlock Text="Введите пароль:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <Grid>
-                    <TextBox x:Name="PasswordVisible"></TextBox>
-                    <PasswordBox x:Name="PasswordHidden"
-                                 Visibility="Collapsed"></PasswordBox>
+                    <TextBox x:Name="PasswordVisible"
+                             Visibility="Collapsed"></TextBox>
+                    <PasswordBox x:Name="PasswordHidden"></PasswordBox>
                 </Grid>
             </StackPanel>
             <CheckBox Content="Показать пароль"
@@ -31,7 +31,8 @@
                       Unchecked="PerformHiddenPassword"></CheckBox>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Войти"
-                        Click="PerformLogin"></Button>
+                        Click="PerformLogin"
+                        Name="BtnLogin"></Button>
                 <Button Content="Выход"
                         Click="PerformExit"></Button>
             </StackPanel>
