@@ -33,6 +33,55 @@
                       Checked="PerformVisiblePassword"
                       Unchecked="PerformHiddenPassword"
                       ToolTip="Если стоит галочка, то маска ввода не выводится для пароля"></CheckBox>
+            <StackPanel x:Name="CaptchaPanel" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Captcha для ввода: "
+                           HorizontalAlignment="Right"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+            <ListView Name="CaptchaList"
+                      Width="200"
+                      IsHitTestVisible="False">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Background>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="Red"></GradientStop>
+                                    <GradientStop Color="Orange"
+                                                  Offset=".2"></GradientStop>
+                                    <GradientStop Color="Yellow"
+                                                  Offset=".4"></GradientStop>
+                                    <GradientStop Color="Green"
+                                                  Offset=".6"></GradientStop>
+                                    <GradientStop Color="Blue"
+                                                  Offset=".8"></GradientStop>
+                                    <GradientStop Color="Purple"
+                                                  Offset="1"></GradientStop>
+                                </LinearGradientBrush>
+                            </StackPanel.Background>
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="{Binding LetterMargin}"
+                                   Text="{Binding Character}"
+                                   TextDecorations="Strikethrough"
+                                   Typography.Capitals="AllPetiteCaps"></TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            </StackPanel>
+                    <Button Content="Запросить новую captcha"
+                            HorizontalAlignment="Right"
+                            Click="OnCaptchaRequire"></Button>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите captcha:"
+                           HorizontalAlignment="Right"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="Captcha"></TextBox>
+            </StackPanel>
+    </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Войти"
                         Click="PerformLogin"

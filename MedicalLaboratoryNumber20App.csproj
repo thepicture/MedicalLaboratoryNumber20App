@@ -77,6 +77,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\CaptchaLetter.cs" />
     <Compile Include="Models\Entities\Analyzer.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
@@ -131,6 +132,7 @@
     <Compile Include="Models\Entities\UserType.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Services\CaptchaService.cs" />
     <Compile Include="Models\Services\LoginHistoryService.cs" />
     <Compile Include="Models\Services\MessageBoxService.cs" />
     <Compile Include="Views\Pages\LoginPage.xaml.cs">

@@ -1,8 +1,13 @@
-﻿using MedicalLaboratoryNumber20App.Models.Entities;
+﻿using MedicalLaboratoryNumber20App.Models;
+using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages
 {
@@ -11,6 +16,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
     /// </summary>
     public partial class LoginPage : Page
     {
+        private bool _isFirstTimeWrongPassword = true;
+        private readonly CaptchaService _captchaService = new CaptchaService();
+        private readonly Random random = new Random();
+
         public LoginPage()
         {
             InitializeComponent();
@@ -23,6 +32,14 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
         /// </summary>
         private async void PerformLogin(object sender, RoutedEventArgs e)
         {
+            if (CaptchaPanel.Visibility == Visibility.Visible
+                && !_captchaService.Check(Captcha.Text))
+            {
+                MessageBoxService.ShowWarning("Вы ввели неверную captcha. " +
+                    "Попробуйте ещё раз");
+                RequireCaptcha();
+                return;
+            }
             string userLogin = Login.Text;
             string userPassword = PasswordHidden.Password;
             if (string.IsNullOrEmpty(userLogin)
@@ -43,14 +60,76 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 BtnLogin.Content = "Войти";
                 if (user == null)
                 {
-                    MessageBoxService.ShowWarning("Неверный логин или пароль");
+                    if (_isFirstTimeWrongPassword)
+                    {
+                        MessageBoxService.ShowWarning("Неуспешная авторизация. " +
+                            "Неверный логин или пароль");
+                        RequireCaptcha();
+                        _isFirstTimeWrongPassword = false;
+                    }
+                    else
+                    {
+                        TimeSpan timeSpan = TimeSpan.FromSeconds(10);
+                        MessageBoxService.ShowWarning($"Система заблокирована " +
+                            $"на {timeSpan.TotalSeconds:N2} секунд");
+                        RequireCaptcha();
+                        BlockIntefaceFor(timeSpan);
+                    }
                 }
                 else
                 {
                     MessageBoxService.ShowInfo($"Вы авторизованы, {user.UserName}");
+                    CaptchaPanel.Visibility = Visibility.Collapsed;
                 }
                 LoginHistoryService.Write(Login.Text, user != null);
             }
+        }
+
+        /// <summary>
+        /// Просит ввести captcha.
+        /// </summary>
+        private void RequireCaptcha()
+        {
+            CaptchaPanel.Visibility = Visibility.Visible;
+            string captcha = _captchaService
+                .Generate()
+                .Get();
+            IEnumerable<CaptchaLetter> captchaLetters = captcha
+                .ToCharArray()
+                .Select(c =>
+                {
+                    int marginDensity = random.Next(-20, 20);
+                    Thickness marginThickness =
+                    new Thickness(0, marginDensity, 0, 0);
+                    return new CaptchaLetter(c, marginThickness);
+                });
+            CaptchaList.ItemsSource = captchaLetters;
+        }
+
+        /// <summary>
+        /// Блокирует возможность входа на заданное время.
+        /// </summary>
+        /// <param name="timeSpan">Заданное время.</param>
+        private void BlockIntefaceFor(TimeSpan timeSpan)
+        {
+            IsEnabled = false;
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = timeSpan
+            };
+            timer.Tick += OnUnlockInterface;
+            timer.Start();
+        }
+
+        /// <summary>
+        /// Выполняется при разблокировке интерфейса.
+        /// </summary>
+        private void OnUnlockInterface(object sender, EventArgs e)
+        {
+            IsEnabled = true;
+            MessageBoxService.ShowInfo("Система разблокирована");
+            (sender as DispatcherTimer).Stop();
+            RequireCaptcha();
         }
 
         /// <summary>
@@ -84,6 +163,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             PasswordVisible.Visibility = Visibility.Collapsed;
             PasswordHidden.Visibility = Visibility.Visible;
             BtnLogin.IsEnabled = true;
+        }
+
+        private void OnCaptchaRequire(object sender, RoutedEventArgs e)
+        {
+            RequireCaptcha();
         }
     }
 }
