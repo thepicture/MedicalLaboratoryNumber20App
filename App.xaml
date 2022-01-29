@@ -9,8 +9,8 @@
         <Brush x:Key="AttentionColor">#498C51</Brush>
         <DropShadowBitmapEffect x:Key="ShadowEffect"
                                 Softness=".2"
-                                ShadowDepth="1"
-                                Opacity=".5"></DropShadowBitmapEffect>
+                                ShadowDepth="3"
+                                Opacity=".2"></DropShadowBitmapEffect>
         <Style TargetType="Window"
                x:Key="WindowStyle">
             <Setter Property="FontFamily"
@@ -72,6 +72,16 @@
                     Value="{StaticResource AttentionColor}" />
             <Setter Property="Foreground"
                     Value="White" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+            <Setter Property="BitmapEffect"
+                    Value="{StaticResource ShadowEffect}" />
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius"
+                            Value="5" />
+                </Style>
+            </Style.Resources>
         </Style>
         <Style TargetType="ComboBox">
             <Setter Property="Margin"
