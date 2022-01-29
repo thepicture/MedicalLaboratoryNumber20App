@@ -23,10 +23,16 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
         /// </summary>
         private async void PerformLogin(object sender, RoutedEventArgs e)
         {
-            BtnLogin.IsEnabled = false;
-            BtnLogin.Content = "Авторизация...";
             string userLogin = Login.Text;
             string userPassword = PasswordHidden.Password;
+            if (string.IsNullOrEmpty(userLogin)
+                || string.IsNullOrEmpty(userPassword))
+            {
+                MessageBoxService.ShowWarning("Заполните поля и логина, и пароля");
+                return;
+            }
+            BtnLogin.IsEnabled = false;
+            BtnLogin.Content = "Авторизация...";
             using (MedicalLaboratoryNumber20Entities context =
                 new MedicalLaboratoryNumber20Entities())
             {
