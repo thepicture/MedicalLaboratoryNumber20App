@@ -113,6 +113,9 @@
     <Compile Include="Models\Entities\InsuranceCompany.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\LoginHistory.cs">
+      <DependentUpon>BaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Patient.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
@@ -128,6 +131,7 @@
     <Compile Include="Models\Entities\UserType.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Services\LoginHistoryService.cs" />
     <Compile Include="Models\Services\MessageBoxService.cs" />
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>

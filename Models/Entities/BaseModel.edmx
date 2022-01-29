@@ -67,6 +67,15 @@
           <Property Name="BIK" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PaymentAccount" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="LoginHistory">
+          <Key>
+            <PropertyRef Name="LoginHistoryId" />
+          </Key>
+          <Property Name="LoginHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EnteredLogin" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LoginDateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsSuccessful" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Patient">
           <Key>
             <PropertyRef Name="PatientId" />
@@ -285,6 +294,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InsuranceAddress" EntityType="Self.InsuranceAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InsuranceCompany" EntityType="Self.InsuranceCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoginHistory" EntityType="Self.LoginHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientSocialType" EntityType="Self.PatientSocialType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
@@ -667,7 +677,17 @@
             <End Role="Service" EntitySet="Service" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <EntitySet Name="LoginHistory" EntityType="MedicalLaboratoryNumber20Model.LoginHistory" />
         </EntityContainer>
+        <EntityType Name="LoginHistory">
+          <Key>
+            <PropertyRef Name="LoginHistoryId" />
+          </Key>
+          <Property Name="LoginHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EnteredLogin" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsSuccessful" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -814,6 +834,16 @@
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="LoginHistory">
+            <EntityTypeMapping TypeName="MedicalLaboratoryNumber20Model.LoginHistory">
+              <MappingFragment StoreEntitySet="LoginHistory">
+                <ScalarProperty Name="IsSuccessful" ColumnName="IsSuccessful" />
+                <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
+                <ScalarProperty Name="EnteredLogin" ColumnName="EnteredLogin" />
+                <ScalarProperty Name="LoginHistoryId" ColumnName="LoginHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

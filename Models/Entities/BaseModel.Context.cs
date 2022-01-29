@@ -37,5 +37,6 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserType> UserType { get; set; }
+        public virtual DbSet<LoginHistory> LoginHistory { get; set; }
     }
 }

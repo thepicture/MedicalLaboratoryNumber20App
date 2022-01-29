@@ -38,6 +38,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 {
                     MessageBoxService.ShowInfo($"Вы авторизованы, {user.UserName}");
                 }
+                LoginHistoryService.Write(Login.Text, user != null);
             }
         }
 

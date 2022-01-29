@@ -28,13 +28,16 @@
             <CheckBox Content="Показать пароль"
                       HorizontalAlignment="Right"
                       Checked="PerformVisiblePassword"
-                      Unchecked="PerformHiddenPassword"></CheckBox>
+                      Unchecked="PerformHiddenPassword"
+                      ToolTip="Если стоит галочка, то маска ввода не выводится для пароля"></CheckBox>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Войти"
                         Click="PerformLogin"
-                        Name="BtnLogin"></Button>
+                        Name="BtnLogin"
+                        ToolTip="Авторизоваться в системе"></Button>
                 <Button Content="Выход"
-                        Click="PerformExit"></Button>
+                        Click="PerformExit"
+                        ToolTip="Выйти из приложения"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

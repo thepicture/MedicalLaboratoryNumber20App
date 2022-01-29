@@ -28,6 +28,7 @@
         <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_Patient_PatientSocialType" ManuallyRouted="false" />
         <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_User_UserType" ManuallyRouted="false" />
         <AssociationConnector Association="MedicalLaboratoryNumber20Model.ServiceOfUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.LoginHistory" Width="1.5" PointX="6.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
