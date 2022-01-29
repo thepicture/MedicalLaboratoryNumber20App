@@ -5,7 +5,7 @@ namespace MedicalLaboratoryNumber20App.Models.Services
 {
     public static class LoginHistoryService
     {
-        public static void Write(string login, bool isSuccessful)
+        public static async void Write(string login, bool isSuccessful)
         {
             using (MedicalLaboratoryNumber20Entities context =
                 new MedicalLaboratoryNumber20Entities())
@@ -19,7 +19,7 @@ namespace MedicalLaboratoryNumber20App.Models.Services
                 _ = context.LoginHistory.Add(history);
                 try
                 {
-                    if (context.SaveChanges() > 0)
+                    if (await context.SaveChangesAsync() > 0)
                     {
                         System.Diagnostics.Debug.WriteLine("History was written");
                     }
