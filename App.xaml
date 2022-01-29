@@ -39,7 +39,7 @@
             <Setter Property="Height"
                     Value="auto" />
             <Setter Property="FontSize"
-                    Value="25" />
+                    Value="20" />
             <Setter Property="HorizontalAlignment"
                     Value="Center" />
             <Setter Property="VerticalAlignment"
@@ -84,6 +84,8 @@
         <Style TargetType="Image">
             <Setter Property="Margin"
                     Value="5" />
+            <Setter Property="Stretch"
+                    Value="Uniform" />
         </Style>
         <Style TargetType="DatePicker">
             <Setter Property="Margin"

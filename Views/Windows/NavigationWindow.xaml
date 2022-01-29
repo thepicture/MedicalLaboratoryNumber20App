@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalLaboratoryNumber20App"
         mc:Ignorable="d"
-        Title="{Binding CurrentTitle}"
+        Title="{Binding ElementName=MainFrame, Path=Content.Title}"
         Height="450"
         Width="800"
         MinHeight="450"
@@ -15,19 +15,27 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <Grid BitmapEffect="{StaticResource ShadowEffect}"
               Background="{StaticResource AdditionalBackground}">
+            <StackPanel Orientation="Horizontal">
             <Image Source="/MedicalLaboratoryNumber20App;component/Resources/logo.png"
-                   HorizontalAlignment="Left"
-                   Stretch="Uniform"></Image>
-            <TextBlock Text="{Binding CurrentTitle}"
-                       Style="{StaticResource HeaderBlock}"></TextBlock>
+                   HorizontalAlignment="Left"></Image>
+            <TextBlock Text="{Binding ElementName=MainFrame, Path=Content.Title}"
+                       Style="{StaticResource HeaderBlock}"
+                       Width="auto"></TextBlock>
+            </StackPanel>
+            <Button Content="Выход на главный экран"
+                    Click="OnExitingToLoginPage"
+                    HorizontalAlignment="Right"
+                    IsEnabled="{Binding ElementName=MainFrame, Path=CanGoBack}"
+                    Opacity="{Binding ElementName=MainFrame, Path=CanGoBack}"></Button>
         </Grid>
         <Frame Grid.Row="1"
-               Name="MainFrame"></Frame>
+               Name="MainFrame"
+               NavigationUIVisibility="Hidden"></Frame>
         <Grid BitmapEffect="{StaticResource ShadowEffect}"
               Background="{StaticResource AdditionalBackground}"
               Grid.Row="2"></Grid>

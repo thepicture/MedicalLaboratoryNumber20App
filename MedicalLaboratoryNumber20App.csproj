@@ -65,7 +65,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Pages\AccountantPages\AccountantPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\AdminPages\AdminPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Sessions\LaboratoryResearcherPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Sessions\LaboratoryWorkerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,8 +151,20 @@
     <Compile Include="Models\Services\CaptchaService.cs" />
     <Compile Include="Models\Services\LoginHistoryService.cs" />
     <Compile Include="Models\Services\MessageBoxService.cs" />
+    <Compile Include="Views\Pages\AccountantPages\AccountantPage.xaml.cs">
+      <DependentUpon>AccountantPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\AdminPages\AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPage.xaml.cs">
+      <DependentUpon>LaboratoryResearcherPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPage.xaml.cs">
+      <DependentUpon>LaboratoryWorkerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\NavigationWindow.xaml.cs">
       <DependentUpon>NavigationWindow.xaml</DependentUpon>

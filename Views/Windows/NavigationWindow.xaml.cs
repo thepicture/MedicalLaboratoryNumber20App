@@ -10,7 +10,6 @@ namespace MedicalLaboratoryNumber20App
     /// </summary>
     public partial class NavigationWindow : Window
     {
-        public string CurrentTitle => (MainFrame.Content as Page)?.Title;
         public NavigationWindow()
         {
             InitializeComponent();
@@ -21,6 +20,18 @@ namespace MedicalLaboratoryNumber20App
             {
                 MessageBoxService.ShowError("Не удалось запустить приложение. Перезайдите");
                 App.Current.Shutdown();
+            }
+        }
+
+        private void OnExitingToLoginPage(object sender, RoutedEventArgs e)
+        {
+            if (MessageBoxService.ShowQuestion("Действительно " +
+                "выйти на главный экран - окно входа?"))
+            {
+                while (MainFrame.CanGoBack)
+                {
+                    MainFrame.GoBack();
+                }
             }
         }
     }

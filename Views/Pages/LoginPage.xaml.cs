@@ -1,6 +1,9 @@
 ﻿using MedicalLaboratoryNumber20App.Models;
 using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
+using MedicalLaboratoryNumber20App.Views.Pages.AccountantPages;
+using MedicalLaboratoryNumber20App.Views.Pages.AdminPages;
+using MedicalLaboratoryNumber20App.Views.Pages.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -78,8 +81,35 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 }
                 else
                 {
-                    MessageBoxService.ShowInfo($"Вы авторизованы, {user.UserName}");
+                    MessageBoxService
+                        .ShowInfo($"Вы авторизованы, {user.UserName}");
                     CaptchaPanel.Visibility = Visibility.Collapsed;
+                    switch (user.UserType.UserTypeName)
+                    {
+                        case "Лаборант":
+                            NavigationService
+                                .Navigate(new LaboratoryWorkerPage(user));
+                            break;
+                        case "Лаборант-исследователь":
+                            NavigationService
+                                .Navigate(new LaboratoryResearcherPage(user));
+                            break;
+                        case "Бухгалтер":
+                            NavigationService
+                                .Navigate(new AccountantPage(user));
+                            break;
+                        case "Администратор":
+                            NavigationService
+                                .Navigate(new AdminPage(user));
+                            break;
+                        default:
+                            System.Diagnostics.Debug
+                                .WriteLine("No user page was found");
+                            MessageBoxService.ShowError("Не удалось " +
+                                "найти страницу для перехода. " +
+                                "Обратитесь к системному администратору");
+                            break;
+                    }
                 }
                 LoginHistoryService.Write(Login.Text, user != null);
             }
