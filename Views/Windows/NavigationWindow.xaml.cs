@@ -1,7 +1,6 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Views.Pages;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App
 {

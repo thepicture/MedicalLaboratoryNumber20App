@@ -1,51 +1,52 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 
 namespace MedicalLaboratoryNumber20App.Models.Services
 {
     /// <summary>
     /// Реализует методы для представления различных 
-    /// типов обратной связи.
+    /// типов обратной связи асинхронно.
     /// </summary>
     public static class MessageBoxService
     {
         /// <summary>
-        /// Показывает информацию.
+        /// Показывает информацию асинхронно.
         /// </summary>
         /// <param name="message">Сообщение.</param>
         public static void ShowInfo(string message)
         {
-            _ = MessageBox.Show(message,
-                            "Информация",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
+            _ = Task.Run(() => MessageBox.Show(message,
+                           "Информация",
+                           MessageBoxButton.OK,
+                           MessageBoxImage.Information));
         }
 
         /// <summary>
-        /// Показывает ошибку.
+        /// Показывает ошибку асинхронно.
         /// </summary>
         /// <param name="message">Сообщение.</param>
         public static void ShowError(string message)
         {
-            _ = MessageBox.Show(message,
-                            "Ошибка",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+            _ = Task.Run(() => MessageBox.Show(message,
+                         "Ошибка",
+                         MessageBoxButton.OK,
+                         MessageBoxImage.Error));
         }
 
         /// <summary>
-        /// Показывает предупреждение.
+        /// Показывает предупреждение асинхронно.
         /// </summary>
         /// <param name="message">Предупреждение.</param>
         public static void ShowWarning(string message)
         {
-            _ = MessageBox.Show(message,
-                            "Предупреждение",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
+            _ = Task.Run(() => MessageBox.Show(message,
+                         "Предупреждение",
+                         MessageBoxButton.OK,
+                         MessageBoxImage.Warning));
         }
 
         /// <summary>
-        /// Задаёт вопрос.
+        /// Задаёт вопрос асинхронно.
         /// </summary>
         /// <param name="question">Вопрос.</param>
         public static bool ShowQuestion(string question)

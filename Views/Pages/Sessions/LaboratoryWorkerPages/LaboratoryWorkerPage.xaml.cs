@@ -14,9 +14,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions
         public LaboratoryWorkerPage()
         {
             InitializeComponent();
-            TimerService = new TimerService(TimeSpan.FromMinutes(10),
-                                             TimeSpan.FromMinutes(5),
-                                             TimeSpan.FromMinutes(1));
+            TimerService = new TimerService(TimeSpan.FromSeconds(10),
+                                             TimeSpan.FromSeconds(5),
+                                             TimeSpan.FromSeconds(1));
             TimerService.StartForPage(this);
             DataContext = this;
         }
