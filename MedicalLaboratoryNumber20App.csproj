@@ -77,11 +77,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\Sessions\LaboratoryResearcherPage.xaml">
+    <Page Include="Views\Pages\Sessions\LaboratoryResearcherPages\LaboratoryResearcherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\Sessions\LaboratoryWorkerPage.xaml">
+    <Page Include="Views\Pages\Sessions\LaboratoryWorkerPages\LaboratoryWorkerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,9 +148,9 @@
     <Compile Include="Models\Entities\UserType.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Services\CaptchaService.cs" />
-    <Compile Include="Models\Services\LoginHistoryService.cs" />
-    <Compile Include="Models\Services\MessageBoxService.cs" />
+    <Compile Include="Services\CaptchaService.cs" />
+    <Compile Include="Services\LoginHistoryService.cs" />
+    <Compile Include="Services\MessageBoxService.cs" />
     <Compile Include="Views\Pages\AccountantPages\AccountantPage.xaml.cs">
       <DependentUpon>AccountantPage.xaml</DependentUpon>
     </Compile>
@@ -160,10 +160,10 @@
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPage.xaml.cs">
+    <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPages\LaboratoryResearcherPage.xaml.cs">
       <DependentUpon>LaboratoryResearcherPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPage.xaml.cs">
+    <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\LaboratoryWorkerPage.xaml.cs">
       <DependentUpon>LaboratoryWorkerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\NavigationWindow.xaml.cs">
