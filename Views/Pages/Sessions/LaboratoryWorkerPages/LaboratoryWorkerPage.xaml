@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
-      Title="Страница лаборанта-исследователя">
+      Title="Страница лаборанта">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
