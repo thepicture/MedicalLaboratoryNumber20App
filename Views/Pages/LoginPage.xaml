@@ -10,7 +10,8 @@
       Title="Авторизация">
     <Grid>
         <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    FocusManager.FocusedElement="{Binding ElementName=Login}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите логин:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
