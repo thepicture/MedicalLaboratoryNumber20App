@@ -1,7 +1,4 @@
-﻿using MedicalLaboratoryNumber20App.Models.Entities;
-using MedicalLaboratoryNumber20App.Models.Services;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions
 {
@@ -10,13 +7,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions
     /// </summary>
     public partial class LaboratoryWorkerPage : Page
     {
-        public LaboratoryWorkerPage(User user)
+        public LaboratoryWorkerPage()
         {
             InitializeComponent();
-            User = user;
             DataContext = this;
         }
-
-        public User User { get; }
     }
 }

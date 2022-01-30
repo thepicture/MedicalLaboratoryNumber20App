@@ -81,26 +81,27 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 }
                 else
                 {
+                    (App.Current as App).User = user;
                     MessageBoxService
                         .ShowInfo($"Вы авторизованы, {user.UserName}");
                     CaptchaPanel.Visibility = Visibility.Collapsed;
                     switch (user.UserType.UserTypeName)
                     {
                         case "Лаборант":
-                            NavigationService
-                                .Navigate(new LaboratoryWorkerPage(user));
+                            _ = NavigationService
+                                .Navigate(new LaboratoryWorkerPage());
                             break;
                         case "Лаборант-исследователь":
-                            NavigationService
-                                .Navigate(new LaboratoryResearcherPage(user));
+                            _ = NavigationService
+                                .Navigate(new LaboratoryResearcherPage());
                             break;
                         case "Бухгалтер":
-                            NavigationService
-                                .Navigate(new AccountantPage(user));
+                            _ = NavigationService
+                                .Navigate(new AccountantPage());
                             break;
                         case "Администратор":
-                            NavigationService
-                                .Navigate(new AdminPage(user));
+                            _ = NavigationService
+                                .Navigate(new AdminPage());
                             break;
                         default:
                             System.Diagnostics.Debug

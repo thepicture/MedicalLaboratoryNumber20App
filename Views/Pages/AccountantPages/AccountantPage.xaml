@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:MedicalLaboratoryNumber20App.Views.Pages.AccountantPages"
+      xmlns:usercontrols="clr-namespace:MedicalLaboratoryNumber20App.UserControls"
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
@@ -13,26 +14,7 @@
             <RowDefinition Height="60" />
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
-        <Grid Background="{StaticResource AdditionalBackground}"
-              BitmapEffect="{StaticResource ShadowEffect}">
-            <WrapPanel Orientation="Horizontal">
-                <Image>
-                    <Image.Source>
-                        <Binding Path="User.UserImage">
-                            <Binding.TargetNullValue>
-                                <ImageSource>
-                                    /Resources/logo.png
-                                </ImageSource>
-                            </Binding.TargetNullValue>
-                        </Binding>
-                    </Image.Source>
-                </Image>
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="{Binding User.UserName, StringFormat=Фамилия и имя: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding User.UserType.UserTypeName, StringFormat=Роль: {0}}"></TextBlock>
-                </StackPanel>
-            </WrapPanel>
-        </Grid>
+        <usercontrols:UserHeader DataContext="{Binding User, Source={x:Static Application.Current}}"></usercontrols:UserHeader>
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">

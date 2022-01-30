@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MedicalLaboratoryNumber20App.Models.Entities;
 using System.Windows;
 
 namespace MedicalLaboratoryNumber20App
@@ -13,5 +8,6 @@ namespace MedicalLaboratoryNumber20App
     /// </summary>
     public partial class App : Application
     {
+        public User User { get; set; }
     }
 }

@@ -21,11 +21,11 @@
         <Grid BitmapEffect="{StaticResource ShadowEffect}"
               Background="{StaticResource AdditionalBackground}">
             <StackPanel Orientation="Horizontal">
-            <Image Source="/MedicalLaboratoryNumber20App;component/Resources/logo.png"
-                   HorizontalAlignment="Left"></Image>
-            <TextBlock Text="{Binding ElementName=MainFrame, Path=Content.Title}"
-                       Style="{StaticResource HeaderBlock}"
-                       Width="auto"></TextBlock>
+                <Image Source="/MedicalLaboratoryNumber20App;component/Resources/logo.png"
+                       HorizontalAlignment="Left"></Image>
+                <TextBlock Text="{Binding ElementName=MainFrame, Path=Content.Title}"
+                           Style="{StaticResource HeaderBlock}"
+                           Width="auto"></TextBlock>
             </StackPanel>
             <Button Content="Выход на главный экран"
                     Click="OnExitingToLoginPage"

@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.AccountantPages
 {
@@ -20,9 +7,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AccountantPages
     /// </summary>
     public partial class AccountantPage : Page
     {
-        public AccountantPage(Models.Entities.User user)
+        public AccountantPage()
         {
             InitializeComponent();
+            DataContext = this;
         }
     }
 }
