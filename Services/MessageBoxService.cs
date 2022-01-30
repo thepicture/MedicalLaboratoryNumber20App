@@ -10,7 +10,7 @@ namespace MedicalLaboratoryNumber20App.Models.Services
     public static class MessageBoxService
     {
         /// <summary>
-        /// Показывает информацию асинхронно.
+        /// Показывает информацию в отдельном потоке.
         /// </summary>
         /// <param name="message">Сообщение.</param>
         public static void ShowInfo(string message)
@@ -22,7 +22,7 @@ namespace MedicalLaboratoryNumber20App.Models.Services
         }
 
         /// <summary>
-        /// Показывает ошибку асинхронно.
+        /// Показывает ошибку в отдельном потоке.
         /// </summary>
         /// <param name="message">Сообщение.</param>
         public static void ShowError(string message)
@@ -34,7 +34,7 @@ namespace MedicalLaboratoryNumber20App.Models.Services
         }
 
         /// <summary>
-        /// Показывает предупреждение асинхронно.
+        /// Показывает предупреждение в отдельном потоке.
         /// </summary>
         /// <param name="message">Предупреждение.</param>
         public static void ShowWarning(string message)
@@ -46,7 +46,7 @@ namespace MedicalLaboratoryNumber20App.Models.Services
         }
 
         /// <summary>
-        /// Задаёт вопрос асинхронно.
+        /// Задаёт вопрос.
         /// </summary>
         /// <param name="question">Вопрос.</param>
         public static bool ShowQuestion(string question)
