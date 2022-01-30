@@ -15,6 +15,17 @@
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
         <usercontrols:UserHeader DataContext="{Binding User, Source={x:Static Application.Current}}"></usercontrols:UserHeader>
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Grid.Row="1"
+                   Style="{StaticResource CommonBlock}"
+                   Width="auto">
+            <TextBlock.Inlines>
+                <Run Text="Сессия завершится через"></Run>
+                <Run Text="{Binding TimerService.TimeLeft, StringFormat=hh\\:mm, Mode=OneWay}"></Run>
+                <Run Text="(часы:минуты)"></Run>
+            </TextBlock.Inlines>
+        </TextBlock>
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">

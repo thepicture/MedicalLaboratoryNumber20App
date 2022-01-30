@@ -155,6 +155,7 @@
     <Compile Include="Services\CaptchaService.cs" />
     <Compile Include="Services\LoginHistoryService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
+    <Compile Include="Services\TimerService.cs" />
     <Compile Include="UserControls\UserHeader.xaml.cs">
       <DependentUpon>UserHeader.xaml</DependentUpon>
     </Compile>
