@@ -23,7 +23,8 @@
                     ToolTip="Открыть страницу формирования отчётов"></Button>
             <Button Content="История входа"
                     Width="auto"
-                    ToolTip="Открыть историю входа пользователей"></Button>
+                    ToolTip="Открыть историю входа пользователей"
+                    Click="NavigateToLoginHistories"></Button>
             <Button Content="Данные о расходных материалах"
                     Width="auto"
                     ToolTip="Открыть страницу данных о расходных материалах"></Button>
