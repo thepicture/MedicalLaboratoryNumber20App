@@ -26,10 +26,8 @@
                       SelectionChanged="OnSortChanged"></ComboBox>
         </WrapPanel>
         <DataGrid Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  ColumnWidth="*"
-                  Name="LoginHistories">
+                  Name="LoginHistories"
+                  ColumnWidth="*">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Время"
                                     Binding="{Binding LoginDateTime}"></DataGridTextColumn>

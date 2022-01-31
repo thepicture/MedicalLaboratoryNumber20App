@@ -21,9 +21,12 @@
         </TextBlock>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Content="Принять биоматериал"
-                    ToolTip="Открыть страницу биоматериалов"></Button>
+            <Button Content="Биоматериалы из поликлиник города"
+                    Width="auto"
+                    ToolTip="Открыть страницу для принятия биоматериалов"
+                    Click="NavigateToBiomaterials"></Button>
             <Button Content="Сформировать отчёты"
+                    Width="auto"
                     ToolTip="Открыть страницу формирования отчётов"></Button>
         </StackPanel>
     </Grid>

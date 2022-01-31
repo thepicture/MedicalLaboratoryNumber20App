@@ -32,11 +32,12 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<InsuranceAddress> InsuranceAddress { get; set; }
         public virtual DbSet<InsuranceCompany> InsuranceCompany { get; set; }
+        public virtual DbSet<LoginHistory> LoginHistory { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Patient> Patient { get; set; }
         public virtual DbSet<PatientSocialType> PatientSocialType { get; set; }
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserType> UserType { get; set; }
-        public virtual DbSet<LoginHistory> LoginHistory { get; set; }
     }
 }

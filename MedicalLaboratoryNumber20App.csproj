@@ -85,6 +85,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\Sessions\LaboratoryWorkerPages\BiomaterialsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\Sessions\LaboratoryWorkerPages\LaboratoryWorkerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,6 +141,9 @@
     <Compile Include="Models\Entities\LoginHistory.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Order.cs">
+      <DependentUpon>BaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Patient.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
@@ -170,6 +177,9 @@
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPages\LaboratoryResearcherPage.xaml.cs">
       <DependentUpon>LaboratoryResearcherPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\BiomaterialsPage.xaml.cs">
+      <DependentUpon>BiomaterialsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\LaboratoryWorkerPage.xaml.cs">
       <DependentUpon>LaboratoryWorkerPage.xaml</DependentUpon>

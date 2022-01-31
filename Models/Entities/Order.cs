@@ -12,21 +12,20 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Blood
+    public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Blood()
+        public Order()
         {
-            this.Order = new HashSet<Order>();
+            this.Service = new HashSet<Service>();
         }
     
+        public int OrderId { get; set; }
         public int BloodId { get; set; }
-        public Nullable<int> PatientId { get; set; }
-        public string Barcode { get; set; }
-        public System.DateTime BloodDateTime { get; set; }
+        public System.DateTime CreationDate { get; set; }
     
-        public virtual Patient Patient { get; set; }
+        public virtual Blood Blood { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<Service> Service { get; set; }
     }
 }
