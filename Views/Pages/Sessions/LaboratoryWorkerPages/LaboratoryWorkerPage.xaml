@@ -29,8 +29,10 @@
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Content="Принять биоматериал"></Button>
-            <Button Content="Сформировать отчёты"></Button>
+            <Button Content="Принять биоматериал"
+                    ToolTip="Открыть страницу биоматериалов"></Button>
+            <Button Content="Сформировать отчёты"
+                    ToolTip="Открыть страницу формирования отчётов"></Button>
         </StackPanel>
     </Grid>
 </Page>

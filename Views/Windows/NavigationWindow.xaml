@@ -31,7 +31,8 @@
                     Click="OnExitingToLoginPage"
                     HorizontalAlignment="Right"
                     IsEnabled="{Binding ElementName=MainFrame, Path=CanGoBack}"
-                    Opacity="{Binding ElementName=MainFrame, Path=CanGoBack}"></Button>
+                    Opacity="{Binding ElementName=MainFrame, Path=CanGoBack}"
+                    ToolTip="Завершает работу с системой и возвращает на страницу авторизации"></Button>
         </Grid>
         <Frame Grid.Row="1"
                Name="MainFrame"

@@ -19,9 +19,11 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button Content="Просмотреть отчёты"
-                    Width="auto"></Button>
+                    Width="auto"
+                    ToolTip="Открыть страницу просмотра отчётов"></Button>
             <Button Content="Сформировать счёт страховой компании"
-                    Width="auto"></Button>
+                    Width="auto"
+                    ToolTip="Открыть страницу формирования счёта для страховой компании"></Button>
         </StackPanel>
     </Grid>
 </Page>

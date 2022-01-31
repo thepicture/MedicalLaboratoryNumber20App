@@ -29,7 +29,8 @@
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Content="Работать с анализатором"></Button>
+            <Button Content="Работать с анализатором"
+                    ToolTip="Открыть страницу для работы с анализатором"></Button>
         </StackPanel>
     </Grid>
 </Page>

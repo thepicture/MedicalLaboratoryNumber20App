@@ -19,11 +19,14 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button Content="Cформировать отчеты"
-                    Width="auto"></Button>
+                    Width="auto"
+                    ToolTip="Открыть страницу формирования отчётов"></Button>
             <Button Content="История входа"
-                    Width="auto"></Button>
+                    Width="auto"
+                    ToolTip="Открыть историю входа пользователей"></Button>
             <Button Content="Данные о расходных материалах"
-                    Width="auto"></Button>
+                    Width="auto"
+                    ToolTip="Открыть страницу данных о расходных материалах"></Button>
         </StackPanel>
     </Grid>
 </Page>
