@@ -16,7 +16,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions
             TimerService = new TimerService(TimeSpan.FromMinutes(10),
                                              TimeSpan.FromMinutes(5),
                                              TimeSpan.FromMinutes(1));
-            TimerService.StartForPage(this);
+            TimerService.Start();
             DataContext = this;
         }
     }

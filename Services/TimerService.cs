@@ -1,7 +1,8 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Services;
+using MedicalLaboratoryNumber20App.Views.Pages;
 using System;
 using System.ComponentModel;
-using System.Windows.Controls;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 
 namespace MedicalLaboratoryNumber20App.Services
@@ -13,7 +14,7 @@ namespace MedicalLaboratoryNumber20App.Services
     {
         private TimeSpan _messageAppearTime;
         private TimeSpan _banTime;
-        private Page _page;
+        private readonly NavigationService _navigationService;
         private TimeSpan timeLeft;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,16 +41,16 @@ namespace MedicalLaboratoryNumber20App.Services
             TimeLeft = sessionTime;
             _messageAppearTime = messageAppearTime;
             _banTime = banTime;
+            _navigationService = (App.Current.MainWindow as NavigationWindow)
+                .MainFrame.NavigationService;
         }
 
         /// <summary>
         /// Начнает сессию для заданной страницы.
         /// </summary>
         /// <param name="page"></param>
-        internal void StartForPage(Page page)
+        internal void Start()
         {
-            _page = page;
-
             DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Normal)
             {
                 Interval = TimeSpan.FromSeconds(1),
@@ -64,6 +65,11 @@ namespace MedicalLaboratoryNumber20App.Services
         private void OnTick(object sender, EventArgs e)
         {
             DispatcherTimer timer = sender as DispatcherTimer;
+            if (_navigationService.Content is LoginPage)
+            {
+                timer.Stop();
+                return;
+            }
             TimeLeft = TimeLeft.Subtract(TimeSpan.FromSeconds(1));
             if (TimeLeft == _messageAppearTime)
             {
@@ -73,9 +79,9 @@ namespace MedicalLaboratoryNumber20App.Services
             else if (TimeSpan.Zero == TimeLeft)
             {
                 timer.Stop();
-                while (_page.NavigationService.CanGoBack)
+                while (_navigationService.CanGoBack)
                 {
-                    _page.NavigationService.GoBack();
+                    _navigationService.GoBack();
                 }
                 BlockInterface();
                 MessageBoxService.ShowInfo("Сеанс завершен. " +
