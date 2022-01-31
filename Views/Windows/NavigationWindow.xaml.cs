@@ -34,5 +34,10 @@ namespace MedicalLaboratoryNumber20App
                 }
             }
         }
+
+        private void PerformGoBack(object sender, RoutedEventArgs e)
+        {
+            MainFrame.GoBack();
+        }
     }
 }

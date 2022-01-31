@@ -28,12 +28,46 @@
                            Style="{StaticResource HeaderBlock}"
                            Width="auto"></TextBlock>
             </StackPanel>
-            <Button Content="Выход на главный экран"
-                    Click="OnExitingToLoginPage"
-                    HorizontalAlignment="Right"
-                    IsEnabled="{Binding ElementName=MainFrame, Path=CanGoBack}"
-                    Opacity="{Binding ElementName=MainFrame, Path=CanGoBack}"
-                    ToolTip="Завершает работу с системой и возвращает на страницу авторизации"></Button>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Content="Выход на главный экран"
+                        Click="OnExitingToLoginPage"
+                        ToolTip="Завершает работу с системой и возвращает на страницу авторизации">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=MainFrame, Path=CanGoBack}"
+                                             Value="False">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Назад"
+                        Click="PerformGoBack"
+                        ToolTip="Перейти на предыдущую страницу">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=MainFrame, Path=CanGoBack}"
+                                             Value="False">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=MainFrame, Path=BackStack.Count}"
+                                             Value="1">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1"
               BitmapEffect="{StaticResource ShadowEffect}"
