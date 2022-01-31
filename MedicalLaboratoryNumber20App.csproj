@@ -65,10 +65,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UserControls\UserHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Pages\AccountantPages\AccountantPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,9 +156,6 @@
     <Compile Include="Services\LoginHistoryService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
     <Compile Include="Services\TimerService.cs" />
-    <Compile Include="UserControls\UserHeader.xaml.cs">
-      <DependentUpon>UserHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Pages\AccountantPages\AccountantPage.xaml.cs">
       <DependentUpon>AccountantPage.xaml</DependentUpon>
     </Compile>

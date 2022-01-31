@@ -15,6 +15,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
+            <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
@@ -34,11 +35,44 @@
                     Opacity="{Binding ElementName=MainFrame, Path=CanGoBack}"
                     ToolTip="Завершает работу с системой и возвращает на страницу авторизации"></Button>
         </Grid>
-        <Frame Grid.Row="1"
+        <Grid Grid.Row="1"
+              BitmapEffect="{StaticResource ShadowEffect}"
+              Background="{StaticResource AdditionalBackground}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding User, Source={x:Static Application.Current}}"
+                                     Value="{x:Null}">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <WrapPanel Orientation="Horizontal">
+                <Image>
+                    <Image.Source>
+                        <Binding Path="User.UserImage"
+                                 Source="{x:Static Application.Current}">
+                            <Binding.TargetNullValue>
+                                <ImageSource>
+                                    /Resources/logo.png
+                                </ImageSource>
+                            </Binding.TargetNullValue>
+                        </Binding>
+                    </Image.Source>
+                </Image>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding User.UserName, StringFormat=Фамилия и имя: {0}, Source={x:Static Application.Current}}"></TextBlock>
+                    <TextBlock Text="{Binding User.UserType.UserTypeName, StringFormat=Роль: {0}, Source={x:Static Application.Current}}"></TextBlock>
+                </StackPanel>
+            </WrapPanel>
+        </Grid>
+        <Frame Grid.Row="2"
                Name="MainFrame"
                NavigationUIVisibility="Hidden"></Frame>
         <Grid BitmapEffect="{StaticResource ShadowEffect}"
               Background="{StaticResource AdditionalBackground}"
-              Grid.Row="2"></Grid>
+              Grid.Row="3"></Grid>
     </Grid>
 </Window>

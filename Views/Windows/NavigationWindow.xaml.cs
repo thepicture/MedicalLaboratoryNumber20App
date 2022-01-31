@@ -27,6 +27,7 @@ namespace MedicalLaboratoryNumber20App
             if (MessageBoxService.ShowQuestion("Действительно " +
                 "выйти на главный экран - окно входа?"))
             {
+                (App.Current as App).User = null;
                 while (MainFrame.CanGoBack)
                 {
                     MainFrame.GoBack();

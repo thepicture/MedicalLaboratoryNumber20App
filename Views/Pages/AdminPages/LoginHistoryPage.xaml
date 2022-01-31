@@ -4,67 +4,59 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:MedicalLaboratoryNumber20App.Views.Pages.AdminPages"
-      xmlns:usercontrols="clr-namespace:MedicalLaboratoryNumber20App.UserControls"
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
       Title="История входа в систему">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <usercontrols:UserHeader DataContext="{Binding User, Source={x:Static Application.Current}}"></usercontrols:UserHeader>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <WrapPanel Orientation="Horizontal">
-                <TextBlock Text="Фильтрация по логину:"
-                           Style="{StaticResource LabelBlock}"
-                           Width="auto"></TextBlock>
-                <TextBox x:Name="LoginSearchBox"
-                         TextChanged="OnLoginSearchTextChanged"></TextBox>
-                <TextBlock Text="Сортировка:"
-                           Style="{StaticResource LabelBlock}"
-                           Width="auto"></TextBlock>
-                <ComboBox Name="ComboSort"
-                          SelectionChanged="OnSortChanged"></ComboBox>
-            </WrapPanel>
-            <DataGrid Grid.Row="1"
-                      AutoGenerateColumns="False"
-                      IsReadOnly="True"
-                      ColumnWidth="*"
-                      Name="LoginHistories">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Время"
-                                        Binding="{Binding LoginDateTime}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Логин пользователя"
-                                        Binding="{Binding EnteredLogin}"></DataGridTextColumn>
-                    <DataGridTemplateColumn Header="Попытка входа">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text"
-                                                    Value="Успешная попытка" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsSuccessful}"
-                                                             Value="False">
-                                                    <Setter Property="Text"
-                                                            Value="Ошибочная попытка" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+        <WrapPanel Orientation="Horizontal">
+            <TextBlock Text="Фильтрация по логину:"
+                       Style="{StaticResource LabelBlock}"
+                       Width="auto"></TextBlock>
+            <TextBox x:Name="LoginSearchBox"
+                     TextChanged="OnLoginSearchTextChanged"></TextBox>
+            <TextBlock Text="Сортировка:"
+                       Style="{StaticResource LabelBlock}"
+                       Width="auto"></TextBlock>
+            <ComboBox Name="ComboSort"
+                      SelectionChanged="OnSortChanged"></ComboBox>
+        </WrapPanel>
+        <DataGrid Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  ColumnWidth="*"
+                  Name="LoginHistories">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Время"
+                                    Binding="{Binding LoginDateTime}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Логин пользователя"
+                                    Binding="{Binding EnteredLogin}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Попытка входа">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text"
+                                                Value="Успешная попытка" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSuccessful}"
+                                                         Value="False">
+                                                <Setter Property="Text"
+                                                        Value="Ошибочная попытка" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>
