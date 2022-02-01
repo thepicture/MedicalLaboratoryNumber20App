@@ -107,6 +107,21 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                                MaximumBarcodeNumber);
             CurrentBarcode = BarcodeService.NewBarcode(barcodeText);
             BarcodeView.ItemsSource = CurrentBarcode.Strips;
+            Dispatcher.Invoke(() =>
+            {
+                byte[] barcodeBytes = ControlImageService.ConvertToPng(BarcodeView);
+                if (new ByteArrayToPdfExportService(barcodeBytes)
+                    .Export(out string filePath))
+                {
+                    MessageBoxService.ShowInfo("Штрих-код сохранён " +
+                        $"по пути {filePath}");
+                }
+                else
+                {
+                    MessageBoxService.ShowError("Не удалось сохранить штрих-код. " +
+                        "Вероятно, выбор пути сохранения был отменён");
+                }
+            }, System.Windows.Threading.DispatcherPriority.Loaded);
         }
     }
 }

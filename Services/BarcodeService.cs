@@ -23,15 +23,5 @@ namespace MedicalLaboratoryNumber20App.Services
             Barcode barcode = new Barcode(barcodeNumbers);
             return barcode;
         }
-
-        /// <summary>
-        /// Сохраняет штрих-код в PDF-формат.
-        /// </summary>
-        /// <param name="barcode">Штрих код.</param>
-        /// <param name="path">Путь для сохранения.</param>
-        public static void SaveToPdf(Barcode barcode, string path)
-        {
-
-        }
     }
 }
