@@ -37,9 +37,9 @@ namespace MedicalLaboratoryNumber20App.Models.Services
         /// Показывает предупреждение в отдельном потоке.
         /// </summary>
         /// <param name="message">Предупреждение.</param>
-        public static void ShowWarning(string message)
+        public async static Task<MessageBoxResult> ShowWarning(string message)
         {
-            _ = Task.Run(() => MessageBox.Show(message,
+            return await Task.Run(() => MessageBox.Show(message,
                          "Предупреждение",
                          MessageBoxButton.OK,
                          MessageBoxImage.Warning));

@@ -26,5 +26,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                     .ToListAsync();
             }
         }
+
+        private void PerformBiomaterialAccept(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Blood blood = (sender as Button).DataContext as Blood;
+            NavigationService.Navigate(new OrderPage(blood));
+        }
     }
 }

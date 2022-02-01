@@ -16,7 +16,8 @@
                 <TextBlock Text="Введите логин:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="Login"
-                         MaxLength="100"></TextBox>
+                         MaxLength="100"
+                         Text="worker"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите пароль:"
@@ -26,7 +27,8 @@
                              Visibility="Collapsed"
                              MaxLength="100"></TextBox>
                     <PasswordBox x:Name="PasswordHidden"
-                                 MaxLength="100"></PasswordBox>
+                                 MaxLength="100"
+                                 Password="123"></PasswordBox>
                 </Grid>
             </StackPanel>
             <CheckBox Content="Показать пароль"

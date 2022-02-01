@@ -1,0 +1,91 @@
+﻿<Page x:Class="MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages.OrderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="Окно формирования заказа">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите код пробирки:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <Grid>
+                    <TextBox x:Name="BarcodeBox"
+                             PreviewKeyUp="OnBarcodeKeyDown"></TextBox>
+                    <TextBox IsHitTestVisible="False"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
+                             Name="BarcodeHint"
+                             Foreground="Gray"></TextBox>
+                </Grid>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=BarcodeView, Path=Items.Count}"
+                                         Value="0">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock Text="Сгенерированный штрих-код:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <ListView Name="BarcodeView">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        IsHitTestVisible="False"
+                                        Margin="0.363cm 0 0.231cm 0"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding"
+                                    Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Rectangle Fill="Black"
+                                           Height="2.285cm"
+                                           Margin="0.02cm">
+                                    <Rectangle.Style>
+                                        <Style TargetType="Rectangle">
+                                            <Setter Property="Width"
+                                                    Value="{Binding Width}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Number}"
+                                                             Value="0">
+                                                    <Setter Property="Width"
+                                                            Value="0.035cm" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding Number}"
+                                           Height="0.275cm"
+                                           FontSize="10"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

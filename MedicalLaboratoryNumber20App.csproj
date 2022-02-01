@@ -93,6 +93,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\Sessions\LaboratoryWorkerPages\OrderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\NavigationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +105,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Barcode.cs" />
+    <Compile Include="Models\BarcodeStrip.cs" />
     <Compile Include="Models\CaptchaLetter.cs" />
     <Compile Include="Models\Entities\Analyzer.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
@@ -159,6 +165,7 @@
     <Compile Include="Models\Entities\UserType.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CaptchaService.cs" />
     <Compile Include="Services\LoginHistoryService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
@@ -183,6 +190,9 @@
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\LaboratoryWorkerPage.xaml.cs">
       <DependentUpon>LaboratoryWorkerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\OrderPage.xaml.cs">
+      <DependentUpon>OrderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\NavigationWindow.xaml.cs">
       <DependentUpon>NavigationWindow.xaml</DependentUpon>
