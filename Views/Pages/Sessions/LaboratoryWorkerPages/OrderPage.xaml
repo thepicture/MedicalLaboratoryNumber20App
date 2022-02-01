@@ -9,6 +9,20 @@
       d:DesignWidth="800"
       Title="Окно формирования заказа">
     <Grid>
+        <Grid Opacity="{Binding IsBusy}"
+              Panel.ZIndex="1"
+              IsHitTestVisible="False">
+            <Grid Background="Black"
+                  Opacity=".8">
+                <TextBlock Text="Штрих-код экспортируется. Пожалуйста, подождите..."
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource HeaderBlock}"
+                           Width="auto"
+                           TextWrapping="Wrap"></TextBlock>
+            </Grid>
+        </Grid>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">

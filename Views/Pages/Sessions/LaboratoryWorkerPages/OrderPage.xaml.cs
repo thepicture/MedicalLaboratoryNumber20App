@@ -3,6 +3,7 @@ using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Services;
 using System;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Windows.Controls;
@@ -13,16 +14,21 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
     /// <summary>
     /// Interaction logic for OrderPage.xaml
     /// </summary>
-    public partial class OrderPage : Page
+    public partial class OrderPage : Page, INotifyPropertyChanged
     {
         private const int MinimumBarcodeNumber = 100000;
         private const int MaximumBarcodeNumber = 999999 + 1;
         private readonly Random random = new Random();
+        private bool _isBusy;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public OrderPage(Blood blood)
         {
             InitializeComponent();
             Blood = blood;
             LoadBarcodeHint();
+            DataContext = this;
         }
 
         /// <summary>
@@ -54,6 +60,15 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
         public Blood Blood { get; }
         public Barcode CurrentBarcode { get; private set; }
+        public bool IsBusy
+        {
+            get => _isBusy; set
+            {
+                _isBusy = value;
+                PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(nameof(IsBusy)));
+            }
+        }
 
         /// <summary>
         /// Позволяет ввести посредством нажатия клавиши Enter
@@ -80,7 +95,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                       out _);
                         }))
                     {
-                        GenerateBarcode();
+                        GenerateAndSaveBarcode();
                     }
                     else
                     {
@@ -99,7 +114,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Генерирует штрих-код.
         /// </summary>
-        private void GenerateBarcode()
+        private void GenerateAndSaveBarcode()
         {
             string barcodeText = BarcodeBox.Text
                                  + DateTime.Now.ToString("yyyyMMdd")
@@ -107,21 +122,29 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                                MaximumBarcodeNumber);
             CurrentBarcode = BarcodeService.NewBarcode(barcodeText);
             BarcodeView.ItemsSource = CurrentBarcode.Strips;
+            byte[] barcodeBytes = null;
             Dispatcher.Invoke(() =>
             {
-                byte[] barcodeBytes = ControlImageService.ConvertToPng(BarcodeView);
-                if (new ByteArrayToPdfExportService(barcodeBytes)
-                    .Export(out string filePath))
-                {
-                    MessageBoxService.ShowInfo("Штрих-код сохранён " +
-                        $"по пути {filePath}");
-                }
-                else
-                {
-                    MessageBoxService.ShowError("Не удалось сохранить штрих-код. " +
-                        "Вероятно, выбор пути сохранения был отменён");
-                }
+                barcodeBytes = ControlImageService.ConvertToPng(BarcodeView);
             }, System.Windows.Threading.DispatcherPriority.Loaded);
+            SaveBarcode(barcodeBytes);
+        }
+
+        private void SaveBarcode(byte[] barcodeBytes)
+        {
+            IsBusy = true;
+            if (new ByteArrayToPdfExportService(barcodeBytes)
+                .TryExport(out string filePath))
+            {
+                MessageBoxService.ShowInfo("Штрих-код сохранён " +
+                    $"по пути {filePath}");
+            }
+            else
+            {
+                MessageBoxService.ShowError("Не удалось сохранить штрих-код. " +
+                    "Вероятно, выбор пути сохранения был отменён");
+            }
+            IsBusy = false;
         }
     }
 }
