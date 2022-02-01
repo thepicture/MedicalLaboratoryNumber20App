@@ -15,7 +15,7 @@
                    Width="auto">
             <TextBlock.Inlines>
                 <Run Text="Сессия завершится через"></Run>
-                <Run Text="{Binding TimerService.TimeLeft, StringFormat=hh\\:mm\\:ss, Mode=OneWay}"></Run>
+                <Run Text="{Binding TimerService.TimeLeft, StringFormat=hh\\:mm, Mode=OneWay}"></Run>
                 <Run Text="(часы:минуты)"></Run>
             </TextBlock.Inlines>
         </TextBlock>

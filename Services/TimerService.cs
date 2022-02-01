@@ -73,8 +73,8 @@ namespace MedicalLaboratoryNumber20App.Services
             TimeLeft = TimeLeft.Subtract(TimeSpan.FromSeconds(1));
             if (TimeLeft == _messageAppearTime)
             {
-                MessageBoxService.ShowInfo("Сеанс завершится через " +
-                    $"{_messageAppearTime.TotalMinutes:N2} минут");
+                MessageBoxService.ShowInfo("Сеанс завершится через столько минут: " +
+                    $"{_messageAppearTime.TotalMinutes:N0}");
             }
             else if (TimeSpan.Zero == TimeLeft)
             {
@@ -85,7 +85,8 @@ namespace MedicalLaboratoryNumber20App.Services
                 }
                 BlockInterface();
                 MessageBoxService.ShowInfo("Сеанс завершен. " +
-                     $"Вход заблокирован на {_banTime.TotalMinutes:N2} минут");
+                     "Вход заблокирован на столько минут: " +
+                     $"{_banTime.TotalMinutes:N0}");
             }
         }
 
