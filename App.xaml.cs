@@ -1,4 +1,6 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
+using MedicalLaboratoryNumber20App.Services;
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -22,5 +24,6 @@ namespace MedicalLaboratoryNumber20App
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public TimerService TimerService { get; set; } = new TimerService();
     }
 }

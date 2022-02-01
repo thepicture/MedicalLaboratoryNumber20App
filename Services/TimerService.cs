@@ -8,41 +8,41 @@ using System.Windows.Threading;
 namespace MedicalLaboratoryNumber20App.Services
 {
     /// <summary>
-    /// Реализует метод для работы с сеансом.
+    /// Реализует методы для работы с сеансом.
     /// </summary>
     public class TimerService : INotifyPropertyChanged
     {
         private TimeSpan _messageAppearTime;
         private TimeSpan _banTime;
-        private readonly NavigationService _navigationService;
-        private TimeSpan timeLeft;
+        private TimeSpan _timeLeft;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public TimeSpan TimeLeft
         {
-            get => timeLeft; private set
+            get => _timeLeft; private set
             {
-                timeLeft = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeLeft)));
+                _timeLeft = value;
+                PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(nameof(TimeLeft)));
             }
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр таймера.
+        /// Уставливает временные параметры для сессии.
         /// </summary>
         /// <param name="sessionTime">Длительность сессии.</param>
         /// <param name="messageAppearTime">Время появления сообщения.</param>
         /// <param name="banTime">Время блокировки.</param>
-        public TimerService(TimeSpan sessionTime,
+        /// <returns>Экземпляр текущего класса <see cref="TimerService"/>.</returns>
+        public TimerService SetTime(TimeSpan sessionTime,
                             TimeSpan messageAppearTime,
                             TimeSpan banTime)
         {
             TimeLeft = sessionTime;
             _messageAppearTime = messageAppearTime;
             _banTime = banTime;
-            _navigationService = (App.Current.MainWindow as NavigationWindow)
-                .MainFrame.NavigationService;
+            return this;
         }
 
         /// <summary>
@@ -60,12 +60,15 @@ namespace MedicalLaboratoryNumber20App.Services
         }
 
         /// <summary>
-        /// Вызывается каждую секунду таймером.
+        /// Вызывается каждую секунду таймером для отсчёта времени сессии.
         /// </summary>
         private void OnTick(object sender, EventArgs e)
         {
+            NavigationService navigationService =
+                ((NavigationWindow)App.Current.MainWindow)
+                .MainFrame.NavigationService;
             DispatcherTimer timer = sender as DispatcherTimer;
-            if (_navigationService.Content is LoginPage)
+            if (navigationService.Content is LoginPage)
             {
                 timer.Stop();
                 return;
@@ -79,9 +82,9 @@ namespace MedicalLaboratoryNumber20App.Services
             else if (TimeSpan.Zero == TimeLeft)
             {
                 timer.Stop();
-                while (_navigationService.CanGoBack)
+                while (navigationService.CanGoBack)
                 {
-                    _navigationService.GoBack();
+                    navigationService.GoBack();
                 }
                 BlockInterface();
                 MessageBoxService.ShowInfo("Сеанс завершен. " +

@@ -9,16 +9,6 @@
       d:DesignWidth="800"
       Title="Страница лаборанта-исследователя">
     <Grid>
-        <TextBlock HorizontalAlignment="Left"
-                   VerticalAlignment="Top"
-                   Style="{StaticResource CommonBlock}"
-                   Width="auto">
-            <TextBlock.Inlines>
-                <Run Text="Сессия завершится через"></Run>
-                <Run Text="{Binding TimerService.TimeLeft, StringFormat=hh\\:mm, Mode=OneWay}"></Run>
-                <Run Text="(часы:минуты)"></Run>
-            </TextBlock.Inlines>
-        </TextBlock>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button Content="Работать с анализатором"

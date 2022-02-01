@@ -1,6 +1,5 @@
-﻿using MedicalLaboratoryNumber20App.Services;
-using MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages;
-using System;
+﻿using MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions
@@ -10,19 +9,13 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions
     /// </summary>
     public partial class LaboratoryWorkerPage : Page
     {
-        public TimerService TimerService { get; }
-
         public LaboratoryWorkerPage()
         {
             InitializeComponent();
-            TimerService = new TimerService(TimeSpan.FromMinutes(10),
-                                             TimeSpan.FromMinutes(5),
-                                             TimeSpan.FromMinutes(1));
-            TimerService.Start();
             DataContext = this;
         }
 
-        private void NavigateToBiomaterials(object sender, System.Windows.RoutedEventArgs e)
+        private void NavigateToBiomaterials(object sender, RoutedEventArgs e)
         {
             _ = NavigationService.Navigate(new BiomaterialsPage());
         }

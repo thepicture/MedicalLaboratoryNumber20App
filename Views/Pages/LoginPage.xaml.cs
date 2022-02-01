@@ -1,6 +1,7 @@
 ﻿using MedicalLaboratoryNumber20App.Models;
 using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
+using MedicalLaboratoryNumber20App.Services;
 using MedicalLaboratoryNumber20App.Views.Pages.AccountantPages;
 using MedicalLaboratoryNumber20App.Views.Pages.AdminPages;
 using MedicalLaboratoryNumber20App.Views.Pages.Sessions;
@@ -38,7 +39,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             if (CaptchaPanel.Visibility == Visibility.Visible
                 && !_captchaService.Check(Captcha.Text))
             {
-                MessageBoxService.ShowWarning("Вы ввели неверную captcha. " +
+                _ = MessageBoxService.ShowWarning("Вы ввели неверную captcha. " +
                     "Попробуйте ещё раз");
                 RequireCaptcha();
                 return;
@@ -48,7 +49,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             if (string.IsNullOrEmpty(userLogin)
                 || string.IsNullOrEmpty(userPassword))
             {
-                MessageBoxService.ShowWarning("Заполните поля и логина, и пароля");
+                _ = MessageBoxService.ShowWarning("Заполните поля и логина, и пароля");
                 return;
             }
             BtnLogin.IsEnabled = false;
@@ -65,7 +66,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 {
                     if (_isFirstTimeWrongPassword)
                     {
-                        MessageBoxService.ShowWarning("Неуспешная авторизация. " +
+                        _ = MessageBoxService.ShowWarning("Неуспешная авторизация. " +
                             "Неверный логин или пароль");
                         RequireCaptcha();
                         _isFirstTimeWrongPassword = false;
@@ -73,7 +74,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                     else
                     {
                         TimeSpan timeSpan = TimeSpan.FromSeconds(10);
-                        MessageBoxService.ShowWarning($"Система заблокирована " +
+                        _ = MessageBoxService.ShowWarning($"Система заблокирована " +
                             $"на {timeSpan.TotalSeconds:N2} секунд");
                         RequireCaptcha();
                         BlockIntefaceFor(timeSpan);
@@ -88,10 +89,20 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                     switch (user.UserType.UserTypeName)
                     {
                         case "Лаборант":
+                            (App.Current as App).TimerService
+                                .SetTime(TimeSpan.FromMinutes(10),
+                                         TimeSpan.FromMinutes(5),
+                                         TimeSpan.FromMinutes(1))
+                                .Start();
                             _ = NavigationService
                                 .Navigate(new LaboratoryWorkerPage());
                             break;
                         case "Лаборант-исследователь":
+                            (App.Current as App).TimerService
+                                .SetTime(TimeSpan.FromMinutes(10),
+                                         TimeSpan.FromMinutes(5),
+                                         TimeSpan.FromMinutes(1))
+                                .Start();
                             _ = NavigationService
                                 .Navigate(new LaboratoryResearcherPage());
                             break;
