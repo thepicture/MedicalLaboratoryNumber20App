@@ -132,7 +132,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
         }
 
         /// <summary>
-        /// Просит ввести captcha.
+        /// Запрашивает captcha.
         /// </summary>
         private void RequireCaptcha()
         {

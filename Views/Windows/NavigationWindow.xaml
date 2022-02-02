@@ -28,8 +28,7 @@
                            Style="{StaticResource HeaderBlock}"
                            Width="auto"></TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
+            <StackPanel HorizontalAlignment="Right">
                 <Button Content="Выход на главный экран"
                         Click="OnExitingToLoginPage"
                         ToolTip="Завершает работу с системой и возвращает на страницу авторизации">
