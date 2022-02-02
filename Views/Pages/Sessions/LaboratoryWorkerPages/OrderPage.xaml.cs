@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages
 {
@@ -96,7 +97,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                       out _);
                         }))
                     {
-                        GenerateAndSaveBarcode();
+                        GenerateBarcode();
+                        SaveBarcode();
                     }
                     else
                     {
@@ -115,7 +117,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Генерирует штрих-код.
         /// </summary>
-        private void GenerateAndSaveBarcode()
+        private void GenerateBarcode()
         {
             string barcodeText = BarcodeBox.Text
                                  + DateTime.Now.ToString("yyyyMMdd")
@@ -123,16 +125,15 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                                MaximumBarcodeNumber);
             CurrentBarcode = BarcodeService.NewBarcode(barcodeText);
             BarcodeView.ItemsSource = CurrentBarcode.Strips;
+        }
+
+        private async void SaveBarcode()
+        {
             byte[] barcodeBytes = null;
             Dispatcher.Invoke(() =>
             {
                 barcodeBytes = ControlImageService.ConvertToPng(BarcodeView);
-            }, System.Windows.Threading.DispatcherPriority.Loaded);
-            SaveBarcode(barcodeBytes);
-        }
-
-        private async void SaveBarcode(byte[] barcodeBytes)
-        {
+            }, DispatcherPriority.Loaded);
             System.Windows.Forms.FolderBrowserDialog dialog =
                 new System.Windows.Forms.FolderBrowserDialog();
             if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
