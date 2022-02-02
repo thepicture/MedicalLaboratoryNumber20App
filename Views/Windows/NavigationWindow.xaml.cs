@@ -1,5 +1,6 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Views.Pages;
+using MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages;
 using System.Windows;
 
 namespace MedicalLaboratoryNumber20App

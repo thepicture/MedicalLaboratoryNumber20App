@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
 namespace MedicalLaboratoryNumber20App.Services
@@ -9,22 +7,18 @@ namespace MedicalLaboratoryNumber20App.Services
     public class ByteArrayToPdfExportService : IExportService
     {
         private readonly byte[] bytes;
+        private readonly string filePath;
 
-        public ByteArrayToPdfExportService(byte[] bytes)
+        public ByteArrayToPdfExportService(byte[] bytes, string filePath)
         {
             this.bytes = bytes;
+            this.filePath = filePath;
         }
 
-        public bool TryExport(out string filePath)
+        public void Export()
         {
-            filePath = null;
             Word.Application app = null;
             Word.Document document = null;
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() != DialogResult.OK)
-            {
-                return false;
-            }
             string temporaryImagePath = string.Empty;
             try
             {
@@ -35,7 +29,7 @@ namespace MedicalLaboratoryNumber20App.Services
                 File.WriteAllBytes(temporaryImagePath, bytes);
                 string saveFileName = "BarCode-"
                                       + $"{DateTime.Now:yyyy-mm-dd_hh-mm-ss}.pdf";
-                string savePath = Path.Combine(dialog.SelectedPath,
+                string savePath = Path.Combine(filePath,
                                                saveFileName);
                 app = new Word.Application();
                 document = app.Documents.Add();
@@ -44,8 +38,6 @@ namespace MedicalLaboratoryNumber20App.Services
                 _ = paragraph.Range.InlineShapes.AddPicture(temporaryImagePath);
                 document.ExportAsFixedFormat(savePath,
                                              Word.WdExportFormat.wdExportFormatPDF);
-                filePath = savePath;
-                return true;
             }
             catch (Exception ex)
             {
@@ -60,7 +52,6 @@ namespace MedicalLaboratoryNumber20App.Services
                 document?.Close(SaveChanges: false);
                 app?.Quit(SaveChanges: false);
             }
-            return false;
         }
     }
 }

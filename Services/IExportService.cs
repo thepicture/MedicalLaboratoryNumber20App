@@ -6,11 +6,8 @@
     public interface IExportService
     {
         /// <summary>
-        /// Пытается экспортировать данные.
+        /// Экспортирует данные.
         /// </summary>
-        /// <param name="filePath">Путь к файлу, если данные сохранены, 
-        /// иначе значение по умолчанию.</param>
-        /// <returns>Возвращает true, если данные экспортированы, иначе false.</returns>
-        bool TryExport(out string filePath);
+        void Export();
     }
 }

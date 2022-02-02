@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -130,20 +131,23 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             SaveBarcode(barcodeBytes);
         }
 
-        private void SaveBarcode(byte[] barcodeBytes)
+        private async void SaveBarcode(byte[] barcodeBytes)
         {
+            System.Windows.Forms.FolderBrowserDialog dialog =
+                new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            {
+                _ = await MessageBoxService
+                    .ShowWarning("Выбор пути сохранения был отменён");
+                return;
+            }
             IsBusy = true;
-            if (new ByteArrayToPdfExportService(barcodeBytes)
-                .TryExport(out string filePath))
-            {
-                MessageBoxService.ShowInfo("Штрих-код сохранён " +
-                    $"по пути {filePath}");
-            }
-            else
-            {
-                MessageBoxService.ShowError("Не удалось сохранить штрих-код. " +
-                    "Вероятно, выбор пути сохранения был отменён");
-            }
+            ByteArrayToPdfExportService exporter =
+                new ByteArrayToPdfExportService(barcodeBytes,
+                                                dialog.SelectedPath);
+            await Task.Run(() => exporter.Export());
+            MessageBoxService.ShowInfo("Штрих-код сохранён " +
+                $"по пути {dialog.SelectedPath}");
             IsBusy = false;
         }
     }

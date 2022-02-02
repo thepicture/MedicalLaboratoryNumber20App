@@ -9,19 +9,16 @@
       d:DesignWidth="800"
       Title="Окно формирования заказа">
     <Grid>
-        <Grid Opacity="{Binding IsBusy}"
-              Panel.ZIndex="1"
-              IsHitTestVisible="False">
-            <Grid Background="Black"
-                  Opacity=".8">
-                <TextBlock Text="Штрих-код экспортируется. Пожалуйста, подождите..."
-                           Foreground="White"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Style="{StaticResource HeaderBlock}"
-                           Width="auto"
-                           TextWrapping="Wrap"></TextBlock>
-            </Grid>
+        <Grid Background="{StaticResource AdditionalBackground}"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Opacity="{Binding IsBusy}"
+              BitmapEffect="{StaticResource ShadowEffect}">
+        <TextBlock Text="Штрих-код экспортируется ..."
+                   Width="auto"
+                   Style="{StaticResource HeaderBlock}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"></TextBlock>
         </Grid>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
