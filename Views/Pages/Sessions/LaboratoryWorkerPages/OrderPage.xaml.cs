@@ -4,7 +4,6 @@ using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Services;
 using System;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -44,20 +43,23 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 BarcodeHint.Text = string.Empty;
                 return;
             }
-
-            using (MedicalLaboratoryNumber20Entities context =
-               new MedicalLaboratoryNumber20Entities())
+            string lastOrderId = await Task.Run(() =>
             {
-                if (await context.Order.CountAsync() == 0)
+                using (MedicalLaboratoryNumber20Entities context =
+                   new MedicalLaboratoryNumber20Entities())
                 {
-                    BarcodeHint.Text = "1";
+                    if (context.Order.Count() == 0)
+                    {
+                        return "1";
+                    }
+                    else
+                    {
+                        int lastOrder = context.Order.Max(o => o.OrderId);
+                        return lastOrder.ToString();
+                    }
                 }
-                else
-                {
-                    int lastOrder = await context.Order.MaxAsync(o => o.OrderId);
-                    BarcodeHint.Text = lastOrder.ToString();
-                }
-            }
+            });
+            BarcodeHint.Text = lastOrderId;
         }
 
         public Blood Blood { get; }

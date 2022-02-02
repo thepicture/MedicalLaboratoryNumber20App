@@ -1,5 +1,9 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages
@@ -18,19 +22,23 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
         private async void LoadBiomaterials()
         {
-            using (MedicalLaboratoryNumber20Entities context =
-                new MedicalLaboratoryNumber20Entities())
+            IEnumerable<Blood> bloodEnumerable = await Task.Run(() =>
             {
-                Biomaterials.ItemsSource = await context.Blood
+                using (MedicalLaboratoryNumber20Entities context =
+                    new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Blood
                     .Include(b => b.Patient)
-                    .ToListAsync();
-            }
+                    .ToList();
+                }
+            });
+            Biomaterials.ItemsSource = bloodEnumerable;
         }
 
-        private void PerformBiomaterialAccept(object sender, System.Windows.RoutedEventArgs e)
+        private void PerformBiomaterialAccept(object sender, RoutedEventArgs e)
         {
             Blood blood = (sender as Button).DataContext as Blood;
-            NavigationService.Navigate(new OrderPage(blood));
+            _ = NavigationService.Navigate(new OrderPage(blood));
         }
     }
 }

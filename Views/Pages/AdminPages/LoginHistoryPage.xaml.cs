@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.AdminPages
@@ -27,17 +28,20 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AdminPages
         }
 
         /// <summary>
-        /// Фильтрует историю входа или сортирует её.
+        /// Выводит историю входа, отфильтрованную или отсортированную 
+        /// в зависимости от соответствующих параметров.
         /// </summary>
         private async void PerformSearchHistories()
         {
-            IEnumerable<LoginHistory> currentLoginHistories;
-            using (MedicalLaboratoryNumber20Entities context
-                = new MedicalLaboratoryNumber20Entities())
-            {
-                currentLoginHistories =
-                    await context.LoginHistory.ToListAsync();
-            }
+            IEnumerable<LoginHistory> currentLoginHistories =
+                await Task.Run(() =>
+                {
+                    using (MedicalLaboratoryNumber20Entities context
+                        = new MedicalLaboratoryNumber20Entities())
+                    {
+                        return context.LoginHistory.ToList();
+                    }
+                });
             switch (ComboSort.SelectedItem)
             {
                 case "По возрастанию":

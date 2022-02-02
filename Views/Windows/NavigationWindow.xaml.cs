@@ -1,6 +1,5 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Views.Pages;
-using MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPages;
 using System.Windows;
 
 namespace MedicalLaboratoryNumber20App
@@ -15,7 +14,6 @@ namespace MedicalLaboratoryNumber20App
             InitializeComponent();
 
             DataContext = this;
-
             if (!MainFrame.Navigate(new LoginPage()))
             {
                 MessageBoxService.ShowError("Не удалось запустить приложение. Перезайдите");
