@@ -1,7 +1,6 @@
 ﻿using MedicalLaboratoryNumber20App.Models;
 using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
-using MedicalLaboratoryNumber20App.Services;
 using MedicalLaboratoryNumber20App.Views.Pages.AccountantPages;
 using MedicalLaboratoryNumber20App.Views.Pages.AdminPages;
 using MedicalLaboratoryNumber20App.Views.Pages.Sessions;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -54,74 +54,78 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             }
             BtnLogin.IsEnabled = false;
             BtnLogin.Content = "Авторизация...";
-            using (MedicalLaboratoryNumber20Entities context =
-                new MedicalLaboratoryNumber20Entities())
+            User user = await Task.Run(() =>
             {
-                User user = await context.User
-                    .FirstOrDefaultAsync(u => u.UserLogin == userLogin
-                                         && u.UserPassword == userPassword);
-                BtnLogin.IsEnabled = true;
-                BtnLogin.Content = "Войти";
-                if (user == null)
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
                 {
-                    if (_isFirstTimeWrongPassword)
-                    {
-                        _ = MessageBoxService.ShowWarning("Неуспешная авторизация. " +
-                            "Неверный логин или пароль");
-                        RequireCaptcha();
-                        _isFirstTimeWrongPassword = false;
-                    }
-                    else
-                    {
-                        TimeSpan timeSpan = TimeSpan.FromSeconds(10);
-                        _ = MessageBoxService.ShowWarning($"Система заблокирована " +
-                            $"на {timeSpan.TotalSeconds:N2} секунд");
-                        RequireCaptcha();
-                        BlockIntefaceFor(timeSpan);
-                    }
+                    return context.User
+                    .Include(u => u.UserType)
+                    .First(u => u.UserLogin == userLogin
+                                && u.UserPassword == userPassword);
+                }
+            });
+            BtnLogin.IsEnabled = true;
+            BtnLogin.Content = "Войти";
+            if (user == null)
+            {
+                if (_isFirstTimeWrongPassword)
+                {
+                    _ = MessageBoxService.ShowWarning("Неуспешная авторизация. " +
+                        "Неверный логин или пароль");
+                    RequireCaptcha();
+                    _isFirstTimeWrongPassword = false;
                 }
                 else
                 {
-                    (App.Current as App).User = user;
-                    MessageBoxService
-                        .ShowInfo($"Вы авторизованы, {user.UserName}");
-                    CaptchaPanel.Visibility = Visibility.Collapsed;
-                    switch (user.UserType.UserTypeName)
-                    {
-                        case "Лаборант":
-                            (App.Current as App).TimerService
-                                .SetTime(TimeSpan.FromMinutes(10),
-                                         TimeSpan.FromMinutes(5),
-                                         TimeSpan.FromMinutes(1))
-                                .Start();
-                            _ = NavigationService
-                                .Navigate(new LaboratoryWorkerPage());
-                            break;
-                        case "Лаборант-исследователь":
-                            (App.Current as App).TimerService
-                                .SetTime(TimeSpan.FromMinutes(10),
-                                         TimeSpan.FromMinutes(5),
-                                         TimeSpan.FromMinutes(1))
-                                .Start();
-                            _ = NavigationService
-                                .Navigate(new LaboratoryResearcherPage());
-                            break;
-                        case "Бухгалтер":
-                            _ = NavigationService
-                                .Navigate(new AccountantPage());
-                            break;
-                        case "Администратор":
-                            _ = NavigationService
-                                .Navigate(new AdminPage());
-                            break;
-                        default:
-                            System.Diagnostics.Debug
-                                .WriteLine("No user page was found");
-                            MessageBoxService.ShowError("Не удалось " +
-                                "найти страницу для перехода. " +
-                                "Обратитесь к системному администратору");
-                            break;
-                    }
+                    TimeSpan timeSpan = TimeSpan.FromSeconds(10);
+                    _ = MessageBoxService.ShowWarning($"Система заблокирована " +
+                        $"на {timeSpan.TotalSeconds:N2} секунд");
+                    RequireCaptcha();
+                    BlockIntefaceFor(timeSpan);
+                }
+            }
+            else
+            {
+                (App.Current as App).User = user;
+                MessageBoxService
+                    .ShowInfo($"Вы авторизованы, {user.UserName}");
+                CaptchaPanel.Visibility = Visibility.Collapsed;
+                switch (user.UserType.UserTypeName)
+                {
+                    case "Лаборант":
+                        (App.Current as App).TimerService
+                            .SetTime(TimeSpan.FromMinutes(10),
+                                     TimeSpan.FromMinutes(5),
+                                     TimeSpan.FromMinutes(1))
+                            .Start();
+                        _ = NavigationService
+                            .Navigate(new LaboratoryWorkerPage());
+                        break;
+                    case "Лаборант-исследователь":
+                        (App.Current as App).TimerService
+                            .SetTime(TimeSpan.FromMinutes(10),
+                                     TimeSpan.FromMinutes(5),
+                                     TimeSpan.FromMinutes(1))
+                            .Start();
+                        _ = NavigationService
+                            .Navigate(new LaboratoryResearcherPage());
+                        break;
+                    case "Бухгалтер":
+                        _ = NavigationService
+                            .Navigate(new AccountantPage());
+                        break;
+                    case "Администратор":
+                        _ = NavigationService
+                            .Navigate(new AdminPage());
+                        break;
+                    default:
+                        System.Diagnostics.Debug
+                            .WriteLine("No user page was found");
+                        MessageBoxService.ShowError("Не удалось " +
+                            "найти страницу для перехода. " +
+                            "Обратитесь к системному администратору");
+                        break;
                 }
                 LoginHistoryService.Write(Login.Text, user != null);
             }
