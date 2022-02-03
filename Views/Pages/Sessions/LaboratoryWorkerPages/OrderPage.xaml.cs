@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -129,6 +130,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             BarcodeView.ItemsSource = CurrentBarcode.Strips;
         }
 
+        /// <summary>
+        /// Сохраняет штрих-код в память текущего устройства.
+        /// </summary>
         private async void SaveBarcode()
         {
             byte[] barcodeBytes = null;
@@ -152,6 +156,22 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             MessageBoxService.ShowInfo("Штрих-код сохранён " +
                 $"по пути {dialog.SelectedPath}");
             IsBusy = false;
+        }
+
+        /// <summary>
+        /// Сканирует штрих-код со сканера.
+        /// </summary>
+        private void PerformBarcodeScan(object sender, RoutedEventArgs e)
+        {
+            BarcodeScannerService barcodeScanner = new BarcodeScannerService();
+            string scannedBarCode =
+                BarcodeBox.Text =
+                barcodeScanner
+                .Scan()
+                .Replace("\r", "");
+            BarcodeHint.Text = string.Empty;
+            CurrentBarcode = BarcodeService.NewBarcode(scannedBarCode);
+            BarcodeView.ItemsSource = CurrentBarcode.Strips;
         }
     }
 }

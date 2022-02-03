@@ -35,6 +35,9 @@
                              Foreground="Gray"></TextBox>
                 </Grid>
             </StackPanel>
+            <Button Content="Считать штрих-код со сканера"
+                    HorizontalAlignment="Right"
+                    Click="PerformBarcodeScan"></Button>
             <StackPanel Orientation="Horizontal">
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
