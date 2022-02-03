@@ -213,7 +213,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                                       RoutedEventArgs e)
         {
             AddPatientWindow addPatientWindow =
-                new AddPatientWindow()
+                new AddPatientWindow(PatientFullnameBox.Text)
                 {
                     Owner = App.Current.MainWindow,
                 };

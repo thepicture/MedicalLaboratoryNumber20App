@@ -12,6 +12,69 @@
         Title="Добавление нового пациента"
         WindowStartupLocation="CenterOwner">
     <Grid>
-
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ФИО:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="PatientFullName"
+                         Text="{Binding Patient.PatientFullName}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата рождения:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <DatePicker x:Name="PatientBirthday"
+                            SelectedDate="{Binding Patient.BirthDate}"></DatePicker>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Серия паспорта:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="PatientPassportSeries"
+                         Text="{Binding Patient.PassportSeries}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Номер паспорта:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="PatientPassportNumber"
+                         Text="{Binding Patient.PassportNumber}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Телефон:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="PatientPhone"
+                         Text="{Binding Patient.PatientPhone}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="E-mail:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="PatientEmail"
+                         Text="{Binding Patient.PatientEmail}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Номер страхового полиса:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox Text="{Binding Patient.SecurityNumber}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Тип страхового полиса:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <ComboBox x:Name="SocialTypes"
+                          DisplayMemberPath="SocialTypeName"
+                          SelectedItem="{Binding Patient.PatientSocialType}"></ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Страховая компания:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <ComboBox x:Name="InsuranceCompanies"
+                          DisplayMemberPath="InsuranceName"
+                          SelectedItem="{Binding Patient.InsuranceCompany}"></ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Сохранить"
+                        Click="OnPatientSave"></Button>
+                <Button Content="Назад"
+                        Click="PerformGoBack"></Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
