@@ -33,12 +33,14 @@
                                  Background="Transparent"
                                  BorderBrush="Transparent"
                                  Name="BarcodeHint"
-                                 Foreground="Gray"></TextBox>
+                                 Foreground="Gray"
+                                 ToolTip="Код пришедшей пробирки, если он существует"></TextBox>
                     </Grid>
                 </StackPanel>
                 <Button Content="Считать штрих-код со сканера"
                         HorizontalAlignment="Right"
-                        Click="PerformBarcodeScan"></Button>
+                        Click="PerformBarcodeScan"
+                        ToolTip="Считывает штрих-код со сканера и заполняет код пробирки считанным значением."></Button>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
@@ -105,7 +107,8 @@
                     <TextBlock Text="Введите ФИО пациента:"
                                Style="{StaticResource LabelBlock}"></TextBlock>
                     <TextBox x:Name="PatientFullNameBox"
-                             TextChanged="OnFullNameTextChanged"></TextBox>
+                             TextChanged="OnFullNameTextChanged"
+                             ToolTip="Фамилия, имя и отчество пациента"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel.Style>
@@ -128,7 +131,8 @@
                     </TextBlock>
                     <Button Content="Добавить пациента"
                             HorizontalAlignment="Right"
-                            Click="PerformOpenAddPatientModalWindow"></Button>
+                            Click="PerformOpenAddPatientModalWindow"
+                            ToolTip="Добавить нового пациента в базу данных"></Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Услуги заказа:"
@@ -143,7 +147,8 @@
                                     <DataTemplate>
                                         <TextBox Width="auto"
                                                  Text="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
-                                                 KeyUp="OnServiceTitleChanged"></TextBox>
+                                                 KeyUp="OnServiceTitleChanged"
+                                                 ToolTip="Наименование услуги. Если в базе данных его нет, то услуга будет создана"></TextBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -152,7 +157,8 @@
                                     <DataTemplate>
                                         <Button Content="Удалить"
                                                 Width="auto"
-                                                Click="PerformDeleteService"></Button>
+                                                Click="PerformDeleteService"
+                                                ToolTip="Удалить услугу из текущего списка, НО не из базы данных"></Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -169,7 +175,8 @@
                            Height="auto"></TextBlock>
                 <Button Content="Добавить новую услугу"
                         Click="PerformAddNewService"
-                        HorizontalAlignment="Right"></Button>
+                        HorizontalAlignment="Right"
+                        ToolTip="Добавить новую услугу к заказу"></Button>
             </StackPanel>
         </Grid>
     </ScrollViewer>

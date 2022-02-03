@@ -18,63 +18,74 @@
                 <TextBlock Text="ФИО:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientFullName"
-                         Text="{Binding Patient.PatientFullName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                         Text="{Binding Patient.PatientFullName, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Фамилия, имя и отчество пациента"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Дата рождения:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <DatePicker x:Name="PatientBirthday"
-                            SelectedDate="{Binding Patient.BirthDate, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                            SelectedDate="{Binding Patient.BirthDate, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="Дата рождения пациента"></DatePicker>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Серия паспорта:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientPassportSeries"
                          Text="{Binding Patient.PassportSeries, UpdateSourceTrigger=PropertyChanged}"
-                         MaxLength="4"></TextBox>
+                         MaxLength="4"
+                         ToolTip="Четырёхзначная последовательность цифр"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Номер паспорта:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientPassportNumber"
                          Text="{Binding Patient.PassportNumber, UpdateSourceTrigger=PropertyChanged}"
-                         MaxLength="6"></TextBox>
+                         MaxLength="6"
+                         ToolTip="Шестизначная последовательность цифр"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Телефон:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientPhone"
-                         Text="{Binding Patient.PatientPhone, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                         Text="{Binding Patient.PatientPhone, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Номер телефона пациента"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="E-mail:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientEmail"
-                         Text="{Binding Patient.PatientEmail, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                         Text="{Binding Patient.PatientEmail, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Электронная почта пациента"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Номер страхового полиса:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox Text="{Binding Patient.SecurityNumber, UpdateSourceTrigger=PropertyChanged}"
-                         MaxLength="50"></TextBox>
+                         MaxLength="50"
+                         ToolTip="Номер страхового полиса пациента до 50 символов"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Тип страхового полиса:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <ComboBox x:Name="SocialTypes"
-                          DisplayMemberPath="SocialTypeName"></ComboBox>
+                          DisplayMemberPath="SocialTypeName"
+                          ToolTip="Тип страхового полиса пациента"></ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Страховая компания:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <ComboBox x:Name="InsuranceCompanies"
-                          DisplayMemberPath="InsuranceName"></ComboBox>
+                          DisplayMemberPath="InsuranceName"
+                          ToolTip="Страховая компания пациента"></ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Сохранить"
-                        Click="OnPatientSave"></Button>
+                        Click="OnPatientSave"
+                        ToolTip="Добавить пациента и в случае успеха вернуться к заказу"></Button>
                 <Button Content="Назад"
-                        Click="PerformGoBack"></Button>
+                        Click="PerformGoBack"
+                        ToolTip="Отменить добавление пациента"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>
