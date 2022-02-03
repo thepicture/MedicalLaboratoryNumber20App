@@ -8,127 +8,169 @@
       d:DesignHeight="450"
       d:DesignWidth="800"
       Title="Окно формирования заказа">
-    <Grid>
-        <Grid Background="{StaticResource AdditionalBackground}"
-              HorizontalAlignment="Left"
-              VerticalAlignment="Top"
-              Opacity="{Binding IsBusy}"
-              BitmapEffect="{StaticResource ShadowEffect}">
-            <TextBlock Text="Штрих-код экспортируется ..."
-                       Width="auto"
-                       Style="{StaticResource HeaderBlock}"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"></TextBlock>
-        </Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Введите код пробирки:"
-                           Style="{StaticResource LabelBlock}"></TextBlock>
-                <Grid>
-                    <TextBox x:Name="BarcodeBox"
-                             PreviewKeyUp="OnBarcodeKeyDown"></TextBox>
-                    <TextBox IsHitTestVisible="False"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             Name="BarcodeHint"
-                             Foreground="Gray"></TextBox>
-                </Grid>
-            </StackPanel>
-            <Button Content="Считать штрих-код со сканера"
-                    HorizontalAlignment="Right"
-                    Click="PerformBarcodeScan"></Button>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=BarcodeView, Path=Items.Count}"
-                                         Value="0">
-                                <Setter Property="Visibility"
-                                        Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <TextBlock Text="Сгенерированный штрих-код:"
-                           Style="{StaticResource LabelBlock}"></TextBlock>
-                <ListView Name="BarcodeView">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Center"
-                                        IsHitTestVisible="False"
-                                        Margin="0.363cm 0 0.231cm 0"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding"
-                                    Value="0" />
+    <ScrollViewer>
+        <Grid>
+            <Grid Background="{StaticResource AdditionalBackground}"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Opacity="{Binding IsBusy}"
+                  BitmapEffect="{StaticResource ShadowEffect}">
+                <TextBlock Text="Штрих-код экспортируется ..."
+                           Width="auto"
+                           Style="{StaticResource HeaderBlock}"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"></TextBlock>
+            </Grid>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Введите код пробирки:"
+                               Style="{StaticResource LabelBlock}"></TextBlock>
+                    <Grid>
+                        <TextBox x:Name="BarcodeBox"
+                                 PreviewKeyUp="OnBarcodeKeyDown"></TextBox>
+                        <TextBox IsHitTestVisible="False"
+                                 Background="Transparent"
+                                 BorderBrush="Transparent"
+                                 Name="BarcodeHint"
+                                 Foreground="Gray"></TextBox>
+                    </Grid>
+                </StackPanel>
+                <Button Content="Считать штрих-код со сканера"
+                        HorizontalAlignment="Right"
+                        Click="PerformBarcodeScan"></Button>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=BarcodeView, Path=Items.Count}"
+                                             Value="0">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Rectangle Fill="Black"
-                                           Height="2.285cm"
-                                           Margin="0.02cm">
-                                    <Rectangle.Style>
-                                        <Style TargetType="Rectangle">
-                                            <Setter Property="Width"
-                                                    Value="{Binding Width}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Number}"
-                                                             Value="0">
-                                                    <Setter Property="Width"
-                                                            Value="0.035cm" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Rectangle.Style>
-                                </Rectangle>
-                                <TextBlock Grid.Row="1"
-                                           Text="{Binding Number}"
-                                           Height="0.275cm"
-                                           FontSize="10"></TextBlock>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Введите ФИО пациента:"
-                           Style="{StaticResource LabelBlock}"></TextBlock>
-                <TextBox x:Name="PatientFullNameBox"
-                         TextChanged="OnFullNameTextChanged"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsNeedToAddPatient}"
-                                         Value="False">
-                                <Setter Property="Visibility"
-                                        Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <TextBlock Text="Пациент не найден! 
+                    </StackPanel.Style>
+                    <TextBlock Text="Сгенерированный штрих-код:"
+                               Style="{StaticResource LabelBlock}"></TextBlock>
+                    <ListView Name="BarcodeView">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            IsHitTestVisible="False"
+                                            Margin="0.363cm 0 0.231cm 0"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding"
+                                        Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Rectangle Fill="Black"
+                                               Height="2.285cm"
+                                               Margin="0.02cm">
+                                        <Rectangle.Style>
+                                            <Style TargetType="Rectangle">
+                                                <Setter Property="Width"
+                                                        Value="{Binding Width}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Number}"
+                                                                 Value="0">
+                                                        <Setter Property="Width"
+                                                                Value="0.035cm" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding Number}"
+                                               Height="0.275cm"
+                                               FontSize="10"></TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Введите ФИО пациента:"
+                               Style="{StaticResource LabelBlock}"></TextBlock>
+                    <TextBox x:Name="PatientFullNameBox"
+                             TextChanged="OnFullNameTextChanged"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsNeedToAddPatient}"
+                                             Value="False">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="Пациент не найден! 
                        Его требуется добавить. Нажмите кнопку для добавления пациента."
+                               Foreground="{StaticResource AttentionColor}"
+                               TextWrapping="Wrap"
+                               Style="{StaticResource LabelBlock}"
+                               Height="auto">
+                    </TextBlock>
+                    <Button Content="Добавить пациента"
+                            HorizontalAlignment="Right"
+                            Click="PerformOpenAddPatientModalWindow"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Услуги заказа:"
+                               Style="{StaticResource LabelBlock}"
+                               VerticalAlignment="Top"></TextBlock>
+                    <DataGrid x:Name="Services"
+                              Width="200"
+                              ColumnWidth="*">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Наименование">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="auto"
+                                                 Text="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
+                                                 KeyUp="OnServiceTitleChanged"></TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Действие">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить"
+                                                Width="auto"
+                                                Click="PerformDeleteService"></Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+                <TextBlock Text="Список услуг содержит несуществующие услуги! 
+                           Они будут созданы в момент сохранения заказа."
                            Foreground="{StaticResource AttentionColor}"
                            TextWrapping="Wrap"
+                           Name="NonExistingServicesMessage"
+                           Visibility="Collapsed"
                            Style="{StaticResource LabelBlock}"
-                           Height="auto">
-                </TextBlock>
-            <Button Content="Добавить пациента"
-                    HorizontalAlignment="Right"
-                    Click="PerformOpenAddPatientModalWindow"></Button>
+                           Height="auto"></TextBlock>
+                <Button Content="Добавить новую услугу"
+                        Click="PerformAddNewService"
+                        HorizontalAlignment="Right"></Button>
             </StackPanel>
-        </StackPanel>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

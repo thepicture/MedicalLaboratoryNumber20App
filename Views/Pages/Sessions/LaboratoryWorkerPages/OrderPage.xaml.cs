@@ -3,6 +3,7 @@ using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,11 +27,15 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        ObservableCollection<Service> _services;
+
         public OrderPage(Blood blood)
         {
             InitializeComponent();
             Blood = blood;
             LoadBarcodeHint();
+            CurrentServices = new ObservableCollection<Service>();
+            Services.ItemsSource = CurrentServices;
             DataContext = this;
         }
 
@@ -84,6 +89,17 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 _isNeedToAddPatient = value;
                 PropertyChanged?.Invoke(this,
                                         new PropertyChangedEventArgs(nameof(IsNeedToAddPatient)));
+            }
+        }
+
+        public ObservableCollection<Service> CurrentServices
+        {
+            get => _services;
+            set
+            {
+                _services = value;
+                PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(nameof(CurrentServices)));
             }
         }
 
@@ -226,6 +242,50 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             {
                 MessageBoxService.ShowInfo("Добавление нового пациента " +
                     "было отменено");
+            }
+        }
+
+        /// <summary>
+        /// Добавляет новую услугу в заказ.
+        /// </summary>
+        private void PerformAddNewService(object sender, RoutedEventArgs e)
+        {
+            CurrentServices.Add(new Service());
+        }
+
+        /// <summary>
+        /// Удаляет услугу из заказа, оставляя услугу в базе данных.
+        /// </summary>
+        private void PerformDeleteService(object sender, RoutedEventArgs e)
+        {
+            Service service = (sender as Button).DataContext as Service;
+            CurrentServices.Remove(service);
+        }
+
+        /// <summary>
+        /// Вызывается в момент изменения названия услуги.
+        /// </summary>
+        private async void OnServiceTitleChanged(object sender, KeyEventArgs e)
+        {
+            NonExistingServicesMessage.Visibility = Visibility.Collapsed;
+            foreach (Service service in Services.Items.Cast<Service>())
+            {
+                bool isServiceExists = await Task.Run(() =>
+                {
+                    using (MedicalLaboratoryNumber20Entities context =
+                    new MedicalLaboratoryNumber20Entities())
+                    {
+                        return context.Service
+                        .Any(s => s.ServiceName
+                        .ToLower() == service.ServiceName
+                        .ToLower());
+                    }
+                });
+                if (!isServiceExists)
+                {
+                    NonExistingServicesMessage.Visibility = Visibility.Visible;
+                    return;
+                }
             }
         }
     }
