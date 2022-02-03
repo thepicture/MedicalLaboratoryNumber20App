@@ -22,6 +22,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         private const int MaximumBarcodeNumber = 999999 + 1;
         private readonly Random random = new Random();
         private bool _isBusy;
+        private bool _isNeedToAddPatient;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -72,6 +73,17 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 _isBusy = value;
                 PropertyChanged?.Invoke(this,
                                         new PropertyChangedEventArgs(nameof(IsBusy)));
+            }
+        }
+
+        public bool IsNeedToAddPatient
+        {
+            get => _isNeedToAddPatient;
+            set
+            {
+                _isNeedToAddPatient = value;
+                PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(nameof(IsNeedToAddPatient)));
             }
         }
 
@@ -172,6 +184,48 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             BarcodeHint.Text = string.Empty;
             CurrentBarcode = BarcodeService.NewBarcode(scannedBarCode);
             BarcodeView.ItemsSource = CurrentBarcode.Strips;
+        }
+
+        /// <summary>
+        /// Вызывается в момент ввода ФИО пациента.
+        /// </summary>
+        private async void OnFullNameTextChanged(object sender, TextChangedEventArgs e)
+        {
+            string patientFullName = PatientFullnameBox.Text;
+            bool isPatientExists = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Patient
+                    .Any(p => p.PatientFullName
+                .ToLower()
+                .Contains(patientFullName.ToLower()));
+                }
+            });
+            IsNeedToAddPatient = !isPatientExists;
+        }
+
+        /// <summary>
+        /// Открывает модальное окно добавления пациента.
+        /// </summary>
+        private void PerformOpenAddPatientModalWindow(object sender,
+                                                      RoutedEventArgs e)
+        {
+            AddPatientWindow addPatientWindow =
+                new AddPatientWindow()
+                {
+                    Owner = App.Current.MainWindow,
+                };
+            if ((bool)addPatientWindow.ShowDialog())
+            {
+                MessageBoxService.ShowInfo("Пациент успешно добавлен!");
+            }
+            else
+            {
+                MessageBoxService.ShowInfo("Добавление нового пациента " +
+                    "было отменено");
+            }
         }
     }
 }

@@ -86,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\Sessions\LaboratoryWorkerPages\AddPatientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\Sessions\LaboratoryWorkerPages\BiomaterialsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,6 +194,9 @@
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPages\LaboratoryResearcherPage.xaml.cs">
       <DependentUpon>LaboratoryResearcherPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\AddPatientWindow.xaml.cs">
+      <DependentUpon>AddPatientWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryWorkerPages\BiomaterialsPage.xaml.cs">
       <DependentUpon>BiomaterialsPage.xaml</DependentUpon>

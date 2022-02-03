@@ -14,11 +14,11 @@
               VerticalAlignment="Top"
               Opacity="{Binding IsBusy}"
               BitmapEffect="{StaticResource ShadowEffect}">
-        <TextBlock Text="Штрих-код экспортируется ..."
-                   Width="auto"
-                   Style="{StaticResource HeaderBlock}"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"></TextBlock>
+            <TextBlock Text="Штрих-код экспортируется ..."
+                       Width="auto"
+                       Style="{StaticResource HeaderBlock}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"></TextBlock>
         </Grid>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
@@ -99,6 +99,35 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите ФИО пациента:"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <TextBox x:Name="PatientFullnameBox"
+                         TextChanged="OnFullNameTextChanged"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsNeedToAddPatient}"
+                                         Value="False">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock Text="Пациент не найден! 
+                       Его требуется добавить. Нажмите кнопку для добавления пациента."
+                           Foreground="{StaticResource AttentionColor}"
+                           TextWrapping="Wrap"
+                           Style="{StaticResource LabelBlock}"
+                           Height="auto">
+                </TextBlock>
+            <Button Content="Добавить пациента"
+                    HorizontalAlignment="Right"
+                    Click="PerformOpenAddPatientModalWindow"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>
