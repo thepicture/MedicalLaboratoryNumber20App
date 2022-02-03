@@ -191,7 +191,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// </summary>
         private async void OnFullNameTextChanged(object sender, TextChangedEventArgs e)
         {
-            string patientFullName = PatientFullnameBox.Text;
+            string patientFullName = PatientFullNameBox.Text;
             bool isPatientExists = await Task.Run(() =>
             {
                 using (MedicalLaboratoryNumber20Entities context =
@@ -213,13 +213,14 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                                       RoutedEventArgs e)
         {
             AddPatientWindow addPatientWindow =
-                new AddPatientWindow(PatientFullnameBox.Text)
+                new AddPatientWindow(PatientFullNameBox.Text)
                 {
                     Owner = App.Current.MainWindow,
                 };
             if ((bool)addPatientWindow.ShowDialog())
             {
                 MessageBoxService.ShowInfo("Пациент успешно добавлен!");
+                PatientFullNameBox.Text = addPatientWindow.Patient.PatientFullName;
             }
             else
             {

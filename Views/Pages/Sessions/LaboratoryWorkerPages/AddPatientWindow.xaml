@@ -18,56 +18,57 @@
                 <TextBlock Text="ФИО:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientFullName"
-                         Text="{Binding Patient.PatientFullName}"></TextBox>
+                         Text="{Binding Patient.PatientFullName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Дата рождения:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <DatePicker x:Name="PatientBirthday"
-                            SelectedDate="{Binding Patient.BirthDate}"></DatePicker>
+                            SelectedDate="{Binding Patient.BirthDate, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Серия паспорта:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientPassportSeries"
-                         Text="{Binding Patient.PassportSeries}"></TextBox>
+                         Text="{Binding Patient.PassportSeries, UpdateSourceTrigger=PropertyChanged}"
+                         MaxLength="4"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Номер паспорта:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientPassportNumber"
-                         Text="{Binding Patient.PassportNumber}"></TextBox>
+                         Text="{Binding Patient.PassportNumber, UpdateSourceTrigger=PropertyChanged}"
+                         MaxLength="6"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Телефон:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientPhone"
-                         Text="{Binding Patient.PatientPhone}"></TextBox>
+                         Text="{Binding Patient.PatientPhone, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="E-mail:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="PatientEmail"
-                         Text="{Binding Patient.PatientEmail}"></TextBox>
+                         Text="{Binding Patient.PatientEmail, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Номер страхового полиса:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
-                <TextBox Text="{Binding Patient.SecurityNumber}"></TextBox>
+                <TextBox Text="{Binding Patient.SecurityNumber, UpdateSourceTrigger=PropertyChanged}"
+                         MaxLength="50"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Тип страхового полиса:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <ComboBox x:Name="SocialTypes"
-                          DisplayMemberPath="SocialTypeName"
-                          SelectedItem="{Binding Patient.PatientSocialType}"></ComboBox>
+                          DisplayMemberPath="SocialTypeName"></ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Страховая компания:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <ComboBox x:Name="InsuranceCompanies"
-                          DisplayMemberPath="InsuranceName"
-                          SelectedItem="{Binding Patient.InsuranceCompany}"></ComboBox>
+                          DisplayMemberPath="InsuranceName"></ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Сохранить"

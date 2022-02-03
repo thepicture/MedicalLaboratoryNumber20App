@@ -103,7 +103,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите ФИО пациента:"
                            Style="{StaticResource LabelBlock}"></TextBlock>
-                <TextBox x:Name="PatientFullnameBox"
+                <TextBox x:Name="PatientFullNameBox"
                          TextChanged="OnFullNameTextChanged"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">

@@ -88,7 +88,7 @@
           <Key>
             <PropertyRef Name="PatientId" />
           </Key>
-          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="PatientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PatientFullName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PatientLogin" Type="nvarchar" MaxLength="100" />
           <Property Name="PatientPassword" Type="nvarchar" MaxLength="100" />
@@ -586,7 +586,7 @@
           <Key>
             <PropertyRef Name="PatientId" />
           </Key>
-          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PatientFullName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PatientLogin" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PatientPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
