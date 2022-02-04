@@ -32,6 +32,7 @@
                 </Grid>
             </StackPanel>
             <CheckBox Content="Показать пароль"
+                      x:Name="ShowPasswordBox"
                       HorizontalAlignment="Right"
                       Checked="PerformVisiblePassword"
                       Unchecked="PerformHiddenPassword"

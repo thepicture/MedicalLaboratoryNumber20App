@@ -4,7 +4,6 @@ using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Services;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,7 +42,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Подгружает все услуги из базы данных асинхронно.
         /// </summary>
-        private async void LoadDatabaseServices()
+        private async Task LoadDatabaseServices()
         {
             IEnumerable<Service> databaseServices = await Task.Run(() =>
             {
@@ -262,17 +261,22 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Удаляет услугу из заказа, оставляя услугу в базе данных.
         /// </summary>
-        private void PerformDeleteService(object sender, RoutedEventArgs e)
+        private async void PerformDeleteService(object sender, RoutedEventArgs e)
         {
             Service service = (sender as Button).DataContext as Service;
+            await LoadDatabaseServices();
             DatabaseServices.ItemsSource = DatabaseServices.ItemsSource
                 .Cast<Service>()
+                .Except
+                (
+                OrderServices.ItemsSource.Cast<Service>(), new ServiceEqualityComparer()
+                )
                 .Append(service);
             OrderServices.ItemsSource = OrderServices.ItemsSource
                 .Cast<Service>()
                 .Except
                 (
-                DatabaseServices.ItemsSource.Cast<Service>()
+                DatabaseServices.ItemsSource.Cast<Service>(), new ServiceEqualityComparer()
                 );
         }
 
@@ -297,8 +301,41 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 .Cast<Service>()
                 .Except
                 (
-                OrderServices.ItemsSource.Cast<Service>()
+                OrderServices.ItemsSource.Cast<Service>(), new ServiceEqualityComparer()
                 );
+        }
+
+        /// <summary>
+        /// Вызывается при поиске услуги по названию.
+        /// </summary>
+        private async void OnServiceSearch(object sender, KeyEventArgs e)
+        {
+            IEnumerable<Service> foundServices = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Service.ToList();
+                }
+            });
+
+            string searchText = ServiceSearchBox.Text;
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                foundServices = await Task.Run(() =>
+                {
+                    return foundServices.Where(s =>
+                     {
+                         return _levenshteinCalculator
+                         .Calculate(s.ServiceName.ToLower(),
+                                    searchText.ToLower()) < 4;
+                     });
+                });
+            }
+            DatabaseServices.ItemsSource = foundServices
+                       .Except(
+                       OrderServices.Items.Cast<Service>(),
+                       new ServiceEqualityComparer());
         }
     }
 }

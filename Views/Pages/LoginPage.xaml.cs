@@ -52,7 +52,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 _ = MessageBoxService.ShowWarning("Заполните поля и логина, и пароля");
                 return;
             }
-            BtnLogin.IsEnabled = false;
+            BtnLogin.IsEnabled = ShowPasswordBox.IsEnabled = false;
             BtnLogin.Content = "Авторизация...";
             User user = await Task.Run(() =>
             {
@@ -65,7 +65,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                                 && u.UserPassword == userPassword);
                 }
             });
-            BtnLogin.IsEnabled = true;
+            BtnLogin.IsEnabled = ShowPasswordBox.IsEnabled = true;
             BtnLogin.Content = "Войти";
             if (user == null)
             {

@@ -141,7 +141,7 @@
                     <TextBox  KeyUp="OnPatientSearch"
                               x:Name="PatientSearchBox"
                               MaxLength="4"
-                              ToolTip="Ищет пациента по ФИО в выпадающем списке и оставляет подходящие значения в выпадающем списке"
+                              ToolTip="Искать пациента по ФИО в выпадающем списке"
                               Grid.Column="1"
                               Width="auto"></TextBox>
                 </Grid>
@@ -157,6 +157,20 @@
                             Click="PerformOpenAddPatientModalWindow"
                             ToolTip="Добавить нового пациента в базу данных"
                             Grid.Column="1"></Button>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Поиск по названию услуги:"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                    <TextBox  PreviewKeyUp="OnServiceSearch"
+                              x:Name="ServiceSearchBox"
+                              MaxLength="6"
+                              ToolTip="Искать услугу по названию в таблице"
+                              Grid.Column="1"
+                              Width="auto"></TextBox>
                 </Grid>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Все услуги (не из заказа):"
