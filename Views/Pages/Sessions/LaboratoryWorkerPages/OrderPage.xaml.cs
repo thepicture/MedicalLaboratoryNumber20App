@@ -3,6 +3,7 @@ using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -23,20 +24,20 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         private const int MaximumBarcodeNumber = 999999 + 1;
         private readonly Random random = new Random();
         private bool _isBusy;
-        private bool _isNeedToAddPatient;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        ObservableCollection<Service> _services;
+        private ObservableCollection<Service> _services;
 
         public OrderPage(Blood blood)
         {
             InitializeComponent();
+            DataContext = this;
             Blood = blood;
             LoadBarcodeHint();
+            LoadPatients();
             CurrentServices = new ObservableCollection<Service>();
             Services.ItemsSource = CurrentServices;
-            DataContext = this;
         }
 
         /// <summary>
@@ -78,17 +79,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 _isBusy = value;
                 PropertyChanged?.Invoke(this,
                                         new PropertyChangedEventArgs(nameof(IsBusy)));
-            }
-        }
-
-        public bool IsNeedToAddPatient
-        {
-            get => _isNeedToAddPatient;
-            set
-            {
-                _isNeedToAddPatient = value;
-                PropertyChanged?.Invoke(this,
-                                        new PropertyChangedEventArgs(nameof(IsNeedToAddPatient)));
             }
         }
 
@@ -203,46 +193,55 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         }
 
         /// <summary>
-        /// Вызывается в момент ввода ФИО пациента.
-        /// </summary>
-        private async void OnFullNameTextChanged(object sender, TextChangedEventArgs e)
-        {
-            string patientFullName = PatientFullNameBox.Text;
-            bool isPatientExists = await Task.Run(() =>
-            {
-                using (MedicalLaboratoryNumber20Entities context =
-                new MedicalLaboratoryNumber20Entities())
-                {
-                    return context.Patient
-                    .Any(p => p.PatientFullName
-                .ToLower()
-                .Contains(patientFullName.ToLower()));
-                }
-            });
-            IsNeedToAddPatient = !isPatientExists;
-        }
-
-        /// <summary>
         /// Открывает модальное окно добавления пациента.
         /// </summary>
         private void PerformOpenAddPatientModalWindow(object sender,
                                                       RoutedEventArgs e)
         {
             AddPatientWindow addPatientWindow =
-                new AddPatientWindow(PatientFullNameBox.Text)
+                new AddPatientWindow()
                 {
                     Owner = App.Current.MainWindow,
                 };
             if ((bool)addPatientWindow.ShowDialog())
             {
                 MessageBoxService.ShowInfo("Пациент успешно добавлен!");
-                PatientFullNameBox.Text = addPatientWindow.Patient.PatientFullName;
+                _ = LoadPatients()
+                    .ContinueWith(t =>
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            ComboPatients.SelectedItem = ComboPatients.Items
+                           .Cast<Patient>()
+                           .First(p =>
+                           {
+                               return p.PatientId == addPatientWindow.Patient.PatientId;
+                           });
+                        });
+                    });
             }
             else
             {
                 MessageBoxService.ShowInfo("Добавление нового пациента " +
                     "было отменено");
             }
+        }
+
+        /// <summary>
+        /// Загружает пациентов в выпадающий список.
+        /// </summary>
+        private async Task LoadPatients()
+        {
+            IEnumerable<Patient> patients = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Patient.ToList();
+                }
+            });
+            ComboPatients.ItemsSource = patients;
+            ComboPatients.SelectedItem = patients.First();
         }
 
         /// <summary>
@@ -259,7 +258,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         private void PerformDeleteService(object sender, RoutedEventArgs e)
         {
             Service service = (sender as Button).DataContext as Service;
-            CurrentServices.Remove(service);
+            _ = CurrentServices.Remove(service);
         }
 
         /// <summary>

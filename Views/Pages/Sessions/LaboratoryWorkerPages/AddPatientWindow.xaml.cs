@@ -13,18 +13,15 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
     /// <summary>
     /// Interaction logic for AddPatientWindow.xaml
     /// </summary>
-    public partial class AddPatientWindow : Window, INotifyPropertyChanged
+    public partial class AddPatientWindow : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public Patient Patient { get; set; } = new Patient();
 
-        public AddPatientWindow(string fullName)
+        public AddPatientWindow()
         {
             InitializeComponent();
-            Patient.PatientFullName = fullName;
-            Patient.BirthDate = System.DateTime.Now;
             DataContext = this;
+            Patient.BirthDate = System.DateTime.Now;
             LoadInsuranceCompanies();
             LoadSocialTypes();
         }
