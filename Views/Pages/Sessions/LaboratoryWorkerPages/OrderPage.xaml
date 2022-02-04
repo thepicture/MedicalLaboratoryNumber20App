@@ -228,6 +228,13 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <Button Content="Сохранить заказ"
+                        ToolTip="Сохранить заказ, выгрузить электронный вид заказа в PDF и текстовый файл с информацией о заказе"
+                        Click="PerformSaveOrder"
+                        Name="SaveOrderButton"></Button>
+                <Button Content="Назад"
+                        ToolTip="Отменить создание заказа"
+                        Click="PerformGoBack"></Button>
             </StackPanel>
         </Grid>
     </ScrollViewer>

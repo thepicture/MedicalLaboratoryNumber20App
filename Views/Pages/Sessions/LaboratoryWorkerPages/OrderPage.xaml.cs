@@ -36,7 +36,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             OrderServices.ItemsSource = new List<Service>();
             LoadBarcodeHint();
             _ = LoadPatients();
-            LoadDatabaseServices();
+            _ = LoadDatabaseServices();
         }
 
         /// <summary>
@@ -148,6 +148,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                  + random.Next(MinimumBarcodeNumber,
                                                MaximumBarcodeNumber);
             CurrentBarcode = BarcodeService.NewBarcode(barcodeText);
+            Blood.Barcode = barcodeText;
             BarcodeView.ItemsSource = CurrentBarcode.Strips;
         }
 
@@ -336,6 +337,53 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                        .Except(
                        OrderServices.Items.Cast<Service>(),
                        new ServiceEqualityComparer());
+        }
+
+        private async void PerformSaveOrder(object sender, RoutedEventArgs e)
+        {
+            SaveOrderButton.IsEnabled = false;
+            Blood.Patient = ComboPatients.SelectedItem as Patient;
+            Order order = new Order
+            {
+                CreationDate = DateTime.Now,
+                Service = OrderServices.Items.Cast<Service>().ToList(),
+                BloodId = Blood.BloodId,
+            };
+            bool isSaved = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    try
+                    {
+                        context.Order.Add(order);
+                        context.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+                        return false;
+                    }
+                }
+            });
+
+            if (isSaved)
+            {
+                MessageBoxService.ShowInfo("Заказ успешно сформирован!");
+                NavigationService.GoBack();
+            }
+            else
+            {
+                MessageBoxService.ShowError("Заказ не сформирован. Перезайдите на страницу " +
+                    "и попробуйте ещё раз");
+            }
+            SaveOrderButton.IsEnabled = true;
+        }
+
+        private void PerformGoBack(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }
