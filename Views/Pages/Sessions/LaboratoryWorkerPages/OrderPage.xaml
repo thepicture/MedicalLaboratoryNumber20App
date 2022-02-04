@@ -23,12 +23,19 @@
             </Grid>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Text="Введите код пробирки:"
-                               Style="{StaticResource LabelBlock}"></TextBlock>
-                    <Grid>
+                               Style="{StaticResource CommonBlock}"
+                               VerticalAlignment="Top"></TextBlock>
+                        <StackPanel Grid.Column="1">
+                    <Grid Grid.Column="1">
                         <TextBox x:Name="BarcodeBox"
-                                 PreviewKeyUp="OnBarcodeKeyDown"></TextBox>
+                                 PreviewKeyUp="OnBarcodeKeyDown"
+                                 Width="auto"></TextBox>
                         <TextBox IsHitTestVisible="False"
                                  Background="Transparent"
                                  BorderBrush="Transparent"
@@ -36,14 +43,16 @@
                                  Foreground="Gray"
                                  ToolTip="Код пришедшей пробирки, если он существует"></TextBox>
                     </Grid>
-                </StackPanel>
-                <Button Content="Считать штрих-код со сканера"
-                        HorizontalAlignment="Right"
-                        Click="PerformBarcodeScan"
-                        ToolTip="Считывает штрих-код со сканера и заполняет код пробирки считанным значением."></Button>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
+                    <Button Content="Считать штрих-код со сканера"
+                            Click="PerformBarcodeScan"
+                            Width="auto"
+                            Grid.Column="1"
+                            ToolTip="Считывает штрих-код со сканера и заполняет код пробирки считанным значением."></Button>
+                        </StackPanel>
+                </Grid>
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=BarcodeView, Path=Items.Count}"
                                              Value="0">
@@ -52,10 +61,15 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </StackPanel.Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Text="Сгенерированный штрих-код:"
-                               Style="{StaticResource LabelBlock}"></TextBlock>
-                    <ListView Name="BarcodeView">
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                    <ListView Name="BarcodeView"
+                              Grid.Column="1">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"
@@ -102,14 +116,20 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
                     <TextBlock Text="Введите ФИО пациента:"
-                               Style="{StaticResource LabelBlock}"></TextBlock>
+                               Style="{StaticResource CommonBlock}"></TextBlock>
                     <TextBox x:Name="PatientFullNameBox"
                              TextChanged="OnFullNameTextChanged"
-                             ToolTip="Фамилия, имя и отчество пациента"></TextBox>
-                </StackPanel>
+                             ToolTip="Фамилия, имя и отчество пациента"
+                             Grid.Column="1"
+                             Width="auto"></TextBox>
+                </Grid>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
@@ -136,10 +156,9 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Услуги заказа:"
-                               Style="{StaticResource LabelBlock}"
-                               VerticalAlignment="Top"></TextBlock>
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                </StackPanel>
                     <DataGrid x:Name="Services"
-                              Width="200"
                               ColumnWidth="*">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Наименование">
@@ -152,7 +171,34 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Действие">
+                            <DataGridTemplateColumn Header="Цена (руб.)">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="auto"
+                                                 Text="{Binding PriceInRubles, UpdateSourceTrigger=PropertyChanged}"
+                                                 ToolTip="Цена услуги в рублях"></TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Среднее отклонение">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Width="auto"
+                                             Text="{Binding MeanDeviation, UpdateSourceTrigger=PropertyChanged}"
+                                             ToolTip="Введите коэффициент среднего отклонения"></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Время выполнения (сек.)">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Width="auto"
+                                             Text="{Binding ExecutionTimeInSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                             ToolTip="Введите коэффициент среднего отклонения"></TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Действие">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Content="Удалить"
@@ -164,7 +210,6 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
                 <TextBlock Text="Список услуг содержит несуществующие услуги! 
                            Они будут созданы в момент сохранения заказа."
                            Foreground="{StaticResource AttentionColor}"
@@ -175,7 +220,7 @@
                            Height="auto"></TextBlock>
                 <Button Content="Добавить новую услугу"
                         Click="PerformAddNewService"
-                        HorizontalAlignment="Right"
+                        Width="auto"
                         ToolTip="Добавить новую услугу к заказу"></Button>
             </StackPanel>
         </Grid>
