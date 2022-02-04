@@ -29,17 +29,31 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<Service> _services;
-
         public OrderPage(Blood blood)
         {
             InitializeComponent();
             DataContext = this;
             Blood = blood;
+            OrderServices.ItemsSource = new List<Service>();
             LoadBarcodeHint();
             _ = LoadPatients();
-            CurrentServices = new ObservableCollection<Service>();
-            Services.ItemsSource = CurrentServices;
+            LoadDatabaseServices();
+        }
+
+        /// <summary>
+        /// Подгружает все услуги из базы данных асинхронно.
+        /// </summary>
+        private async void LoadDatabaseServices()
+        {
+            IEnumerable<Service> databaseServices = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Service.ToList();
+                }
+            });
+            DatabaseServices.ItemsSource = databaseServices;
         }
 
         /// <summary>
@@ -84,18 +98,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             }
         }
 
-        public ObservableCollection<Service> CurrentServices
-        {
-            get => _services;
-            set
-            {
-                _services = value;
-                PropertyChanged?.Invoke(this,
-                                        new PropertyChangedEventArgs(nameof(CurrentServices)));
-            }
-        }
-
-        /// <summary>
         /// Позволяет ввести посредством нажатия клавиши Enter
         /// или сохранить штрих-код.
         /// </summary>
@@ -258,52 +260,45 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         }
 
         /// <summary>
-        /// Добавляет новую услугу в заказ.
-        /// </summary>
-        private void PerformAddNewService(object sender, RoutedEventArgs e)
-        {
-            CurrentServices.Add(new Service());
-        }
-
-        /// <summary>
         /// Удаляет услугу из заказа, оставляя услугу в базе данных.
         /// </summary>
         private void PerformDeleteService(object sender, RoutedEventArgs e)
         {
             Service service = (sender as Button).DataContext as Service;
-            _ = CurrentServices.Remove(service);
+            DatabaseServices.ItemsSource = DatabaseServices.ItemsSource
+                .Cast<Service>()
+                .Append(service);
+            OrderServices.ItemsSource = OrderServices.ItemsSource
+                .Cast<Service>()
+                .Except
+                (
+                DatabaseServices.ItemsSource.Cast<Service>()
+                );
         }
 
         /// <summary>
-        /// Вызывается в момент изменения названия услуги.
+        /// Вызывается в момент поиска пациента по ФИО.
         /// </summary>
-        private async void OnServiceTitleChanged(object sender, KeyEventArgs e)
-        {
-            NonExistingServicesMessage.Visibility = Visibility.Collapsed;
-            foreach (Service service in Services.Items.Cast<Service>())
-            {
-                bool isServiceExists = await Task.Run(() =>
-                {
-                    using (MedicalLaboratoryNumber20Entities context =
-                    new MedicalLaboratoryNumber20Entities())
-                    {
-                        return context.Service
-                        .Any(s => s.ServiceName
-                        .ToLower() == service.ServiceName
-                        .ToLower());
-                    }
-                });
-                if (!isServiceExists)
-                {
-                    NonExistingServicesMessage.Visibility = Visibility.Visible;
-                    return;
-                }
-            }
-        }
-
         private async void OnPatientSearch(object sender, KeyEventArgs e)
         {
             await LoadPatients();
+        }
+
+        /// <summary>
+        /// Добавляет услугу из базы данных к текущему заказу.
+        /// </summary>
+        private void PerformAddService(object sender, RoutedEventArgs e)
+        {
+            Service service = (sender as Button).DataContext as Service;
+            OrderServices.ItemsSource = OrderServices.ItemsSource
+                .Cast<Service>()
+                .Append(service);
+            DatabaseServices.ItemsSource = DatabaseServices.ItemsSource
+                .Cast<Service>()
+                .Except
+                (
+                OrderServices.ItemsSource.Cast<Service>()
+                );
         }
     }
 }

@@ -159,53 +159,53 @@
                             Grid.Column="1"></Button>
                 </Grid>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Услуги заказа:"
+                    <TextBlock Text="Все услуги (не из заказа):"
                                Style="{StaticResource CommonBlock}"></TextBlock>
                 </StackPanel>
-                <DataGrid x:Name="Services"
-                          ColumnWidth="*">
+                <DataGrid x:Name="DatabaseServices"
+                          ColumnWidth="*"
+                          MinHeight="60">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Наименование">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Width="auto"
-                                             Text="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
-                                             KeyUp="OnServiceTitleChanged"
-                                             ToolTip="Наименование услуги. Если в базе данных его нет, то услуга будет создана"></TextBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Цена (руб.)">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Width="auto"
-                                             Text="{Binding PriceInRubles, UpdateSourceTrigger=PropertyChanged}"
-                                             ToolTip="Цена услуги в рублях"></TextBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Среднее отклонение">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Width="auto"
-                                             Text="{Binding MeanDeviation, UpdateSourceTrigger=PropertyChanged}"
-                                             ToolTip="Введите коэффициент среднего отклонения"></TextBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Время выполнения (сек.)">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Width="auto"
-                                             Text="{Binding ExecutionTimeInSeconds, UpdateSourceTrigger=PropertyChanged}"
-                                             ToolTip="Введите коэффициент среднего отклонения"></TextBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Наименование"
+                                            Binding="{Binding ServiceName}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Цена (руб.)"
+                                            Binding="{Binding PriceInRubles}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Среднее отклонение"
+                                            Binding="{Binding MeanDeviation}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Время выполнения (сек.)"
+                                            Binding="{Binding ExecutionTimeInSeconds}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Действие">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Удалить"
+                                    <Button Content="Добавить в заказ"
+                                            Width="auto"
+                                            Click="PerformAddService"
+                                            ToolTip="Добавить услугу в текущий заказ"></Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Услуги заказа:"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                </StackPanel>
+                <DataGrid x:Name="OrderServices"
+                          ColumnWidth="*"
+                          MinHeight="60">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование"
+                                            Binding="{Binding ServiceName}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Цена (руб.)"
+                                            Binding="{Binding PriceInRubles}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Среднее отклонение"
+                                            Binding="{Binding MeanDeviation}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Время выполнения (сек.)"
+                                            Binding="{Binding ExecutionTimeInSeconds}"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Действие">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Удалить из заказа"
                                             Width="auto"
                                             Click="PerformDeleteService"
                                             ToolTip="Удалить услугу из текущего списка, НО не из базы данных"></Button>
@@ -214,18 +214,6 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock Text="Список услуг содержит несуществующие услуги! 
-                           Они будут созданы в момент сохранения заказа."
-                           Foreground="{StaticResource AttentionColor}"
-                           TextWrapping="Wrap"
-                           Name="NonExistingServicesMessage"
-                           Visibility="Collapsed"
-                           Style="{StaticResource LabelBlock}"
-                           Height="auto"></TextBlock>
-                <Button Content="Добавить новую услугу"
-                        Click="PerformAddNewService"
-                        Width="auto"
-                        ToolTip="Добавить новую услугу к заказу"></Button>
             </StackPanel>
         </Grid>
     </ScrollViewer>
