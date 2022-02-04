@@ -133,6 +133,20 @@
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Поиск по ФИО:"
+                               Style="{StaticResource CommonBlock}"></TextBlock>
+                    <TextBox  KeyUp="OnPatientSearch"
+                              x:Name="PatientSearchBox"
+                              MaxLength="4"
+                              ToolTip="Ищет пациента по ФИО в выпадающем списке и оставляет подходящие значения в выпадающем списке"
+                              Grid.Column="1"
+                              Width="auto"></TextBox>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>

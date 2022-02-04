@@ -24,6 +24,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         private const int MaximumBarcodeNumber = 999999 + 1;
         private readonly Random random = new Random();
         private bool _isBusy;
+        private readonly ICalculator<int, string> _levenshteinCalculator
+            = new LevenshteinDistanceCalculator();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -35,7 +37,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             DataContext = this;
             Blood = blood;
             LoadBarcodeHint();
-            LoadPatients();
+            _ = LoadPatients();
             CurrentServices = new ObservableCollection<Service>();
             Services.ItemsSource = CurrentServices;
         }
@@ -232,16 +234,27 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// </summary>
         private async Task LoadPatients()
         {
+            string searchText = PatientSearchBox.Text;
             IEnumerable<Patient> patients = await Task.Run(() =>
             {
                 using (MedicalLaboratoryNumber20Entities context =
                 new MedicalLaboratoryNumber20Entities())
                 {
-                    return context.Patient.ToList();
+                    IEnumerable<Patient> currentPatients = context.Patient
+                    .ToList();
+                    if (!string.IsNullOrWhiteSpace(searchText))
+                    {
+                        currentPatients = currentPatients.Where(p =>
+                        {
+                            return _levenshteinCalculator.Calculate(p.PatientFullName.ToLower(),
+                                                                 PatientSearchBox.Text.ToLower()) < 4;
+                        });
+                    }
+                    return currentPatients;
                 }
             });
             ComboPatients.ItemsSource = patients;
-            ComboPatients.SelectedItem = patients.First();
+            ComboPatients.SelectedItem = patients.FirstOrDefault();
         }
 
         /// <summary>
@@ -286,6 +299,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                     return;
                 }
             }
+        }
+
+        private async void OnPatientSearch(object sender, KeyEventArgs e)
+        {
+            await LoadPatients();
         }
     }
 }

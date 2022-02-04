@@ -174,7 +174,9 @@
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CaptchaService.cs" />
     <Compile Include="Services\ControlImageService.cs" />
+    <Compile Include="Services\ICalculator.cs" />
     <Compile Include="Services\IExportService.cs" />
+    <Compile Include="Services\LevenshteinDistanceCalculator.cs" />
     <Compile Include="Services\LoginHistoryService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
     <Compile Include="Services\ByteArrayToPdfExportService.cs" />
