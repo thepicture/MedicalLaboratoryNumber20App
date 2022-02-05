@@ -33,6 +33,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             InitializeComponent();
             DataContext = this;
             Blood = blood;
+            BarcodeBox.Text = Blood.Barcode;
             OrderServices.ItemsSource = new List<Service>();
             LoadBarcodeHint();
             _ = LoadPatients();
@@ -256,7 +257,12 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 }
             });
             ComboPatients.ItemsSource = patients;
-            ComboPatients.SelectedItem = patients.FirstOrDefault();
+            ComboPatients.SelectedItem = ComboPatients.Items
+                .Cast<Patient>()
+                .FirstOrDefault(p =>
+                {
+                    return p.PatientFullName == Blood.Patient.PatientFullName;
+                });
         }
 
         /// <summary>

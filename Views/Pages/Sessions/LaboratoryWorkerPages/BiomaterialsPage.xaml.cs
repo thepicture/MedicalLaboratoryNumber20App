@@ -19,6 +19,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             DataContext = this;
         }
 
+        /// <summary>
+        /// Подгружает асинхронно биоматериалы в список.
+        /// </summary>
         private async void LoadBiomaterials()
         {
             IEnumerable<Blood> bloodEnumerable = await Task.Run(() =>
@@ -38,8 +41,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Производит навигацию на страницу добавления заказа.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void PerformBiomaterialAccept(object sender, RoutedEventArgs e)
         {
             Blood blood = (sender as Button).DataContext as Blood;
