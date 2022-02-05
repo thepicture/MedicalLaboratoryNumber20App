@@ -176,11 +176,13 @@
     <Compile Include="Services\ControlImageService.cs" />
     <Compile Include="Services\ICalculator.cs" />
     <Compile Include="Services\IExportService.cs" />
+    <Compile Include="Services\IReportService.cs" />
     <Compile Include="Services\LevenshteinDistanceCalculator.cs" />
     <Compile Include="Services\LoginHistoryService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
     <Compile Include="Services\ByteArrayToPdfExportService.cs" />
     <Compile Include="Services\IScannerService.cs" />
+    <Compile Include="Services\OrderReportService.cs" />
     <Compile Include="Services\ServiceEqualityComparer.cs" />
     <Compile Include="Services\TimerService.cs" />
     <Compile Include="Views\Pages\AccountantPages\AccountantPage.xaml.cs">

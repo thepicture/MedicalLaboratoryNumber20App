@@ -5,6 +5,7 @@ using MedicalLaboratoryNumber20App.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -383,6 +384,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
             if (isSaved)
             {
+                GenerateOrderReport(order.OrderId);
                 MessageBoxService.ShowInfo("Заказ успешно сформирован!");
                 NavigationService.GoBack();
             }
@@ -392,6 +394,46 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                     "и попробуйте ещё раз");
             }
             SaveOrderButton.IsEnabled = true;
+        }
+
+        private async void GenerateOrderReport(int orderId)
+        {
+            Order order = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Order
+                    .Include(o => o.Service)
+                    .Include(o => o.Blood)
+                    .Include(o => o.Blood.Patient)
+                    .FirstOrDefault(o => o.OrderId == orderId);
+                }
+            });
+            System.Windows.Forms.FolderBrowserDialog reportBrowserDialog =
+                new System.Windows.Forms.FolderBrowserDialog();
+            if (reportBrowserDialog.ShowDialog()
+                == System.Windows.Forms.DialogResult.OK)
+            {
+                bool isReportSaved = await Task.Run(() =>
+                {
+                    return new OrderReportService().GenerateReport(order,
+                                      reportBrowserDialog.SelectedPath);
+                });
+
+                if (isReportSaved)
+                {
+                    MessageBoxService.ShowInfo("Отчёт " +
+                        "успешно сформирован в .pdf файл " +
+                        $"по пути {reportBrowserDialog.SelectedPath}!");
+                }
+                else
+                {
+                    MessageBoxService.ShowError("Отчёт не был сформирован в .pdf. " +
+                        "Пробуем ещё раз ...");
+                    GenerateOrderReport(order.OrderId);
+                }
+            }
         }
 
         private void PerformGoBack(object sender, RoutedEventArgs e)
