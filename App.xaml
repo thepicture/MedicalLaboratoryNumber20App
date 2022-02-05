@@ -64,10 +64,10 @@
         <Style TargetType="Button">
             <Setter Property="Margin"
                     Value="5" />
+            <Setter Property="Padding"
+                    Value="5" />
             <Setter Property="Width"
                     Value="200" />
-            <Setter Property="Height"
-                    Value="20" />
             <Setter Property="Background"
                     Value="{StaticResource AttentionColor}" />
             <Setter Property="Foreground"
