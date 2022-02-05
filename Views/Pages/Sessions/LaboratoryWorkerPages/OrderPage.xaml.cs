@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -385,6 +386,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             if (isSaved)
             {
                 GenerateOrderReport(order.OrderId);
+                GenerateTextLink(order);
                 MessageBoxService.ShowInfo("Заказ успешно сформирован!");
                 NavigationService.GoBack();
             }
@@ -394,6 +396,48 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                     "и попробуйте ещё раз");
             }
             SaveOrderButton.IsEnabled = true;
+        }
+
+        private async void GenerateTextLink(Order order)
+        {
+            System.Windows.Forms.FolderBrowserDialog linkBrowserDialog =
+                new System.Windows.Forms.FolderBrowserDialog();
+            if (linkBrowserDialog.ShowDialog()
+                == System.Windows.Forms.DialogResult.OK)
+            {
+                bool isLinkSaved = await Task.Run(() =>
+                {
+                    try
+                    {
+                        File.WriteAllText(Path.Combine(linkBrowserDialog.SelectedPath,
+                                                       $"ИнформацияОЗаказе_" +
+                                                       $"{order.CreationDate:yyyy-MM-ddThh-mm-ss}" +
+                                                       $".txt"),
+                                          $"https://wsrussia.ru/?data=base64(" +
+                                          $"дата_заказа=" +
+                                          $"{order.CreationDate:yyyy-MM-ddThh:mm:ss}" +
+                                          $"&номер_заказа=" +
+                                          $"{order.OrderId}");
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+                        return false;
+                    }
+                });
+                if (isLinkSaved)
+                {
+                    MessageBoxService.ShowInfo("Ссылка на заказ сохранена " +
+                        $"по пути {linkBrowserDialog.SelectedPath}");
+                }
+                else
+                {
+                    MessageBoxService.ShowError("Не удалось сохранить ссылку на заказ. " +
+                        "Пробуем ещё раз ...");
+                    GenerateTextLink(order);
+                }
+            }
         }
 
         private async void GenerateOrderReport(int orderId)
