@@ -257,12 +257,15 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 }
             });
             ComboPatients.ItemsSource = patients;
-            ComboPatients.SelectedItem = ComboPatients.Items
-                .Cast<Patient>()
+            ComboPatients.SelectedItem = patients
                 .FirstOrDefault(p =>
                 {
-                    return p.PatientFullName == Blood.Patient.PatientFullName;
+                    return p.PatientFullName == Blood.Patient?.PatientFullName;
                 });
+            if (ComboPatients.SelectedItem == null)
+            {
+                ComboPatients.SelectedItem = patients.FirstOrDefault();
+            }
         }
 
         /// <summary>
@@ -348,7 +351,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         private async void PerformSaveOrder(object sender, RoutedEventArgs e)
         {
             SaveOrderButton.IsEnabled = false;
-            Blood.Patient = ComboPatients.SelectedItem as Patient;
+            Blood.PatientId = (ComboPatients.SelectedItem as Patient).PatientId;
             Order order = new Order
             {
                 CreationDate = DateTime.Now,
@@ -362,7 +365,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 {
                     try
                     {
-                        context.Order.Add(order);
+                        context
+                        .Entry(context.Blood.Find(Blood.BloodId))
+                        .CurrentValues
+                        .SetValues(Blood);
+                        _ = context.Order.Add(order);
                         context.SaveChanges();
                         return true;
                     }
