@@ -17,7 +17,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         {
             InitializeComponent();
             DataContext = this;
-            LoadBiomaterials();
         }
 
         private async void LoadBiomaterials()
@@ -29,16 +28,33 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 {
                     return context.Blood
                     .Include(b => b.Patient)
+                    .Where(b => b.Order.Count == 0)
                     .ToList();
                 }
             });
             Biomaterials.ItemsSource = bloodEnumerable;
         }
 
+        /// <summary>
+        /// Производит навигацию на страницу добавления заказа.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PerformBiomaterialAccept(object sender, RoutedEventArgs e)
         {
             Blood blood = (sender as Button).DataContext as Blood;
             _ = NavigationService.Navigate(new OrderPage(blood));
+        }
+
+        /// <summary>
+        /// Вызывается в момент обновления видимости страницы.
+        /// </summary>
+        private void OnLoad(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                LoadBiomaterials();
+            }
         }
     }
 }

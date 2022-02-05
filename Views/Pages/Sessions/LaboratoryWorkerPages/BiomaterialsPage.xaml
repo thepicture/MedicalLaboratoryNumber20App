@@ -7,7 +7,8 @@
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
-      Title="Биоматериалы из поликлиник города">
+      Title="Биоматериалы из поликлиник города"
+      IsVisibleChanged="OnLoad">
     <Grid>
         <DataGrid x:Name="Biomaterials"
                   ColumnWidth="*">
