@@ -361,7 +361,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         {
             if (OrderServices.Items.Count == 0)
             {
-                await MessageBoxService
+                _ = await MessageBoxService
                     .ShowWarning("Укажите хотя бы одну услугу для заказа");
                 return;
             }
@@ -373,7 +373,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                     return char.IsDigit(c);
                 }))
             {
-                await MessageBoxService.ShowWarning("Введите штрих-код " +
+                _ = await MessageBoxService.ShowWarning("Введите штрих-код " +
                     "в виде десятичных цифр, " +
                     "так как формирование заказа без штрих-кода " +
                     "не допускается");
@@ -399,7 +399,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                         .CurrentValues
                         .SetValues(Blood);
                         _ = context.Order.Add(order);
-                        context.SaveChanges();
+                        _ = context.SaveChanges();
                         return true;
                     }
                     catch (Exception ex)
@@ -454,7 +454,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                                           $"дата_заказа=" +
                                           $"{order.CreationDate:yyyy-MM-ddThh:mm:ss}" +
                                           $"&номер_заказа=" +
-                                          $"{order.OrderId}");
+                                          $"{order.OrderId})");
                         return true;
                     }
                     catch (Exception ex)
