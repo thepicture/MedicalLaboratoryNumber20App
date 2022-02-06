@@ -14,13 +14,12 @@ namespace MedicalLaboratoryNumber20App.Services
             try
             {
                 app = new Word.Application();
-                app.Visible = true;
                 document = app.Documents.Add();
                 Word.Paragraph paragraph = document.Paragraphs.Add();
                 Word.Range range = paragraph.Range;
                 Word.Table table = range.Tables.Add(range, 9, 2);
-                table.Range.Borders.InsideLineStyle =
-                    table.Range.Borders.OutsideLineStyle =
+                table.Borders.InsideLineStyle =
+                    table.Borders.OutsideLineStyle =
                     Word.WdLineStyle.wdLineStyleSingle;
                 table.Range.Cells.VerticalAlignment = Word
                     .WdCellVerticalAlignment
