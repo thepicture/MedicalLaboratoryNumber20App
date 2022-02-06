@@ -239,7 +239,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         }
 
         /// <summary>
-        /// Загружает пациентов в выпадающий список.
+        /// Загружает пациентов в выпадающий список асинхронно.
         /// </summary>
         private async Task LoadPatients()
         {
@@ -275,7 +275,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         }
 
         /// <summary>
-        /// Удаляет услугу из заказа, оставляя услугу в базе данных.
+        /// Удаляет услугу из заказа, но оставляет её в базе данных.
         /// </summary>
         private async void PerformDeleteService(object sender, RoutedEventArgs e)
         {
@@ -359,6 +359,26 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// </summary>
         private async void PerformSaveOrder(object sender, RoutedEventArgs e)
         {
+            if (OrderServices.Items.Count == 0)
+            {
+                await MessageBoxService
+                    .ShowWarning("Укажите хотя бы одну услугу для заказа");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(BarcodeBox.Text)
+                || !BarcodeBox.Text
+                .ToCharArray()
+                .All(c =>
+                {
+                    return char.IsDigit(c);
+                }))
+            {
+                await MessageBoxService.ShowWarning("Введите штрих-код " +
+                    "в виде десятичных цифр, " +
+                    "так как формирование заказа без штрих-кода " +
+                    "не допускается");
+                return;
+            }
             SaveOrderButton.IsEnabled = false;
             Blood.PatientId = (ComboPatients.SelectedItem as Patient).PatientId;
             Order order = new Order
