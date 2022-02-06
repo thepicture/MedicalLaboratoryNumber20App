@@ -791,7 +791,7 @@
           <End Type="MedicalLaboratoryNumber20Model.Service" Role="Service" Multiplicity="*" />
           <End Type="MedicalLaboratoryNumber20Model.User" Role="User" Multiplicity="*" />
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

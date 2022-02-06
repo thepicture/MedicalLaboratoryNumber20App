@@ -180,7 +180,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             IsBusy = true;
             ByteArrayToPdfExportService exporter =
                 new ByteArrayToPdfExportService(barcodeBytes,
-                                                barcodeBrowserDialog.SelectedPath);
+                                                barcodeBrowserDialog.SelectedPath,
+                                                "BarCode-"
+                                                 + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss}.pdf");
             await Task.Run(() => exporter.Export());
             MessageBoxService.ShowInfo("Штрих-код сохранён " +
                 $"по пути {barcodeBrowserDialog.SelectedPath}");

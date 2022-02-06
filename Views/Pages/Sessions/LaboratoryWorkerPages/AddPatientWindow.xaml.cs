@@ -2,7 +2,6 @@
 using MedicalLaboratoryNumber20App.Models.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,34 +71,34 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             StringBuilder errors = new StringBuilder();
             if (string.IsNullOrWhiteSpace(Patient.PatientFullName))
             {
-                errors.AppendLine("Укажите ФИО");
+                _ = errors.AppendLine("Укажите ФИО");
             }
             if (Patient.BirthDate == null || Patient.BirthDate >= DateTime.Now)
             {
-                errors.AppendLine("Укажите корректную дату рождения");
+                _ = errors.AppendLine("Укажите корректную дату рождения");
             }
             if (!int.TryParse(PatientPassportSeries.Text, out _)
                 || PatientPassportSeries.Text.Length != 4)
             {
-                errors.AppendLine("Укажите корректную серию паспорта (4 цифры)");
+                _ = errors.AppendLine("Укажите корректную серию паспорта (4 цифры)");
             }
             if (!int.TryParse(PatientPassportNumber.Text, out _)
                 || PatientPassportNumber.Text.Length != 6)
             {
-                errors.AppendLine("Укажите корректный номер паспорта (6 цифр)");
+                _ = errors.AppendLine("Укажите корректный номер паспорта (6 цифр)");
             }
             if (string.IsNullOrWhiteSpace(Patient.PatientPhone))
             {
-                errors.AppendLine("Укажите телефон");
+                _ = errors.AppendLine("Укажите телефон");
             }
             if (string.IsNullOrWhiteSpace(Patient.PatientEmail))
             {
-                errors.AppendLine("Укажите e-mail");
+                _ = errors.AppendLine("Укажите e-mail");
             }
             if (string.IsNullOrWhiteSpace(Patient.SecurityNumber)
                 || !int.TryParse(Patient.SecurityNumber, out _))
             {
-                errors.AppendLine("Укажите номер страхового полиса");
+                _ = errors.AppendLine("Укажите номер страхового полиса");
             }
 
             if (errors.Length > 0)
@@ -113,10 +112,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 using (MedicalLaboratoryNumber20Entities context =
                 new MedicalLaboratoryNumber20Entities())
                 {
-                    context.Patient.Add(Patient);
+                    _ = context.Patient.Add(Patient);
                     try
                     {
-                        context.SaveChanges();
+                        _ = context.SaveChanges();
                         return true;
                     }
                     catch (Exception ex)
@@ -130,7 +129,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             if (isSaved)
             {
                 DialogResult = true;
-            } else
+            }
+            else
             {
                 MessageBoxService.ShowError("Пациент " +
                     "не добавлен. Попробуйте ещё раз или " +

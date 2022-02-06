@@ -176,7 +176,7 @@
     </Compile>
     <Compile Include="Services\BarcodeScannerService.cs" />
     <Compile Include="Services\BarcodeService.cs" />
-    <Compile Include="Services\BloodServiceEqualityComparer.cs" />
+    <Compile Include="Services\ServiceEqualityComparer.cs" />
     <Compile Include="Services\CaptchaService.cs" />
     <Compile Include="Services\ControlImageService.cs" />
     <Compile Include="Services\ICalculator.cs" />

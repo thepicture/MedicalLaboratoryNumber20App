@@ -8,11 +8,15 @@ namespace MedicalLaboratoryNumber20App.Services
     {
         private readonly byte[] bytes;
         private readonly string filePath;
+        private readonly string fileName;
 
-        public ByteArrayToPdfExportService(byte[] bytes, string filePath)
+        public ByteArrayToPdfExportService(byte[] bytes,
+                                           string filePath,
+                                           string fileName)
         {
             this.bytes = bytes;
             this.filePath = filePath;
+            this.fileName = fileName;
         }
 
         public void Export()
@@ -27,10 +31,8 @@ namespace MedicalLaboratoryNumber20App.Services
                 .Combine(Environment.CurrentDirectory,
                          "temp.png");
                 File.WriteAllBytes(temporaryImagePath, bytes);
-                string saveFileName = "BarCode-"
-                                      + $"{DateTime.Now:yyyy-mm-dd_hh-mm-ss}.pdf";
                 string savePath = Path.Combine(filePath,
-                                               saveFileName);
+                                               fileName);
                 app = new Word.Application();
                 document = app.Documents.Add();
                 Word.Paragraph paragraph = document.Paragraphs.Add();
