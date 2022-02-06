@@ -61,7 +61,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 {
                     return context.User
                     .Include(u => u.UserType)
-                    .First(u => u.UserLogin == userLogin
+                    .FirstOrDefault(u => u.UserLogin == userLogin
                                 && u.UserPassword == userPassword);
                 }
             });

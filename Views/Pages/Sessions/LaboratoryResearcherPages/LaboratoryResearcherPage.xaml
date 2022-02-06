@@ -12,7 +12,8 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button Content="Работать с анализатором"
-                    ToolTip="Открыть страницу для работы с анализатором"></Button>
+                    ToolTip="Открыть страницу для работы с анализатором"
+                    Click="GoToAnalyzersPage"></Button>
         </StackPanel>
     </Grid>
 </Page>

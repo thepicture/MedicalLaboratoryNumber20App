@@ -1,0 +1,36 @@
+﻿<Page x:Class="MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcherPages.AnalyzersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcherPages"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="AnalyzersPage">
+    <Grid>
+        <DataGrid Name="Analyzers"
+                  ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Анализатор"
+                                    Binding="{Binding AnalyzerName}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Возможные исследования">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BloodServiceOfUser[0].Service.ServiceName}"
+                                       TextWrapping="Wrap"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Невыполненные услуги"
+                                    ToolTip="Просмотреть невыполненные услуги данного анализатора"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

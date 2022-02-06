@@ -144,7 +144,7 @@
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="UserLogin" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserLogin" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="UserPassword" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IPv4" Type="nvarchar" MaxLength="15" />
           <Property Name="LastEnter" Type="datetime" />
@@ -633,7 +633,7 @@
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UserLogin" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="UserLogin" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IPv4" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="LastEnter" Type="DateTime" Precision="3" />
