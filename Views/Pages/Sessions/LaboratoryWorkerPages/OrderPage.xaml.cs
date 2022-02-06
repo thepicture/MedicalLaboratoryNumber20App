@@ -165,9 +165,13 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             {
                 barcodeBytes = ControlImageService.ConvertToPng(BarcodeView);
             }, DispatcherPriority.Loaded);
-            System.Windows.Forms.FolderBrowserDialog dialog =
-                new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            System.Windows.Forms.FolderBrowserDialog barcodeBrowserDialog =
+                new System.Windows.Forms.FolderBrowserDialog
+                {
+                    Description = "Укажите путь сохранения штрих-кода в формате .pdf"
+                };
+            if (barcodeBrowserDialog.ShowDialog()
+                != System.Windows.Forms.DialogResult.OK)
             {
                 _ = await MessageBoxService
                     .ShowWarning("Выбор пути сохранения был отменён");
@@ -176,10 +180,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             IsBusy = true;
             ByteArrayToPdfExportService exporter =
                 new ByteArrayToPdfExportService(barcodeBytes,
-                                                dialog.SelectedPath);
+                                                barcodeBrowserDialog.SelectedPath);
             await Task.Run(() => exporter.Export());
             MessageBoxService.ShowInfo("Штрих-код сохранён " +
-                $"по пути {dialog.SelectedPath}");
+                $"по пути {barcodeBrowserDialog.SelectedPath}");
             IsBusy = false;
         }
 
@@ -350,6 +354,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                        new ServiceEqualityComparer());
         }
 
+        /// <summary>
+        /// Сохраняет заказ.
+        /// </summary>
         private async void PerformSaveOrder(object sender, RoutedEventArgs e)
         {
             SaveOrderButton.IsEnabled = false;
@@ -392,16 +399,26 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             }
             else
             {
-                MessageBoxService.ShowError("Заказ не сформирован. Перезайдите на страницу " +
+                MessageBoxService.ShowError("Заказ не сформирован. " +
+                    "Перезайдите на страницу " +
                     "и попробуйте ещё раз");
             }
             SaveOrderButton.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Генерирует текстовое представление заказа.
+        /// </summary>
+        /// <param name="order">Заказ, 
+        /// определяющий содержимое текстового файла.</param>
         private async void GenerateTextLink(Order order)
         {
             System.Windows.Forms.FolderBrowserDialog linkBrowserDialog =
-                new System.Windows.Forms.FolderBrowserDialog();
+                new System.Windows.Forms.FolderBrowserDialog
+                {
+                    Description = "Укажите путь сохранения заказа " +
+                "в виде текстового файла"
+                };
             if (linkBrowserDialog.ShowDialog()
                 == System.Windows.Forms.DialogResult.OK)
             {
@@ -440,6 +457,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             }
         }
 
+        /// <summary>
+        /// Генерирует электронный вид заказа в формате .pdf.
+        /// </summary>
+        /// <param name="orderId">Идентификатор созданного заказа.</param>
         private async void GenerateOrderReport(int orderId)
         {
             Order order = await Task.Run(() =>
@@ -455,7 +476,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 }
             });
             System.Windows.Forms.FolderBrowserDialog reportBrowserDialog =
-                new System.Windows.Forms.FolderBrowserDialog();
+                new System.Windows.Forms.FolderBrowserDialog
+                {
+                    Description = "Выберите путь сохранения заказа в формате .pdf",
+                };
             if (reportBrowserDialog.ShowDialog()
                 == System.Windows.Forms.DialogResult.OK)
             {
@@ -480,6 +504,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             }
         }
 
+        /// <summary>
+        /// Срабатывает при навигации на предыдущую страницу.
+        /// </summary>
         private void PerformGoBack(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
