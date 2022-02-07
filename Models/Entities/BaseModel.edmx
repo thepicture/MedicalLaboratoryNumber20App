@@ -12,6 +12,14 @@
           <Property Name="AnalyzerId" Type="int" Nullable="false" />
           <Property Name="AnalyzerName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="AnalyzerOfService">
+          <Key>
+            <PropertyRef Name="AnalyzerId" />
+            <PropertyRef Name="ServiceId" />
+          </Key>
+          <Property Name="AnalyzerId" Type="int" Nullable="false" />
+          <Property Name="ServiceId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Blood">
           <Key>
             <PropertyRef Name="BloodId" />
@@ -112,15 +120,23 @@
           <Property Name="SocialTypeId" Type="int" Nullable="false" />
           <Property Name="SocialTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="ResultType">
+          <Key>
+            <PropertyRef Name="ResultTypeId" />
+          </Key>
+          <Property Name="ResultTypeId" Type="int" Nullable="false" />
+          <Property Name="ResultTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="Code" />
           </Key>
-          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="int" Nullable="false" />
           <Property Name="ServiceName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PriceInRubles" Type="decimal" Precision="20" Scale="2" Nullable="false" />
           <Property Name="MeanDeviation" Type="decimal" Precision="20" Scale="2" Nullable="false" />
           <Property Name="ExecutionTimeInSeconds" Type="bigint" />
+          <Property Name="ResultTypeId" Type="int" />
         </EntityType>
         <EntityType Name="ServiceOfOrder">
           <Key>
@@ -158,6 +174,30 @@
           <Property Name="UserTypeId" Type="int" Nullable="false" />
           <Property Name="UserTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <Association Name="FK_AnalyzerOfService_Analyzer">
+          <End Role="Analyzer" Type="Self.Analyzer" Multiplicity="1" />
+          <End Role="AnalyzerOfService" Type="Self.AnalyzerOfService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Analyzer">
+              <PropertyRef Name="AnalyzerId" />
+            </Principal>
+            <Dependent Role="AnalyzerOfService">
+              <PropertyRef Name="AnalyzerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnalyzerOfService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="AnalyzerOfService" Type="Self.AnalyzerOfService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="AnalyzerOfService">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Blood_Patient">
           <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
           <End Role="Blood" Type="Self.Blood" Multiplicity="*" />
@@ -278,6 +318,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Service_ResultType">
+          <End Role="ResultType" Type="Self.ResultType" Multiplicity="0..1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultType">
+              <PropertyRef Name="ResultTypeId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="ResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ServiceOfOrder_Order">
           <End Role="Order" Type="Self.Order" Multiplicity="1" />
           <End Role="ServiceOfOrder" Type="Self.ServiceOfOrder" Multiplicity="*" />
@@ -340,6 +392,7 @@
         </Association>
         <EntityContainer Name="MedicalLaboratoryNumber20ModelStoreContainer">
           <EntitySet Name="Analyzer" EntityType="Self.Analyzer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnalyzerOfService" EntityType="Self.AnalyzerOfService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Blood" EntityType="Self.Blood" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BloodServiceOfUser" EntityType="Self.BloodServiceOfUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BloodStatus" EntityType="Self.BloodStatus" Schema="dbo" store:Type="Tables" />
@@ -350,11 +403,20 @@
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatientSocialType" EntityType="Self.PatientSocialType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResultType" EntityType="Self.ResultType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceOfOrder" EntityType="Self.ServiceOfOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceOfUser" EntityType="Self.ServiceOfUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AnalyzerOfService_Analyzer" Association="Self.FK_AnalyzerOfService_Analyzer">
+            <End Role="Analyzer" EntitySet="Analyzer" />
+            <End Role="AnalyzerOfService" EntitySet="AnalyzerOfService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnalyzerOfService_Service" Association="Self.FK_AnalyzerOfService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="AnalyzerOfService" EntitySet="AnalyzerOfService" />
+          </AssociationSet>
           <AssociationSet Name="FK_Blood_Patient" Association="Self.FK_Blood_Patient">
             <End Role="Patient" EntitySet="Patient" />
             <End Role="Blood" EntitySet="Blood" />
@@ -395,6 +457,10 @@
             <End Role="PatientSocialType" EntitySet="PatientSocialType" />
             <End Role="Patient" EntitySet="Patient" />
           </AssociationSet>
+          <AssociationSet Name="FK_Service_ResultType" Association="Self.FK_Service_ResultType">
+            <End Role="ResultType" EntitySet="ResultType" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
           <AssociationSet Name="FK_ServiceOfOrder_Order" Association="Self.FK_ServiceOfOrder_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="ServiceOfOrder" EntitySet="ServiceOfOrder" />
@@ -432,6 +498,7 @@
           <EntitySet Name="Order" EntityType="MedicalLaboratoryNumber20Model.Order" />
           <EntitySet Name="Patient" EntityType="MedicalLaboratoryNumber20Model.Patient" />
           <EntitySet Name="PatientSocialType" EntityType="MedicalLaboratoryNumber20Model.PatientSocialType" />
+          <EntitySet Name="ResultType" EntityType="MedicalLaboratoryNumber20Model.ResultType" />
           <EntitySet Name="Service" EntityType="MedicalLaboratoryNumber20Model.Service" />
           <EntitySet Name="User" EntityType="MedicalLaboratoryNumber20Model.User" />
           <EntitySet Name="UserType" EntityType="MedicalLaboratoryNumber20Model.UserType" />
@@ -475,9 +542,17 @@
             <End Role="PatientSocialType" EntitySet="PatientSocialType" />
             <End Role="Patient" EntitySet="Patient" />
           </AssociationSet>
+          <AssociationSet Name="FK_Service_ResultType" Association="MedicalLaboratoryNumber20Model.FK_Service_ResultType">
+            <End Role="ResultType" EntitySet="ResultType" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_UserType" Association="MedicalLaboratoryNumber20Model.FK_User_UserType">
             <End Role="UserType" EntitySet="UserType" />
             <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="AnalyzerOfService" Association="MedicalLaboratoryNumber20Model.AnalyzerOfService">
+            <End Role="Analyzer" EntitySet="Analyzer" />
+            <End Role="Service" EntitySet="Service" />
           </AssociationSet>
           <AssociationSet Name="ServiceOfOrder" Association="MedicalLaboratoryNumber20Model.ServiceOfOrder">
             <End Role="Order" EntitySet="Order" />
@@ -495,6 +570,7 @@
           <Property Name="AnalyzerId" Type="Int32" Nullable="false" />
           <Property Name="AnalyzerName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BloodServiceOfUser" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Analyzer" FromRole="Analyzer" ToRole="BloodServiceOfUser" />
+          <NavigationProperty Name="Service" Relationship="MedicalLaboratoryNumber20Model.AnalyzerOfService" FromRole="Analyzer" ToRole="Service" />
         </EntityType>
         <EntityType Name="Blood">
           <Key>
@@ -614,16 +690,27 @@
           <Property Name="SocialTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Patient" Relationship="MedicalLaboratoryNumber20Model.FK_Patient_PatientSocialType" FromRole="PatientSocialType" ToRole="Patient" />
         </EntityType>
+        <EntityType Name="ResultType">
+          <Key>
+            <PropertyRef Name="ResultTypeId" />
+          </Key>
+          <Property Name="ResultTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ResultTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Service" Relationship="MedicalLaboratoryNumber20Model.FK_Service_ResultType" FromRole="ResultType" ToRole="Service" />
+        </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="Code" />
           </Key>
-          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="Int32" Nullable="false" />
           <Property Name="ServiceName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PriceInRubles" Type="Decimal" Nullable="false" Precision="20" Scale="2" />
           <Property Name="MeanDeviation" Type="Decimal" Nullable="false" Precision="20" Scale="2" />
           <Property Name="ExecutionTimeInSeconds" Type="Int64" />
+          <Property Name="ResultTypeId" Type="Int32" />
           <NavigationProperty Name="BloodServiceOfUser" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Service" FromRole="Service" ToRole="BloodServiceOfUser" />
+          <NavigationProperty Name="ResultType" Relationship="MedicalLaboratoryNumber20Model.FK_Service_ResultType" FromRole="Service" ToRole="ResultType" />
+          <NavigationProperty Name="Analyzer" Relationship="MedicalLaboratoryNumber20Model.AnalyzerOfService" FromRole="Service" ToRole="Analyzer" />
           <NavigationProperty Name="Order" Relationship="MedicalLaboratoryNumber20Model.ServiceOfOrder" FromRole="Service" ToRole="Order" />
           <NavigationProperty Name="User" Relationship="MedicalLaboratoryNumber20Model.ServiceOfUser" FromRole="Service" ToRole="User" />
         </EntityType>
@@ -771,6 +858,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Service_ResultType">
+          <End Type="MedicalLaboratoryNumber20Model.ResultType" Role="ResultType" Multiplicity="0..1" />
+          <End Type="MedicalLaboratoryNumber20Model.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultType">
+              <PropertyRef Name="ResultTypeId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="ResultTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_UserType">
           <End Type="MedicalLaboratoryNumber20Model.UserType" Role="UserType" Multiplicity="1" />
           <End Type="MedicalLaboratoryNumber20Model.User" Role="User" Multiplicity="*" />
@@ -782,6 +881,10 @@
               <PropertyRef Name="UserTypeId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalyzerOfService">
+          <End Type="MedicalLaboratoryNumber20Model.Analyzer" Role="Analyzer" Multiplicity="*" />
+          <End Type="MedicalLaboratoryNumber20Model.Service" Role="Service" Multiplicity="*" />
         </Association>
         <Association Name="ServiceOfOrder">
           <End Type="MedicalLaboratoryNumber20Model.Order" Role="Order" Multiplicity="*" />
@@ -915,9 +1018,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ResultType">
+            <EntityTypeMapping TypeName="MedicalLaboratoryNumber20Model.ResultType">
+              <MappingFragment StoreEntitySet="ResultType">
+                <ScalarProperty Name="ResultTypeName" ColumnName="ResultTypeName" />
+                <ScalarProperty Name="ResultTypeId" ColumnName="ResultTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Service">
             <EntityTypeMapping TypeName="MedicalLaboratoryNumber20Model.Service">
               <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="ResultTypeId" ColumnName="ResultTypeId" />
                 <ScalarProperty Name="ExecutionTimeInSeconds" ColumnName="ExecutionTimeInSeconds" />
                 <ScalarProperty Name="MeanDeviation" ColumnName="MeanDeviation" />
                 <ScalarProperty Name="PriceInRubles" ColumnName="PriceInRubles" />
@@ -948,6 +1060,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AnalyzerOfService" TypeName="MedicalLaboratoryNumber20Model.AnalyzerOfService" StoreEntitySet="AnalyzerOfService">
+            <EndProperty Name="Service">
+              <ScalarProperty Name="Code" ColumnName="ServiceId" />
+            </EndProperty>
+            <EndProperty Name="Analyzer">
+              <ScalarProperty Name="AnalyzerId" ColumnName="AnalyzerId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="ServiceOfOrder" TypeName="MedicalLaboratoryNumber20Model.ServiceOfOrder" StoreEntitySet="ServiceOfOrder">
             <EndProperty Name="Service">
               <ScalarProperty Name="Code" ColumnName="ServiceId" />

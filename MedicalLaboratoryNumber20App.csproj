@@ -165,6 +165,9 @@
     <Compile Include="Models\Entities\PatientSocialType.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\ResultType.cs">
+      <DependentUpon>BaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entities\Service.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>

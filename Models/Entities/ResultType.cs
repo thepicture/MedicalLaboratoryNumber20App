@@ -12,20 +12,17 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Analyzer
+    public partial class ResultType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Analyzer()
+        public ResultType()
         {
-            this.BloodServiceOfUser = new HashSet<BloodServiceOfUser>();
             this.Service = new HashSet<Service>();
         }
     
-        public int AnalyzerId { get; set; }
-        public string AnalyzerName { get; set; }
+        public int ResultTypeId { get; set; }
+        public string ResultTypeName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BloodServiceOfUser> BloodServiceOfUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Service> Service { get; set; }
     }

@@ -36,6 +36,7 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Patient> Patient { get; set; }
         public virtual DbSet<PatientSocialType> PatientSocialType { get; set; }
+        public virtual DbSet<ResultType> ResultType { get; set; }
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserType> UserType { get; set; }

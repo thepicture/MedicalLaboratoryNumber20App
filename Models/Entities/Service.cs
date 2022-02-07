@@ -18,6 +18,7 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
         public Service()
         {
             this.BloodServiceOfUser = new HashSet<BloodServiceOfUser>();
+            this.Analyzer = new HashSet<Analyzer>();
             this.Order = new HashSet<Order>();
             this.User = new HashSet<User>();
         }
@@ -27,9 +28,13 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
         public decimal PriceInRubles { get; set; }
         public decimal MeanDeviation { get; set; }
         public Nullable<long> ExecutionTimeInSeconds { get; set; }
+        public Nullable<int> ResultTypeId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BloodServiceOfUser> BloodServiceOfUser { get; set; }
+        public virtual ResultType ResultType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Analyzer> Analyzer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Order { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
