@@ -17,8 +17,26 @@
                 <DataGridTemplateColumn Header="Возможные исследования">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding BloodServiceOfUser[0].Service.ServiceName}"
-                                       TextWrapping="Wrap"></TextBlock>
+                            <ListBox ItemsSource="{Binding Service}"
+                                     IsHitTestVisible="False"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     BorderBrush="Transparent">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"></WrapPanel>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource AdditionalBackground}"
+                                                CornerRadius="5">
+                                            <TextBlock Text="{Binding ServiceName}"
+                                                       Padding="5">
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -26,7 +44,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Невыполненные услуги"
-                                    ToolTip="Просмотреть невыполненные услуги данного анализатора"></Button>
+                                    ToolTip="Просмотреть невыполненные услуги данного анализатора"
+                                    VerticalAlignment="Center"></Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

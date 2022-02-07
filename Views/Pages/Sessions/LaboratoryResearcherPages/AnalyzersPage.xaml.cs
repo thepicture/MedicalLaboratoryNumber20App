@@ -29,31 +29,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                 new MedicalLaboratoryNumber20Entities())
                 {
                     return context.Analyzer
-                    .Include(a => a.BloodServiceOfUser)
-                    .Include(a => a.BloodServiceOfUser.Select(b => b.Service))
+                    .Include(a => a.Service)
                     .ToList();
                 }
             });
-            Analyzers.ItemsSource = currentAnalyzers
-                .Select(a =>
-                {
-                    return new Analyzer
-                    {
-                        AnalyzerName = a.AnalyzerName,
-                        BloodServiceOfUser = new List<BloodServiceOfUser>()
-                        {
-                            new BloodServiceOfUser {
-                                Service = new Service
-                                {
-                                    ServiceName = string.Join(", ", a.BloodServiceOfUser
-                                        .Where(b => b.UserId == (App.Current as App).User.UserId)
-                                        .Select(b => b.Service.ServiceName)
-                                        .Distinct())
-                                }
-                            }
-                        }
-                    };
-                });
+            Analyzers.ItemsSource = currentAnalyzers;
         }
     }
 }
