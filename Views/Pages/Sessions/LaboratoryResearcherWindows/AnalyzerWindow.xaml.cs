@@ -13,8 +13,17 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
             InitializeComponent();
             Analyzer = analyzer;
             DataContext = this;
+            UnperformedServices.ItemsSource = analyzer.Service;
         }
 
         public Analyzer Analyzer { get; private set; }
+
+        /// <summary>
+        /// Осуществляет отправку услуги на анализатор.
+        /// </summary>
+        private void PerformSendToAnalyzer(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
