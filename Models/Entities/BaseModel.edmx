@@ -32,6 +32,7 @@
         <EntityType Name="BloodServiceOfUser">
           <Key>
             <PropertyRef Name="BloodId" />
+            <PropertyRef Name="ServiceCode" />
           </Key>
           <Property Name="BloodId" Type="int" Nullable="false" />
           <Property Name="ServiceCode" Type="int" Nullable="false" />
@@ -219,6 +220,18 @@
             </Principal>
             <Dependent Role="BloodServiceOfUser">
               <PropertyRef Name="AnalyzerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BloodServiceOfUser_Blood">
+          <End Role="Blood" Type="Self.Blood" Multiplicity="1" />
+          <End Role="BloodServiceOfUser" Type="Self.BloodServiceOfUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Blood">
+              <PropertyRef Name="BloodId" />
+            </Principal>
+            <Dependent Role="BloodServiceOfUser">
+              <PropertyRef Name="BloodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -425,6 +438,10 @@
             <End Role="Analyzer" EntitySet="Analyzer" />
             <End Role="BloodServiceOfUser" EntitySet="BloodServiceOfUser" />
           </AssociationSet>
+          <AssociationSet Name="FK_BloodServiceOfUser_Blood" Association="Self.FK_BloodServiceOfUser_Blood">
+            <End Role="Blood" EntitySet="Blood" />
+            <End Role="BloodServiceOfUser" EntitySet="BloodServiceOfUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_BloodServiceOfUser_BloodStatus" Association="Self.FK_BloodServiceOfUser_BloodStatus">
             <End Role="BloodStatus" EntitySet="BloodStatus" />
             <End Role="BloodServiceOfUser" EntitySet="BloodServiceOfUser" />
@@ -510,6 +527,10 @@
             <End Role="Patient" EntitySet="Patient" />
             <End Role="Blood" EntitySet="Blood" />
           </AssociationSet>
+          <AssociationSet Name="FK_BloodServiceOfUser_Blood" Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Blood">
+            <End Role="Blood" EntitySet="Blood" />
+            <End Role="BloodServiceOfUser" EntitySet="BloodServiceOfUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_Order_Blood" Association="MedicalLaboratoryNumber20Model.FK_Order_Blood">
             <End Role="Blood" EntitySet="Blood" />
             <End Role="Order" EntitySet="Order" />
@@ -581,11 +602,13 @@
           <Property Name="Barcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BloodDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Patient" Relationship="MedicalLaboratoryNumber20Model.FK_Blood_Patient" FromRole="Blood" ToRole="Patient" />
+          <NavigationProperty Name="BloodServiceOfUser" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Blood" FromRole="Blood" ToRole="BloodServiceOfUser" />
           <NavigationProperty Name="Order" Relationship="MedicalLaboratoryNumber20Model.FK_Order_Blood" FromRole="Blood" ToRole="Order" />
         </EntityType>
         <EntityType Name="BloodServiceOfUser">
           <Key>
             <PropertyRef Name="BloodId" />
+            <PropertyRef Name="ServiceCode" />
           </Key>
           <Property Name="BloodId" Type="Int32" Nullable="false" />
           <Property Name="ServiceCode" Type="Int32" Nullable="false" />
@@ -596,6 +619,7 @@
           <Property Name="AnalyzerId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Analyzer" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Analyzer" FromRole="BloodServiceOfUser" ToRole="Analyzer" />
+          <NavigationProperty Name="Blood" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Blood" FromRole="BloodServiceOfUser" ToRole="Blood" />
           <NavigationProperty Name="BloodStatus" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_BloodStatus" FromRole="BloodServiceOfUser" ToRole="BloodStatus" />
           <NavigationProperty Name="Service" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Service" FromRole="BloodServiceOfUser" ToRole="Service" />
           <NavigationProperty Name="User" Relationship="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_User" FromRole="BloodServiceOfUser" ToRole="User" />
@@ -759,6 +783,18 @@
             </Principal>
             <Dependent Role="Blood">
               <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BloodServiceOfUser_Blood">
+          <End Type="MedicalLaboratoryNumber20Model.Blood" Role="Blood" Multiplicity="1" />
+          <End Type="MedicalLaboratoryNumber20Model.BloodServiceOfUser" Role="BloodServiceOfUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Blood">
+              <PropertyRef Name="BloodId" />
+            </Principal>
+            <Dependent Role="BloodServiceOfUser">
+              <PropertyRef Name="BloodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

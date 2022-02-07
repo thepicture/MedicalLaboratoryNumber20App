@@ -47,6 +47,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -182,6 +183,8 @@
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExecutingService.cs" />
+    <Compile Include="Models\PostService.cs" />
+    <Compile Include="Models\SimpleService.cs" />
     <Compile Include="Services\BarcodeScannerService.cs" />
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\ServiceEqualityComparer.cs" />

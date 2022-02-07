@@ -24,6 +24,7 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
         public int UserId { get; set; }
     
         public virtual Analyzer Analyzer { get; set; }
+        public virtual Blood Blood { get; set; }
         public virtual BloodStatus BloodStatus { get; set; }
         public virtual Service Service { get; set; }
         public virtual User User { get; set; }

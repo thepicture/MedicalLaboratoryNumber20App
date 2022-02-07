@@ -16,13 +16,13 @@
             <DataGrid Name="UnperformedServices">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Наименование"
-                                        Binding="{Binding ServiceName}"
+                                        Binding="{Binding Service.ServiceName}"
                                         Width="auto"></DataGridTextColumn>
                     <DataGridTemplateColumn Header="Действие" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Отправить на иследование"
-                                        Click="PerformSendToAnalyzer"></Button>
+                                        Click="PerformSendToAnalyzerAsync"></Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
