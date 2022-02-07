@@ -86,6 +86,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\Sessions\LaboratoryResearcherWindows\AnalyzerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\Sessions\LaboratoryResearcherPages\LaboratoryResearcherPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,6 +210,9 @@
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPages\AnalyzersPage.xaml.cs">
       <DependentUpon>AnalyzersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Sessions\LaboratoryResearcherWindows\AnalyzerWindow.xaml.cs">
+      <DependentUpon>AnalyzerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPages\LaboratoryResearcherPage.xaml.cs">
       <DependentUpon>LaboratoryResearcherPage.xaml</DependentUpon>

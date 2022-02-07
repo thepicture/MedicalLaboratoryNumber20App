@@ -44,6 +44,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Невыполненные услуги"
+                                    Click="PerformAnalyzerWindowOpen"
                                     ToolTip="Просмотреть невыполненные услуги данного анализатора"
                                     VerticalAlignment="Center"></Button>
                         </DataTemplate>
