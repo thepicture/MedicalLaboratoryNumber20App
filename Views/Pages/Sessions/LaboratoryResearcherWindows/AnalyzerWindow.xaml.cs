@@ -25,18 +25,13 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
             InitializeComponent();
             Analyzer = analyzer;
             DataContext = this;
-            LoadUnperfomedServicesAsync();
+            _ = LoadUnperfomedServicesAsync();
         }
 
         /// <summary>
         /// Подгружает невыполненные услуги асинхронно.
         /// </summary>
-        private async 
-        /// <summary>
-        /// Подгружает невыполненные услуги асинхронно.
-        /// </summary>
-        Task
-LoadUnperfomedServicesAsync()
+        private async Task LoadUnperfomedServicesAsync()
         {
             IEnumerable<BloodServiceOfUser> bloodServices =
                 await Task.Run(() =>
@@ -46,6 +41,7 @@ LoadUnperfomedServicesAsync()
                     {
                         return context.BloodServiceOfUser
                         .Where(bs => bs.IsAccepted)
+                        .Where(bs => bs.BloodStatus.BloodStatusId == BloodStatuses.ShouldSend)
                         .Include(bs => bs.Blood)
                         .Include(bs => bs.Blood.Patient)
                         .Include(bs => bs.BloodStatus)
@@ -117,12 +113,10 @@ LoadUnperfomedServicesAsync()
                                     .Find(new object[] { service.BloodId, service.ServiceCode });
                                     databaseBloodService.BloodStatus =
                                     context.BloodStatus
-                                    .First(b => b.BloodStatusName == "Отправлена на исследование");
+                                    .First(b => b.BloodStatusId == BloodStatuses.Sent);
                                     _ = context.SaveChanges();
                                 }
                             });
-                            button.IsEnabled = false;
-                            button.Content = "Отправлена";
                             await LoadUnperfomedServicesAsync();
                             MessageBoxService.ShowInfo($"Услуга успешно отправлена");
                         }

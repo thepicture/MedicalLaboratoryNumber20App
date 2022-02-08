@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Models\Barcode.cs" />
     <Compile Include="Models\BarcodeStrip.cs" />
+    <Compile Include="Models\BloodStatuses.cs" />
     <Compile Include="Models\CaptchaLetter.cs" />
     <Compile Include="Models\Entities\Analyzer.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
