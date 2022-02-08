@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcherWindows
@@ -83,7 +84,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                                 if (double.TryParse(service.Result, out double result))
                                 {
 
-                                    bool isMeanDeviationTooHigh = 
+                                    bool isMeanDeviationTooHigh =
                                     (Convert.ToDouble(currentDatabaseService.MeanDeviation) / result > 5)
                                     || (Convert.ToDouble(currentDatabaseService.MeanDeviation) / result < (1.0 / 5));
                                     if (isMeanDeviationTooHigh)
@@ -117,7 +118,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                     new MedicalLaboratoryNumber20Entities())
                     {
                         return context.BloodServiceOfUser
-                        .Where(bs => !bs.IsAccepted)
+                        .Where(bs => bs.IsAccepted)
                         .Where(bs => bs.Service.Analyzer.Select(a => a.AnalyzerId).Contains(Analyzer.AnalyzerId))
                         .Where(bs => bs.BloodStatus.BloodStatusId == BloodStatuses.ShouldSend)
                         .Include(bs => bs.Blood)
@@ -236,6 +237,70 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                     System.Diagnostics.Debug.WriteLine(ex.StackTrace);
                 }
             });
+        }
+
+        /// <summary>
+        /// Вызывается в момент одобрения исследования.
+        /// </summary>
+        private async void OnConformingResult(object sender, RoutedEventArgs e)
+        {
+            if (!MessageBoxService.ShowQuestion("Вы уверены, что данную услугу следует одобрить?"))
+            {
+                return;
+            }
+            Button button = sender as Button;
+            SerializedService service = button.DataContext as SerializedService;
+            await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    BloodServiceOfUser bloodOfService = context.BloodServiceOfUser
+                    .First(s => s.ServiceCode == service.ServiceCode
+                                && s.Blood.PatientId == CurrentPatient.PatientId
+                                && s.IsAccepted &&
+                                s.BloodStatusId == BloodStatuses.Sent);
+                    bloodOfService.BloodStatusId = BloodStatuses.Complete;
+                    bloodOfService.Result = service.Result;
+                    _ = context.SaveChanges();
+                }
+            });
+            PerformingServices.ItemsSource = PerformingServices.Items
+                .Cast<SerializedService>()
+                .Where(s => s.ServiceCode != service.ServiceCode);
+        }
+
+        /// <summary>
+        /// Вызывается при необходимости повторного забора материала.
+        /// </summary>
+        private async void OnNonConformingResult(object sender, RoutedEventArgs e)
+        {
+            if (!MessageBoxService.ShowQuestion("Вы уверены, " +
+                "что необходим повторный забор материала?"))
+            {
+                return;
+            }
+            Button button = sender as Button;
+            SerializedService service = button.DataContext as SerializedService;
+            await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    BloodServiceOfUser bloodOfService = context.BloodServiceOfUser
+                    .First(s => s.ServiceCode == service.ServiceCode
+                                && s.Blood.PatientId == CurrentPatient.PatientId
+                                && s.IsAccepted
+                                && s.BloodStatusId == BloodStatuses.Sent);
+                    bloodOfService.BloodStatusId = BloodStatuses.ShouldSend;
+                    _ = context.SaveChanges();
+                }
+            });
+            PerformingServices.ItemsSource = PerformingServices.Items
+                .Cast<SerializedService>()
+                .Where(s => s.ServiceCode != service.ServiceCode
+                && s.Result != service.Result);
+            await LoadUnperfomedServicesAsync();
         }
     }
 }

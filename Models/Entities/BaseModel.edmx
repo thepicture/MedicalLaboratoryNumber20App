@@ -36,7 +36,7 @@
           </Key>
           <Property Name="BloodId" Type="int" Nullable="false" />
           <Property Name="ServiceCode" Type="int" Nullable="false" />
-          <Property Name="Result" Type="decimal" Precision="20" Scale="5" Nullable="false" />
+          <Property Name="Result" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FinishedDateTime" Type="datetime" Nullable="false" />
           <Property Name="IsAccepted" Type="bit" Nullable="false" />
           <Property Name="BloodStatusId" Type="int" Nullable="false" />
@@ -612,7 +612,7 @@
           </Key>
           <Property Name="BloodId" Type="Int32" Nullable="false" />
           <Property Name="ServiceCode" Type="Int32" Nullable="false" />
-          <Property Name="Result" Type="Decimal" Nullable="false" Precision="20" Scale="5" />
+          <Property Name="Result" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FinishedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsAccepted" Type="Boolean" Nullable="false" />
           <Property Name="BloodStatusId" Type="Int32" Nullable="false" />

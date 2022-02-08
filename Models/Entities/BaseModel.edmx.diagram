@@ -5,21 +5,21 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8ab9fca2cc8241619894df271b118c3a" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Analyzer" Width="1.5" PointX="0.75" PointY="4.625" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Blood" Width="1.5" PointX="0.75" PointY="13.75" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.BloodServiceOfUser" Width="1.5" PointX="3" PointY="3.75" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.BloodStatus" Width="1.5" PointX="0.75" PointY="9.375" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Country" Width="1.5" PointX="1.5" PointY="34.5" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.InsuranceAddress" Width="1.5" PointX="1.5" PointY="32.125" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.InsuranceCompany" Width="1.5" PointX="1.5" PointY="27.625" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.LoginHistory" Width="1.5" PointX="5.75" PointY="8.375" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Order" Width="1.5" PointX="3.75" PointY="8.75" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Patient" Width="1.5" PointX="1.5" PointY="18.625" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.PatientSocialType" Width="1.5" PointX="1.5" PointY="24.75" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.ResultType" Width="1.5" PointX="3.75" PointY="1.375" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Service" Width="1.5" PointX="6" PointY="4" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.User" Width="1.5" PointX="8.25" PointY="4" />
-        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.UserType" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Analyzer" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Blood" Width="1.5" PointX="0.75" PointY="14.125" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.BloodServiceOfUser" Width="1.5" PointX="3" PointY="4.125" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.BloodStatus" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Country" Width="1.5" PointX="1.5" PointY="30.125" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.InsuranceAddress" Width="1.5" PointX="1.5" PointY="32.5" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.InsuranceCompany" Width="1.5" PointX="1.5" PointY="25.625" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.LoginHistory" Width="1.5" PointX="5.75" PointY="8.75" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Order" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Patient" Width="1.5" PointX="1.5" PointY="19" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.PatientSocialType" Width="1.5" PointX="1.5" PointY="34.875" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.ResultType" Width="1.5" PointX="3.75" PointY="8.5" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.Service" Width="1.5" PointX="6" PointY="4.375" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.User" Width="1.5" PointX="8.25" PointY="4.375" />
+        <EntityTypeShape EntityType="MedicalLaboratoryNumber20Model.UserType" Width="1.5" PointX="6" PointY="1.125" />
         <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Analyzer" />
         <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_Blood_Patient" />
         <AssociationConnector Association="MedicalLaboratoryNumber20Model.FK_BloodServiceOfUser_Blood" />

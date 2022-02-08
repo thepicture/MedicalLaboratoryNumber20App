@@ -16,7 +16,7 @@ namespace MedicalLaboratoryNumber20App.Models.Entities
     {
         public int BloodId { get; set; }
         public int ServiceCode { get; set; }
-        public decimal Result { get; set; }
+        public string Result { get; set; }
         public System.DateTime FinishedDateTime { get; set; }
         public bool IsAccepted { get; set; }
         public int BloodStatusId { get; set; }
