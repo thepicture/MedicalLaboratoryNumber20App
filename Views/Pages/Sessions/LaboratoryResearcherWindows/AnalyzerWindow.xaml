@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="{Binding Analyzer.AnalyzerName, StringFormat=Окно анализатора {0}}"
         Height="450"
-        Width="800"
+        Width="1200"
         MinHeight="450"
-        MinWidth="800"
+        MinWidth="1200"
         WindowStartupLocation="CenterOwner">
     <UniformGrid Columns="2">
         <GroupBox Header="Список невыполненных услуг">
@@ -18,10 +18,13 @@
                     <DataGridTextColumn Header="Наименование"
                                         Binding="{Binding Service.ServiceName}"
                                         Width="auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Пациент"
+                                        Binding="{Binding Blood.Patient.PatientFullName}"
+                                        Width="auto"></DataGridTextColumn>
                     <DataGridTemplateColumn Header="Действие" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Отправить на иследование"
+                                <Button Content="Отправить на исследование"
                                         Click="PerformSendToAnalyzerAsync"></Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
