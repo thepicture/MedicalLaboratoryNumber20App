@@ -4,8 +4,8 @@ namespace MedicalLaboratoryNumber20App.Models
 {
     public class ExecutingService
     {
-        Service Service { get; set; }
-        string Result { get; set; }
-        string CurrentStatus { get; set; }
+        public Service Service { get; set; }
+        public string Result { get; set; }
+        public string CurrentStatus { get; set; }
     }
 }

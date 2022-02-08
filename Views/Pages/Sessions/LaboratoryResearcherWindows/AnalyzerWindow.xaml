@@ -13,47 +13,114 @@
         WindowStartupLocation="CenterOwner">
     <UniformGrid Columns="2">
         <GroupBox Header="Список невыполненных услуг">
-            <DataGrid Name="UnperformedServices">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Наименование"
-                                        Binding="{Binding Service.ServiceName}"
-                                        Width="auto"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Пациент"
-                                        Binding="{Binding Blood.Patient.PatientFullName}"
-                                        Width="auto"></DataGridTextColumn>
-                    <DataGridTemplateColumn Header="Действие" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Отправить на исследование"
-                                        Click="PerformSendToAnalyzerAsync"></Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Name="UnperformedServices"
+                          ColumnWidth="*"
+                          SelectionMode="Extended">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование"
+                                            Binding="{Binding Service.ServiceName}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Пациент"
+                                            Binding="{Binding Blood.Patient.PatientFullName}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="Отправить выбранные услуги на исследование"
+                        Grid.Row="1"
+                        Width="auto"
+                        Click="PerformSendToAnalyzerAsync"
+                        IsHitTestVisible="{Binding ElementName=UnperformedServices, Path=SelectedItems.Count, Mode=OneWay}"
+                        Opacity="{Binding ElementName=UnperformedServices, Path=SelectedItems.Count, Mode=OneWay}"></Button>
+            </Grid>
         </GroupBox>
         <GroupBox Header="Список выполняющихся услуг">
-            <DataGrid Name="PerformingServices">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Наименование"
-                                        Binding="{Binding Service.ServiceName}"
-                                        Width="auto"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Статус"
-                                        Binding="{Binding CurrentStatus}"
-                                        Width="*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Результат"
-                                        Binding="{Binding Result}"
-                                        Width="auto"></DataGridTextColumn>
-                    <DataGridTemplateColumn Header="Действие"
-                                            Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Одобрить"></Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Name="StatusBlock"
+                           Style="{StaticResource CommonBlock}"
+                           FontWeight="Bold"></TextBlock>
+                <DataGrid Name="PerformingServices"
+                          Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Result}"
+                                                     Value="{x:Null}">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Viewbox>
+                                        <TextBlock Text="Ѻ"
+                                                   FontWeight="Bold"
+                                                   Width="20"
+                                                   Height="20"
+                                                   RenderTransformOrigin=".5,.5"
+                                                   TextAlignment="Center">
+                                            <TextBlock.Foreground>
+                                                <LinearGradientBrush>
+                                                    <GradientStop Color="Red"></GradientStop>
+                                                    <GradientStop Color="Blue"
+                                                                  Offset="1"></GradientStop>
+                                                </LinearGradientBrush>
+                                            </TextBlock.Foreground>
+                                            <TextBlock.RenderTransform>
+                                                <RotateTransform x:Name="RotateTransform"></RotateTransform>
+                                            </TextBlock.RenderTransform>
+                                            <TextBlock.Triggers>
+                                                <EventTrigger RoutedEvent="Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:2"
+                                                                             From="0"
+                                                                             To="360"
+                                                                             RepeatBehavior="Forever"
+                                                                             Storyboard.TargetProperty="RenderTransform.Angle">
+                                                            </DoubleAnimation>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </TextBlock.Triggers>
+                                        </TextBlock>
+                                    </Viewbox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Пациент"
+                                            Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.CurrentPatient.PatientFullName}"
+                                            Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Услуга"
+                                            Binding="{Binding ServiceCode}"
+                                            Width="auto"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Результат"
+                                            Binding="{Binding Result}"
+                                            Width="auto"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Действие"
+                                                Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Одобрить"
+                                            Width="auto"></Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </GroupBox>
 
     </UniformGrid>

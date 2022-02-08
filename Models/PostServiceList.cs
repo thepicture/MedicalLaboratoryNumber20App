@@ -1,12 +1,12 @@
 ﻿namespace MedicalLaboratoryNumber20App.Models
 {
-    public class PostService
+    public class PostServiceList
     {
-        public PostService()
+        public PostServiceList()
         {
         }
 
         public string Patient { get; set; }
-        public SimpleService[] Services { get; set; }
+        public SerializedService[] Services { get; set; }
     }
 }

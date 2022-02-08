@@ -3,6 +3,7 @@ using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
@@ -11,21 +12,82 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcherWindows
 {
     /// <summary>
     /// Interaction logic for AnalyzerWindow.xaml
     /// </summary>
-    public partial class AnalyzerWindow : Window
+    public partial class AnalyzerWindow : Window, INotifyPropertyChanged
     {
+        public string _address;
+        private Patient currentPatient;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Patient CurrentPatient
+        {
+            get => currentPatient;
+            set
+            {
+                currentPatient = value;
+                PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(nameof(currentPatient)));
+            }
+        }
+
         public AnalyzerWindow(Analyzer analyzer)
         {
             InitializeComponent();
             Analyzer = analyzer;
+            _address = $"http://localhost:5000/api/analyzer/{Analyzer.AnalyzerName}";
             DataContext = this;
             _ = LoadUnperfomedServicesAsync();
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(5),
+            };
+            timer.Tick += async (o, s) => await LoadPerformingServicesAsync();
+            timer.Start();
+        }
+
+        /// <summary>
+        /// Загружает выполяющиеся услуги асинхронно.
+        /// </summary>
+        private async Task LoadPerformingServicesAsync()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(_address);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return;
+                }
+                string json = await response.Content.ReadAsStringAsync();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                GetServiceList serviceList = (GetServiceList)serializer.Deserialize(json,
+                                                                    typeof(GetServiceList));
+                if (serviceList.Services != null)
+                {
+                    await Task.Run(() =>
+                    {
+                        using (MedicalLaboratoryNumber20Entities context =
+                        new MedicalLaboratoryNumber20Entities())
+                        {
+                            foreach (SerializedService service in serviceList.Services)
+                            {
+                                service.ServiceName = context.Service
+                                .Find(service.ServiceCode).ServiceName;
+                            }
+                        }
+                    });
+                    PerformingServices.ItemsSource = serviceList.Services;
+                }
+                StatusBlock.Text = serviceList.Progress != null
+                    ? $"Выполнено {serviceList.Progress}%"
+                    : "Анализ выполнен";
+            }
         }
 
         /// <summary>
@@ -40,46 +102,58 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                     new MedicalLaboratoryNumber20Entities())
                     {
                         return context.BloodServiceOfUser
-                        .Where(bs => bs.IsAccepted)
+                        .Where(bs => !bs.IsAccepted)
+                        .Where(bs => bs.Service.Analyzer.Select(a => a.AnalyzerId).Contains(Analyzer.AnalyzerId))
                         .Where(bs => bs.BloodStatus.BloodStatusId == BloodStatuses.ShouldSend)
                         .Include(bs => bs.Blood)
                         .Include(bs => bs.Blood.Patient)
                         .Include(bs => bs.BloodStatus)
                         .Include(bs => bs.Service)
+                        .OrderBy(bs => bs.Blood.Patient.PatientFullName)
                         .ToList();
                     }
                 });
-            UnperformedServices.ItemsSource = bloodServices
-                .Where(bs => bs.AnalyzerId == Analyzer.AnalyzerId);
+            UnperformedServices.ItemsSource = bloodServices;
         }
 
-        public Analyzer Analyzer { get; private set; }
+        public Analyzer Analyzer { get; }
 
         /// <summary>
         /// Осуществляет отправку услуги на анализатор.
         /// </summary>
         private void PerformSendToAnalyzerAsync(object sender, RoutedEventArgs e)
         {
+            IEnumerable<BloodServiceOfUser> selectedServices = UnperformedServices
+                .SelectedItems
+                .Cast<BloodServiceOfUser>();
+            if (selectedServices.Select(s => s.Blood.Patient.PatientId)
+                .Distinct()
+                .Count() != 1)
+            {
+                _ = MessageBoxService.ShowWarning("Отправка услуг, " +
+                    "принадлежащих более, чем одному пациенту, " +
+                    "пока не поддерживается. Выберите список услуг, " +
+                    "относящиеся к одному и тому же пациенту");
+                return;
+            }
+            SerializedService[] services = selectedServices
+                .ToList()
+                .ConvertAll(bs => new SerializedService { ServiceCode = bs.Service.Code })
+                .ToArray();
+            Patient patientOfSelectedService = selectedServices
+                    .First().Blood.Patient;
+            currentPatient = patientOfSelectedService;
             Parallel.Invoke(async () =>
             {
-                await Task.Delay(2000);
-                Button button = sender as Button;
-                BloodServiceOfUser service = button.DataContext as BloodServiceOfUser;
-                PostService postService = new PostService
+                PostServiceList postService = new PostServiceList
                 {
-                    Patient = service.Blood.Patient.PatientId.ToString(),
-                    Services = new List<SimpleService>
-                    {
-                        new SimpleService
-                        {
-                            ServiceCode = service.Service.Code,
-                        }
-                    }.ToArray(),
+                    Patient = patientOfSelectedService.PatientId
+                    .ToString(),
+                    Services = services
                 };
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
 
                 string json = serializer.Serialize(postService);
-                string address = $"http://localhost:5000/api/analyzer/{Analyzer.AnalyzerName}";
 
                 try
                 {
@@ -90,7 +164,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                                                                   Encoding.UTF8,
                                                                   "application/json");
 
-                        HttpResponseMessage response = await client.PostAsync(address,
+                        HttpResponseMessage response = await client.PostAsync(_address,
                                                                               content);
                         string result = await response.Content.ReadAsStringAsync();
 
@@ -108,14 +182,24 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                                 using (MedicalLaboratoryNumber20Entities context =
                                 new MedicalLaboratoryNumber20Entities())
                                 {
-                                    BloodServiceOfUser databaseBloodService =
-                                    context.BloodServiceOfUser
-                                    .Find(new object[] { service.BloodId, service.ServiceCode });
-                                    databaseBloodService.BloodStatus =
-                                    context.BloodStatus
-                                    .First(b => b.BloodStatusId == BloodStatuses.Sent);
+                                    foreach (BloodServiceOfUser service in selectedServices)
+                                    {
+                                        BloodServiceOfUser databaseBloodService =
+                                        context.BloodServiceOfUser
+                                        .Find(new object[] { service.BloodId, service.ServiceCode });
+                                        databaseBloodService.BloodStatus =
+                                        context.BloodStatus
+                                        .First(b => b.BloodStatusId == BloodStatuses.Sent);
+                                    }
                                     _ = context.SaveChanges();
                                 }
+                            });
+                            PerformingServices.ItemsSource = selectedServices
+                            .ToList()
+                            .ConvertAll(s => new SerializedService
+                            {
+                                ServiceCode = s.ServiceCode,
+                                ServiceName = s.Service.ServiceName,
                             });
                             await LoadUnperfomedServicesAsync();
                             MessageBoxService.ShowInfo($"Услуга успешно отправлена");
