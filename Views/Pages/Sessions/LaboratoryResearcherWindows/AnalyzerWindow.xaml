@@ -104,7 +104,7 @@
                                             Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.CurrentPatient.PatientFullName}"
                                             Width="auto"></DataGridTextColumn>
                         <DataGridTextColumn Header="Услуга"
-                                            Binding="{Binding ServiceCode}"
+                                            Binding="{Binding ServiceName}"
                                             Width="auto"></DataGridTextColumn>
                         <DataGridTextColumn Header="Результат"
                                             Binding="{Binding Result}"
