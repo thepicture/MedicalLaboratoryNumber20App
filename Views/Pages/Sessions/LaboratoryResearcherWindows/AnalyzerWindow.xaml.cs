@@ -77,8 +77,23 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                         {
                             foreach (SerializedService service in serviceList.Services)
                             {
-                                service.ServiceName = context.Service
-                                .Find(service.ServiceCode).ServiceName;
+                                Service currentDatabaseService = context.Service
+                                                                .Find(service.ServiceCode);
+                                service.ServiceName = currentDatabaseService.ServiceName;
+                                if (double.TryParse(service.Result, out double result))
+                                {
+
+                                    bool isMeanDeviationTooHigh = 
+                                    (Convert.ToDouble(currentDatabaseService.MeanDeviation) / result > 5)
+                                    || (Convert.ToDouble(currentDatabaseService.MeanDeviation) / result < (1.0 / 5));
+                                    if (isMeanDeviationTooHigh)
+                                    {
+                                        _ = MessageBoxService.ShowWarning("Возможный сбой " +
+                                            "исследования " +
+                                            "или некачественный биоматериал " +
+                                            "для услуги " + service.ServiceName);
+                                    }
+                                }
                             }
                         }
                     });
