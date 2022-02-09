@@ -183,7 +183,6 @@
     <Compile Include="Models\Entities\UserType.cs">
       <DependentUpon>BaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExecutingService.cs" />
     <Compile Include="Models\GetServiceList.cs" />
     <Compile Include="Models\PostServiceList.cs" />
     <Compile Include="Models\SerializedService.cs" />

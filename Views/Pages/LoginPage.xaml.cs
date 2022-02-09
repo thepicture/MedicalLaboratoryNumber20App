@@ -218,6 +218,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             BtnLogin.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Срабатывает при требовании перегенерировать captcha.
+        /// </summary>
         private void OnCaptchaRequire(object sender, RoutedEventArgs e)
         {
             RequireCaptcha();
