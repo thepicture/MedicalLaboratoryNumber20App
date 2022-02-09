@@ -94,18 +94,24 @@
                 </TextBlock.Inlines>
             </TextBlock>
             <WrapPanel Orientation="Horizontal">
-                <Image>
-                    <Image.Source>
-                        <Binding Path="User.UserImage"
-                                 Source="{x:Static Application.Current}">
-                            <Binding.TargetNullValue>
-                                <ImageSource>
-                                    /Resources/logo.png
-                                </ImageSource>
-                            </Binding.TargetNullValue>
-                        </Binding>
-                    </Image.Source>
-                </Image>
+                <Button ToolTip="Изменить изображение"
+                        Click="PerformChangePicture"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Style="{x:Null}">
+                    <Image>
+                        <Image.Source>
+                            <Binding Path="User.UserImage"
+                                     Source="{x:Static Application.Current}">
+                                <Binding.TargetNullValue>
+                                    <ImageSource>
+                                        /Resources/logo.png
+                                    </ImageSource>
+                                </Binding.TargetNullValue>
+                            </Binding>
+                        </Image.Source>
+                    </Image>
+                </Button>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="{Binding User.UserName, StringFormat=Фамилия и имя: {0}, Source={x:Static Application.Current}}"></TextBlock>
                     <TextBlock Text="{Binding User.UserType.UserTypeName, StringFormat=Роль: {0}, Source={x:Static Application.Current}}"></TextBlock>

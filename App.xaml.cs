@@ -1,6 +1,5 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Services;
-using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -18,12 +17,17 @@ namespace MedicalLaboratoryNumber20App
             get => user; set
             {
                 user = value;
-                PropertyChanged?.Invoke(this,
-                                        new PropertyChangedEventArgs(nameof(User)));
+                InvalidateUser();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public TimerService TimerService { get; set; } = new TimerService();
+
+        internal void InvalidateUser()
+        {
+            PropertyChanged?.Invoke(this,
+                                        new PropertyChangedEventArgs(nameof(User)));
+        }
     }
 }
