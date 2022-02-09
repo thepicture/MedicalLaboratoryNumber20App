@@ -14,7 +14,8 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Opacity="{Binding IsBusy}"
-                  BitmapEffect="{StaticResource ShadowEffect}">
+                  BitmapEffect="{StaticResource ShadowEffect}"
+                  Panel.ZIndex="1">
                 <TextBlock Text="Штрих-код экспортируется ..."
                            Width="auto"
                            Style="{StaticResource HeaderBlock}"
@@ -172,62 +173,59 @@
                               Grid.Column="1"
                               Width="auto"></TextBox>
                 </Grid>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Все услуги (не из заказа):"
-                               Style="{StaticResource CommonBlock}"></TextBlock>
-                </StackPanel>
-                <DataGrid x:Name="DatabaseServices"
-                          ColumnWidth="*"
-                          MinHeight="60">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование"
-                                            Binding="{Binding ServiceName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Цена (руб.)"
-                                            Binding="{Binding PriceInRubles}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Среднее отклонение"
-                                            Binding="{Binding MeanDeviation}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Время выполнения (сек.)"
-                                            Binding="{Binding ExecutionTimeInSeconds}"></DataGridTextColumn>
-                        <DataGridTemplateColumn Header="Действие">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Добавить в заказ"
-                                            Width="150"
-                                            Click="PerformAddService"
-                                            ToolTip="Добавить услугу в текущий заказ"></Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Услуги заказа:"
-                               Style="{StaticResource CommonBlock}"></TextBlock>
-                </StackPanel>
-                <DataGrid x:Name="OrderServices"
-                          ColumnWidth="*"
-                          MinHeight="60">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование"
-                                            Binding="{Binding ServiceName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Цена (руб.)"
-                                            Binding="{Binding PriceInRubles}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Среднее отклонение"
-                                            Binding="{Binding MeanDeviation}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Время выполнения (сек.)"
-                                            Binding="{Binding ExecutionTimeInSeconds}"></DataGridTextColumn>
-                        <DataGridTemplateColumn Header="Действие">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Удалить из заказа"
-                                            Width="auto"
-                                            Click="PerformDeleteService"
-                                            ToolTip="Удалить услугу из текущего списка, НО не из базы данных"></Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <GroupBox Header="Все услуги (не из заказа):">
+
+                    <DataGrid x:Name="DatabaseServices"
+                              ColumnWidth="*"
+                              MinHeight="60">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование"
+                                                Binding="{Binding ServiceName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Цена (руб.)"
+                                                Binding="{Binding PriceInRubles}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Среднее отклонение"
+                                                Binding="{Binding MeanDeviation}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Время выполнения (сек.)"
+                                                Binding="{Binding ExecutionTimeInSeconds}"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Действие">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Добавить в заказ"
+                                                Width="150"
+                                                Click="PerformAddService"
+                                                ToolTip="Добавить услугу в текущий заказ"></Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+                <GroupBox Header="Услуги заказа:">
+                    <DataGrid x:Name="OrderServices"
+                              ColumnWidth="*"
+                              MinHeight="60">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование"
+                                                Binding="{Binding ServiceName}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Цена (руб.)"
+                                                Binding="{Binding PriceInRubles}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Среднее отклонение"
+                                                Binding="{Binding MeanDeviation}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Время выполнения (сек.)"
+                                                Binding="{Binding ExecutionTimeInSeconds}"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Действие">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить из заказа"
+                                                Width="auto"
+                                                Click="PerformDeleteService"
+                                                ToolTip="Удалить услугу из текущего списка, НО не из базы данных"></Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
                 <Button Content="Сохранить заказ"
                         ToolTip="Сохранить заказ, выгрузить электронный вид заказа в PDF и текстовый файл с информацией о заказе"
                         Click="PerformSaveOrder"
