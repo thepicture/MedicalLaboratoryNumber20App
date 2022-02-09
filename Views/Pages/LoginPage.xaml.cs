@@ -91,6 +91,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 MessageBoxService
                     .ShowInfo($"Вы авторизованы, {user.UserName}");
                 CaptchaPanel.Visibility = Visibility.Collapsed;
+
+                TextBlock sessionBlock = (App.Current.MainWindow as NavigationWindow)
+                   .FindName("SessionBlock") as TextBlock;
                 switch (user.UserType.UserTypeName)
                 {
                     case "Лаборант":
@@ -99,6 +102,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                                      TimeSpan.FromMinutes(5),
                                      TimeSpan.FromMinutes(1))
                             .Start();
+                        sessionBlock.Visibility = Visibility.Visible;
                         _ = NavigationService
                             .Navigate(new LaboratoryWorkerPage());
                         break;
@@ -108,16 +112,19 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                                      TimeSpan.FromMinutes(5),
                                      TimeSpan.FromMinutes(1))
                             .Start();
+                        sessionBlock.Visibility = Visibility.Visible;
                         _ = NavigationService
                             .Navigate(new LaboratoryResearcherPage());
                         break;
                     case "Бухгалтер":
                         _ = NavigationService
                             .Navigate(new AccountantPage());
+                        sessionBlock.Visibility = Visibility.Collapsed;
                         break;
                     case "Администратор":
                         _ = NavigationService
                             .Navigate(new AdminPage());
+                        sessionBlock.Visibility = Visibility.Collapsed;
                         break;
                     default:
                         System.Diagnostics.Debug

@@ -85,7 +85,8 @@
             <TextBlock HorizontalAlignment="Right"
                        VerticalAlignment="Bottom"
                        Width="auto"
-                       Style="{StaticResource CommonBlock}">
+                       Style="{StaticResource CommonBlock}"
+                       Name="SessionBlock">
                 <TextBlock.Inlines>
                     <Run Text="Сессия завершится через"></Run>
                     <Run Text="{Binding TimerService.TimeLeft, Source={x:Static Application.Current}, StringFormat=hh\\:mm, Mode=OneWay}"></Run>
