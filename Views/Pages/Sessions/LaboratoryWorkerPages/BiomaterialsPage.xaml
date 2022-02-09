@@ -24,7 +24,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Принять"
-                                    Click="PerformBiomaterialAccept"></Button>
+                                    Click="PerformBiomaterialAccept"
+                                    ToolTip="Сформировать заказ на пробирку и принять её"></Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

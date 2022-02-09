@@ -33,7 +33,8 @@
                         Width="auto"
                         Click="PerformSendToAnalyzerAsync"
                         IsHitTestVisible="{Binding ElementName=UnperformedServices, Path=SelectedItems.Count, Mode=OneWay}"
-                        Opacity="{Binding ElementName=UnperformedServices, Path=SelectedItems.Count, Mode=OneWay}"></Button>
+                        Opacity="{Binding ElementName=UnperformedServices, Path=SelectedItems.Count, Mode=OneWay}"
+                        ToolTip="Отправляет выделенные цветом услуги в списке на исследование"></Button>
             </Grid>
         </GroupBox>
         <GroupBox Header="Список выполняющихся услуг">
@@ -127,10 +128,12 @@
                                         </StackPanel.Style>
                                         <Button Content="Одобрить"
                                                 Width="auto"
-                                                Click="OnConformingResult"></Button>
+                                                Click="OnConformingResult"
+                                                ToolTip="Оповестить, что результат устраивает, затем он сохранится в базе данных"></Button>
                                         <Button Content="Отвергнуть"
                                                 Width="auto"
-                                                Click="OnNonConformingResult"></Button>
+                                                Click="OnNonConformingResult"
+                                                ToolTip="Уведомить о том, что результат некорректен, и необходим повторный забор материала"></Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
