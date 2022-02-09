@@ -189,6 +189,7 @@
     <Compile Include="Models\SerializedService.cs" />
     <Compile Include="Services\BarcodeScannerService.cs" />
     <Compile Include="Services\BarcodeService.cs" />
+    <Compile Include="Services\InsuranceCompanyReportService.cs" />
     <Compile Include="Services\ServiceEqualityComparer.cs" />
     <Compile Include="Services\CaptchaService.cs" />
     <Compile Include="Services\ControlImageService.cs" />
@@ -301,6 +302,15 @@
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>

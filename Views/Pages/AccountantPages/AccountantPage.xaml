@@ -11,12 +11,21 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Content="Просмотреть отчёты"
-                    Width="auto"
-                    ToolTip="Открыть страницу просмотра отчётов"></Button>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата начала периода"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <DatePicker Name="FromPicker"></DatePicker>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата окончания периода"
+                           Style="{StaticResource LabelBlock}"></TextBlock>
+                <DatePicker Name="ToPicker"></DatePicker>
+            </StackPanel>
             <Button Content="Сформировать счёт страховой компании"
                     Width="auto"
-                    ToolTip="Открыть страницу формирования счёта для страховой компании"></Button>
+                    ToolTip="Нажмите для формирования счёта страховой компании в формате .pdf и .csv"
+                    Click="PerformGenerateOrder"
+                    Name="GenerateOrderButton"></Button>
         </StackPanel>
     </Grid>
 </Page>
