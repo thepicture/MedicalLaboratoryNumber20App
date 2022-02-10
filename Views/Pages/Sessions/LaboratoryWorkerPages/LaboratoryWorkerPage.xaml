@@ -17,7 +17,8 @@
                     Click="NavigateToBiomaterials"></Button>
             <Button Content="Сформировать отчёты"
                     Width="auto"
-                    ToolTip="Открыть страницу формирования отчётов"></Button>
+                    ToolTip="Открыть страницу формирования отчётов"
+                    Click="GoToReportCreationPage"></Button>
         </StackPanel>
     </Grid>
 </Page>

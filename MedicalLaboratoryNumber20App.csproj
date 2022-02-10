@@ -83,6 +83,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\ReportPages\QualityControlReportPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\ReportPages\WhatReportUserNeedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\Sessions\LaboratoryResearcherPages\AnalyzersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -213,6 +221,12 @@
     </Compile>
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ReportPages\QualityControlReportPage.xaml.cs">
+      <DependentUpon>QualityControlReportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ReportPages\WhatReportUserNeedPage.xaml.cs">
+      <DependentUpon>WhatReportUserNeedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Sessions\LaboratoryResearcherPages\AnalyzersPage.xaml.cs">
       <DependentUpon>AnalyzersPage.xaml</DependentUpon>

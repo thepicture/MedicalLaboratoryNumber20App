@@ -13,7 +13,8 @@
                     VerticalAlignment="Center">
             <Button Content="Cформировать отчеты"
                     Width="auto"
-                    ToolTip="Открыть страницу формирования отчётов"></Button>
+                    ToolTip="Открыть страницу формирования отчётов"
+                    Click="GoToReportCreationPage"></Button>
             <Button Content="История входа"
                     Width="auto"
                     ToolTip="Открыть историю входа пользователей"
