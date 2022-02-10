@@ -25,6 +25,13 @@
             <ComboBox Name="ComboSort"
                       SelectionChanged="OnSortChanged"></ComboBox>
         </WrapPanel>
+        <TextBlock Text="Ничего не найдено. Попробуйте ввести в поисковое поле другой логин"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Grid.Row="1"
+                   Panel.ZIndex="1"
+                   IsHitTestVisible="False"
+                   Opacity="{Binding ElementName=LoginHistories, Path=Items.IsEmpty}"></TextBlock>
         <DataGrid Grid.Row="1"
                   Name="LoginHistories"
                   ColumnWidth="*">
