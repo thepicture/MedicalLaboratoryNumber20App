@@ -361,6 +361,12 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// </summary>
         private async void PerformSaveOrder(object sender, RoutedEventArgs e)
         {
+            if (ComboPatients.SelectedItem is null)
+            {
+                _ = await MessageBoxService
+                .ShowWarning("Необходимо указать клиента в выпадающем списке");
+                return;
+            }
             if (OrderServices.Items.Count == 0)
             {
                 _ = await MessageBoxService
