@@ -539,5 +539,40 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         {
             NavigationService.GoBack();
         }
+
+        /// <summary>
+        /// Открывает модальное окно редактирования существующего пациента.
+        /// </summary>
+        private void PerformEditPatient(object sender, RoutedEventArgs e)
+        {
+            Patient patient = ComboPatients.SelectedItem as Patient;
+            AddPatientWindow addPatientWindow =
+                           new AddPatientWindow(patient)
+                           {
+                               Owner = App.Current.MainWindow,
+                           };
+            if ((bool)addPatientWindow.ShowDialog())
+            {
+                MessageBoxService.ShowInfo("Пациент успешно изменен!");
+                _ = LoadPatients()
+                    .ContinueWith(t =>
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            ComboPatients.SelectedItem = ComboPatients.Items
+                           .Cast<Patient>()
+                           .First(p =>
+                           {
+                               return p.PatientId == addPatientWindow.Patient.PatientId;
+                           });
+                        });
+                    });
+            }
+            else
+            {
+                MessageBoxService.ShowInfo("Изменение пациента " +
+                    "было отменено");
+            }
+        }
     }
 }

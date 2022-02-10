@@ -20,9 +20,17 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         {
             InitializeComponent();
             DataContext = this;
-            Patient.BirthDate = System.DateTime.Now;
+            if (Patient.PatientId == 0)
+            {
+                Patient.BirthDate = System.DateTime.Now;
+            }
             LoadInsuranceCompanies();
             LoadSocialTypes();
+        }
+
+        public AddPatientWindow(Patient patient) : this()
+        {
+            Patient = patient;
         }
 
         /// <summary>
