@@ -1,14 +1,70 @@
 ﻿<Page x:Class="MedicalLaboratoryNumber20App.Views.Pages.ReportPages.QualityControlReportPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:MedicalLaboratoryNumber20App.Views.Pages.ReportPages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="QualityControlReportPage">
+      xmlns:charts="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="Отчёт по контролю качества">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal">
+            <TextBlock Text="Представлять отчёт"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <ComboBox Name="ReportViewTypes"
+                      ItemsSource="{Binding ReportViewTypesList}"
+                      SelectedItem="{Binding CurrentViewType}"></ComboBox>
+            <TextBlock Text="Выгрузить данные отчёта в .pdf файл как"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <ComboBox Name="ReportSaveTypes"
+                      ItemsSource="{Binding ReportSaveTypesList}"
+                      SelectedItem="{Binding CurrentSaveType}"></ComboBox>
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Ср. отклонение"
+                               Style="{StaticResource CommonBlock}"
+                               FontWeight="Bold"></TextBlock>
+                    <TextBlock Style="{StaticResource CommonBlock}"
+                               Text="{Binding MeanDeviation, StringFormat={}{0:F2}}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Коэф. вариации"
+                               Style="{StaticResource CommonBlock}"
+                               FontWeight="Bold"></TextBlock>
+                    <TextBlock Style="{StaticResource CommonBlock}"
+                               Text="{Binding VariationCoefficient, StringFormat={}{0:F2}%}"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+            <WindowsFormsHost Grid.Row="1">
+                <charts:Chart x:Name="ControlReportChart">
+                    <charts:Chart.ChartAreas>
+                        <charts:ChartArea Name="QualityControl"></charts:ChartArea>
+                    </charts:Chart.ChartAreas>
+                    <charts:Chart.Legends>
+                        <charts:Legend Name="РС">
+                        </charts:Legend>
+                    </charts:Chart.Legends>
+                    <charts:Chart.Series>
+                        <charts:Series x:Name="ControlReportSeries"
+                                       ChartType="Spline"></charts:Series>
+                    </charts:Chart.Series>
+                </charts:Chart>
+            </WindowsFormsHost>
+        </Grid>
     </Grid>
 </Page>

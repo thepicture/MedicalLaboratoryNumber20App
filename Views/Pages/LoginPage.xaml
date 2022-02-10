@@ -17,7 +17,7 @@
                            Style="{StaticResource LabelBlock}"></TextBlock>
                 <TextBox x:Name="Login"
                          MaxLength="100"
-                         Text="accountant"></TextBox>
+                         Text="worker"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Введите пароль:"
