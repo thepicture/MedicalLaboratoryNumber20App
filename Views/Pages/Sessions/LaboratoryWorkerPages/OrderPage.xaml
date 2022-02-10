@@ -146,6 +146,16 @@
                               Grid.Column="1"
                               Width="auto"></TextBox>
                 </Grid>
+                <TextBlock Text="Пациентов по запросу не найдено. Попробуйте ввести другой поисковый запрос"
+                           TextWrapping="Wrap"
+                           Opacity="{Binding ElementName=ComboPatients, Path=Items.IsEmpty}"
+                           HorizontalAlignment="Right"
+                           Margin="5 -5 5 5"
+                           VerticalAlignment="Center"
+                           Panel.ZIndex="1"
+                           IsHitTestVisible="False"
+                           Height="auto"
+                           ></TextBlock>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -174,7 +184,16 @@
                               Width="auto"></TextBox>
                 </Grid>
                 <GroupBox Header="Все услуги (не из заказа):">
-
+                    <StackPanel>
+                        <TextBlock Text="Услуг по запросу не найдено. Попробуйте ввести другой поисковый запрос"
+                                   TextWrapping="Wrap"
+                                   Opacity="{Binding ElementName=DatabaseServices, Path=Items.IsEmpty}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource CommonBlock}"
+                                   Panel.ZIndex="1"
+                                   IsHitTestVisible="False"
+                                   Height="auto"></TextBlock>
                     <DataGrid x:Name="DatabaseServices"
                               ColumnWidth="*"
                               MinHeight="60">
@@ -199,6 +218,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Услуги заказа:">
                     <DataGrid x:Name="OrderServices"
