@@ -22,6 +22,13 @@
             <ComboBox Name="ReportViewTypes"
                       ItemsSource="{Binding ReportViewTypesList}"
                       SelectedItem="{Binding CurrentViewType}"></ComboBox>
+            <TextBlock Text="для услуги"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <ComboBox Name="ComboServices"
+                      ItemsSource="{Binding Services}"
+                      SelectedItem="{Binding CurrentService}"
+                      DisplayMemberPath="ServiceName"></ComboBox>
             <TextBlock Text="Выгрузить данные отчёта в .pdf файл как"
                        Style="{StaticResource CommonBlock}"
                        Width="auto"></TextBlock>
@@ -58,14 +65,15 @@
                     <charts:Chart.ChartAreas>
                         <charts:ChartArea Name="QualityControl">
                             <charts:ChartArea.AxisX>
-                                <charts:Axis IsLabelAutoFit="False">
+                                <charts:Axis IsLabelAutoFit="False"
+                                             Interval="2">
                                     <charts:Axis.LabelStyle>
                                         <charts:LabelStyle Angle="-45"></charts:LabelStyle>
                                     </charts:Axis.LabelStyle>
                                 </charts:Axis>
                             </charts:ChartArea.AxisX>
                             <charts:ChartArea.AxisY>
-                                <charts:Axis Name="YAxis">
+                                <charts:Axis x:Name="YAxis">
                                     <charts:Axis.CustomLabels>
                                         <charts:CustomLabel Name="Negative3sValue"></charts:CustomLabel>
                                         <charts:CustomLabel Name="Negative2sValue"></charts:CustomLabel>
@@ -101,12 +109,11 @@
                         </charts:ChartArea>
                     </charts:Chart.ChartAreas>
                     <charts:Chart.Legends>
-                        <charts:Legend Name="РС">
+                        <charts:Legend>
                         </charts:Legend>
                     </charts:Chart.Legends>
                     <charts:Chart.Series>
                         <charts:Series x:Name="ControlReportSeries"
-                                       LegendText="PC"
                                        ChartType="Spline"
                                        MarkerStyle="Circle"
                                        MarkerBorderColor="Black"

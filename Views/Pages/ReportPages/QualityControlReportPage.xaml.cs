@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using MedicalLaboratoryNumber20App.Models.Entities;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
@@ -33,6 +36,23 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
 
             ReportSaveTypes.ItemsSource = ReportSaveTypesList;
             CurrentSaveType = ReportSaveTypesList.First();
+
+        }
+
+        /// <summary>
+        /// Подгружает список услуг асинхронно.
+        /// </summary>
+        private async Task LoadServicesAsync()
+        {
+            Services = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.Service.ToList();
+                }
+            });
+            CurrentService = Services.First();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -72,13 +92,39 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
         /// <summary>
         /// Отображает график/таблицу в соответствии с выбранным типом.
         /// </summary>
-        private void FilterView()
+        private async void FilterView()
         {
-            ControlReportSeries.Points.AddXY("2020-01-01 00:00:00", 3);
-            ControlReportSeries.Points.AddXY("2020-01-02 00:00:00", 4);
-            ControlReportSeries.Points.AddXY("2020-01-03 00:00:00", 1);
-            ControlReportSeries.Points.AddXY("2020-01-04 00:00:00", 2.5);
-            ControlReportSeries.Points.AddXY("2020-01-05 00:00:00", 6);
+            if (Services == null)
+            {
+                await LoadServicesAsync();
+            }
+            BloodServices = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.BloodServiceOfUser
+                    .Include(bs => bs.Service)
+                    .Where(bs => bs.ServiceCode == CurrentService.Code)
+                    .ToList();
+                }
+            });
+            ControlReportSeries.Points.Clear();
+            ControlReportSeries.LegendText = CurrentService.ServiceName;
+            if (BloodServices.Count == 0)
+            {
+                return;
+            }
+
+            foreach (BloodServiceOfUser bloodService in BloodServices)
+            {
+                if (decimal.TryParse(bloodService.Result, out decimal result))
+                {
+                    ControlReportSeries.Points.AddXY(bloodService.FinishedDateTime
+                        .ToString("yyyy-MM-dd hh:mm:ss"),
+                                                     result.ToString("N2"));
+                }
+            }
         }
 
         public string CurrentSaveType
@@ -92,7 +138,43 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             }
         }
 
+        public Service CurrentService
+        {
+            get => _currentService;
+            set
+            {
+                _currentService = value;
+                PropertyChanged?.Invoke(this,
+                                     new PropertyChangedEventArgs(nameof(CurrentService)));
+                FilterView();
+            }
+        }
+        public List<Service> Services
+        {
+            get => _services;
+            set
+            {
+                _services = value;
+                PropertyChanged?.Invoke(this,
+                                     new PropertyChangedEventArgs(nameof(Services)));
+            }
+        }
+
+        public List<BloodServiceOfUser> BloodServices
+        {
+            get => _bloodServices;
+            set
+            {
+                _bloodServices = value;
+                PropertyChanged?.Invoke(this,
+                                     new PropertyChangedEventArgs(nameof(BloodServices)));
+            }
+        }
+
         private string _currentSaveType;
         private string _currentViewType;
+        private List<Service> _services;
+        private Service _currentService;
+        private List<BloodServiceOfUser> _bloodServices;
     }
 }
