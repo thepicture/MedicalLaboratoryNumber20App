@@ -93,11 +93,18 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             }
         }
 
+        public bool IsBusy;
+
         /// <summary>
         /// Отображает график/таблицу в соответствии с выбранным типом.
         /// </summary>
         private async void FilterView()
         {
+            if (IsBusy)
+            {
+                return;
+            }
+            IsBusy = true;
             if (Services == null)
             {
                 await LoadServicesAsync();
@@ -124,19 +131,16 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             {
                 return;
             }
-
             double meanValue = BloodServices
                 .Where(bs => double.TryParse(bs.Result, out _))
                 .Average(bs => double.Parse(bs.Result));
 
             MeanQuadraticDeviation = Convert.ToDouble(GetMeanQuadraticDeviation(BloodServices, meanValue));
-
             Negative3s.FromPosition =
                Negative3sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 3);
             Negative3s.ToPosition =
              Negative3sValue.ToPosition = meanValue - (MeanQuadraticDeviation * 3) + 0.01;
             Negative3sValue.Text = (meanValue - (MeanQuadraticDeviation * 3)).ToString("N2");
-
             Negative2s.FromPosition =
             Negative2sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 2);
             Negative2s.ToPosition =
@@ -168,7 +172,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             Positive1sValue.Text = (meanValue + (MeanQuadraticDeviation * 1)).ToString("N2");
 
             VariationCoefficient = MeanQuadraticDeviation / meanValue * 100;
-
             MeanDeviationCenter.FromPosition =
                 MeanDeviationCenterValue.FromPosition =
                 BloodServices
@@ -180,7 +183,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
              .Where(bs => double.TryParse(bs.Result, out _))
              .Average(bs => double.Parse(double.Parse(bs.Result).ToString("N2")) + 0.01);
             MeanDeviationCenterValue.Text = meanValue.ToString("N2");
-
             foreach (BloodServiceOfUser bloodService in BloodServices)
             {
                 if (decimal.TryParse(bloodService.Result, out decimal result))
@@ -190,6 +192,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                                                      result.ToString("N2"));
                 }
             }
+            IsBusy = false;
         }
 
         /// <summary>
