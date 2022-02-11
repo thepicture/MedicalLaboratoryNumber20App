@@ -17,13 +17,13 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
         public AnalyzersPage()
         {
             InitializeComponent();
-            LoadAnalyzers();
+            _ = LoadAnalyzersAsync();
         }
 
         /// <summary>
         /// Подгружает анализаторы асинхронно в таблицу.
         /// </summary>
-        private async void LoadAnalyzers()
+        private async Task LoadAnalyzersAsync()
         {
             IEnumerable<Analyzer> currentAnalyzers = await Task.Run(() =>
             {

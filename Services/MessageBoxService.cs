@@ -34,10 +34,10 @@ namespace MedicalLaboratoryNumber20App.Models.Services
         }
 
         /// <summary>
-        /// Показывает предупреждение в отдельном потоке.
+        /// Показывает предупреждение асинхронно.
         /// </summary>
         /// <param name="message">Предупреждение.</param>
-        public async static Task<MessageBoxResult> ShowWarning(string message)
+        public async static Task<MessageBoxResult> ShowWarningAsync(string message)
         {
             return await Task.Run(() => MessageBox.Show(message,
                          "Предупреждение",

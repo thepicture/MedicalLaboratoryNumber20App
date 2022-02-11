@@ -95,7 +95,7 @@
             </TextBlock>
             <WrapPanel Orientation="Horizontal">
                 <Button ToolTip="Изменить изображение"
-                        Click="PerformChangePicture"
+                        Click="PerformChangePictureAsync"
                         Background="Transparent"
                         BorderBrush="Transparent"
                         Style="{x:Null}">

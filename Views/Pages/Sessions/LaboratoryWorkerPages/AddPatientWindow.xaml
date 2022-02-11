@@ -81,7 +81,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Сохранить"
-                        Click="OnPatientSave"
+                        Click="OnPatientSaveAsync"
                         ToolTip="Добавить пациента и в случае успеха вернуться к заказу"></Button>
                 <Button Content="Назад"
                         Click="PerformGoBack"

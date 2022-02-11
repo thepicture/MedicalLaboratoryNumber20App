@@ -88,7 +88,7 @@
     </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Войти"
-                        Click="PerformLogin"
+                        Click="PerformLoginAsync"
                         IsDefault="True"
                         Name="BtnLogin"
                         ToolTip="Авторизоваться в системе"></Button>

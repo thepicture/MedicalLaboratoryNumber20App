@@ -89,7 +89,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                                     || (Convert.ToDouble(currentDatabaseService.MeanDeviation) / result < (1.0 / 5));
                                     if (isMeanDeviationTooHigh)
                                     {
-                                        _ = MessageBoxService.ShowWarning("Возможный сбой " +
+                                        _ = MessageBoxService.ShowWarningAsync("Возможный сбой " +
                                             "исследования " +
                                             "или некачественный биоматериал " +
                                             "для услуги " + service.ServiceName);
@@ -146,7 +146,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
                 .Distinct()
                 .Count() != 1)
             {
-                _ = MessageBoxService.ShowWarning("Отправка услуг, " +
+                _ = MessageBoxService.ShowWarningAsync("Отправка услуг, " +
                     "принадлежащих более, чем одному пациенту, " +
                     "пока не поддерживается. Выберите список услуг, " +
                     "относящиеся к одному и тому же пациенту");
@@ -186,7 +186,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
 
                         if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                         {
-                            _ = await MessageBoxService.ShowWarning($"Возникла ошибка.\n" +
+                            _ = await MessageBoxService.ShowWarningAsync($"Возникла ошибка.\n" +
                                 $"Сообщение: {result}");
                             return;
 
@@ -242,7 +242,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
         /// <summary>
         /// Вызывается в момент одобрения исследования.
         /// </summary>
-        private async void OnConformingResult(object sender, RoutedEventArgs e)
+        private async void OnConformingResultAsync(object sender, RoutedEventArgs e)
         {
             if (!MessageBoxService.ShowQuestion("Вы уверены, что данную услугу следует одобрить?"))
             {
@@ -273,7 +273,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryResearcher
         /// <summary>
         /// Вызывается при необходимости повторного забора материала.
         /// </summary>
-        private async void OnNonConformingResult(object sender, RoutedEventArgs e)
+        private async void OnNonConformingResultAsync(object sender, RoutedEventArgs e)
         {
             if (!MessageBoxService.ShowQuestion("Вы уверены, " +
                 "что необходим повторный забор материала?"))

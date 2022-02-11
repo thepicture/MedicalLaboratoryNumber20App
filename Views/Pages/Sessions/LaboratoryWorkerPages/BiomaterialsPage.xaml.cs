@@ -22,7 +22,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Подгружает асинхронно биоматериалы в список.
         /// </summary>
-        private async void LoadBiomaterials()
+        private async Task LoadBiomaterialsAsync()
         {
             IEnumerable<Blood> bloodEnumerable = await Task.Run(() =>
             {
@@ -50,11 +50,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Вызывается в момент обновления видимости страницы.
         /// </summary>
-        private void OnLoad(object sender, DependencyPropertyChangedEventArgs e)
+        private async void OnLoad(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Visibility == Visibility.Visible)
             {
-                LoadBiomaterials();
+                await LoadBiomaterialsAsync();
             }
         }
     }

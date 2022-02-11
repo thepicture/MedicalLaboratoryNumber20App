@@ -2,7 +2,6 @@
 using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Views.Pages;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +12,7 @@ namespace MedicalLaboratoryNumber20App
     /// <summary>
     /// Interaction logic for NavigationWindow.xaml
     /// </summary>
-    public partial class NavigationWindow : Window, INotifyPropertyChanged
+    public partial class NavigationWindow : Window
     {
         public NavigationWindow()
         {
@@ -26,8 +25,6 @@ namespace MedicalLaboratoryNumber20App
                 App.Current.Shutdown();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnExitingToLoginPage(object sender, RoutedEventArgs e)
         {
@@ -53,7 +50,8 @@ namespace MedicalLaboratoryNumber20App
         /// <summary>
         /// Изменяет аватар пользователя.
         /// </summary>
-        private async void PerformChangePicture(object sender, RoutedEventArgs e)
+        private async void PerformChangePictureAsync(object sender,
+                                                     RoutedEventArgs e)
         {
             OpenFileDialog pictureFileDialog = new OpenFileDialog
             {

@@ -1,6 +1,5 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -24,14 +23,14 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AdminPages
             ComboSort.ItemsSource = sortTypes;
             ComboSort.SelectedItem = sortTypes.First();
             DataContext = this;
-            PerformSearchHistories();
+            _ = PerformSearchHistoriesAsync();
         }
 
         /// <summary>
         /// Выводит историю входа, отфильтрованную или отсортированную 
         /// в зависимости от соответствующих параметров.
         /// </summary>
-        private async void PerformSearchHistories()
+        private async Task PerformSearchHistoriesAsync()
         {
             IEnumerable<LoginHistory> currentLoginHistories =
                 await Task.Run(() =>
@@ -72,17 +71,19 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AdminPages
         /// <summary>
         /// Вызывается в момент изменения текста поиска.
         /// </summary>
-        private void OnLoginSearchTextChanged(object sender, TextChangedEventArgs e)
+        private async void OnLoginSearchTextChangedAsync(object sender,
+                                                    TextChangedEventArgs e)
         {
-            PerformSearchHistories();
+            await PerformSearchHistoriesAsync();
         }
 
         /// <summary>
         /// Вызывается в момент изменения типа сортировки.
         /// </summary>
-        private void OnSortChanged(object sender, SelectionChangedEventArgs e)
+        private async void OnSortChangedAsync(object sender,
+                                   SelectionChangedEventArgs e)
         {
-            PerformSearchHistories();
+            await PerformSearchHistoriesAsync();
         }
     }
 }

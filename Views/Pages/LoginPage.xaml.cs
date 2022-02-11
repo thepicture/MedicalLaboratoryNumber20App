@@ -34,12 +34,12 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
         /// <summary>
         /// Осуществляет авторизацию.
         /// </summary>
-        private async void PerformLogin(object sender, RoutedEventArgs e)
+        private async void PerformLoginAsync(object sender, RoutedEventArgs e)
         {
             if (CaptchaPanel.Visibility == Visibility.Visible
                 && !_captchaService.Check(Captcha.Text))
             {
-                _ = MessageBoxService.ShowWarning("Вы ввели неверную captcha. " +
+                _ = MessageBoxService.ShowWarningAsync("Вы ввели неверную captcha. " +
                     "Попробуйте ещё раз");
                 RequireCaptcha();
                 return;
@@ -49,7 +49,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             if (string.IsNullOrEmpty(userLogin)
                 || string.IsNullOrEmpty(userPassword))
             {
-                _ = MessageBoxService.ShowWarning("Заполните поля и логина, и пароля");
+                _ = MessageBoxService.ShowWarningAsync("Заполните поля и логина, и пароля");
                 return;
             }
             BtnLogin.IsEnabled = ShowPasswordBox.IsEnabled = false;
@@ -71,7 +71,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
             {
                 if (_isFirstTimeWrongPassword)
                 {
-                    _ = MessageBoxService.ShowWarning("Неуспешная авторизация. " +
+                    _ = MessageBoxService.ShowWarningAsync("Неуспешная авторизация. " +
                         "Неверный логин или пароль");
                     RequireCaptcha();
                     _isFirstTimeWrongPassword = false;
@@ -79,7 +79,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                 else
                 {
                     TimeSpan timeSpan = TimeSpan.FromSeconds(10);
-                    _ = MessageBoxService.ShowWarning($"Система заблокирована " +
+                    _ = MessageBoxService.ShowWarningAsync($"Система заблокирована " +
                         $"на {timeSpan.TotalSeconds:N2} секунд");
                     RequireCaptcha();
                     BlockIntefaceFor(timeSpan);
@@ -134,7 +134,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages
                             "Обратитесь к системному администратору");
                         break;
                 }
-                LoginHistoryService.Write(Login.Text, user != null);
+                await LoginHistoryService.WriteHistoryAsync(Login.Text, user != null);
             }
         }
 

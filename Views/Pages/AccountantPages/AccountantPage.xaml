@@ -24,7 +24,7 @@
             <Button Content="Сформировать счёт страховой компании"
                     Width="auto"
                     ToolTip="Нажмите для формирования счёта страховой компании в формате .pdf и .csv"
-                    Click="PerformGenerateOrder"
+                    Click="PerformGenerateOrderAsync"
                     Name="GenerateOrderButton"></Button>
         </StackPanel>
     </Grid>

@@ -26,13 +26,13 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AccountantPages
         /// <summary>
         /// Формирует счёт страховой компании в формате .pdf и .csv.
         /// </summary>
-        private async void PerformGenerateOrder(object sender,
+        private async void PerformGenerateOrderAsync(object sender,
                                                 RoutedEventArgs e)
         {
             if (FromPicker.SelectedDate == null
                 || ToPicker.SelectedDate == null)
             {
-                _ = MessageBoxService.ShowWarning("Укажите " +
+                _ = MessageBoxService.ShowWarningAsync("Укажите " +
                     "корректную дату " +
                     "начала и окончания периода");
                 return;
@@ -40,7 +40,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AccountantPages
             if (FromPicker.SelectedDate >= ToPicker.SelectedDate)
             {
                 _ = MessageBoxService
-                    .ShowWarning("Дата начала периода "
+                    .ShowWarningAsync("Дата начала периода "
                                  + "должна быть " +
                                  "раньше даты " +
                                  "окончания периода");
@@ -81,7 +81,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.AccountantPages
             });
             if (companies.Count() == 0)
             {
-                _ = MessageBoxService.ShowWarning("За указанный период не найдено услуг");
+                _ = MessageBoxService.ShowWarningAsync("За указанный период не найдено услуг");
                 return;
             }
             if (companies.Select(c => c.Patient).Distinct().Count() > 500)

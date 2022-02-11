@@ -35,7 +35,7 @@
                     <StackPanel Grid.Column="1">
                         <Grid Grid.Column="1">
                             <TextBox x:Name="BarcodeBox"
-                                     PreviewKeyUp="OnBarcodeKeyDown"
+                                     PreviewKeyUp="OnBarcodeKeyDownAsync"
                                      Width="auto"
                                      ToolTip="Код пришедшей пробирки, если он существует"></TextBox>
                             <TextBox IsHitTestVisible="False"
@@ -159,7 +159,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Поиск по ФИО:"
                                Style="{StaticResource CommonBlock}"></TextBlock>
-                    <TextBox  KeyUp="OnPatientSearch"
+                    <TextBox  KeyUp="OnPatientSearchAsync"
                               x:Name="PatientSearchBox"
                               MaxLength="4"
                               ToolTip="Искать пациента по ФИО в выпадающем списке"
@@ -195,7 +195,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Поиск по названию услуги:"
                                Style="{StaticResource CommonBlock}"></TextBlock>
-                    <TextBox  PreviewKeyUp="OnServiceSearch"
+                    <TextBox  PreviewKeyUp="OnServiceSearchAsync"
                               x:Name="ServiceSearchBox"
                               MaxLength="6"
                               ToolTip="Искать услугу по названию в таблице"
@@ -257,7 +257,7 @@
                                     <DataTemplate>
                                         <Button Content="Удалить из заказа"
                                                 Width="auto"
-                                                Click="PerformDeleteService"
+                                                Click="PerformDeleteServiceAsync"
                                                 ToolTip="Удалить услугу из текущего списка, НО не из базы данных"></Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -267,7 +267,7 @@
                 </GroupBox>
                 <Button Content="Сохранить заказ"
                         ToolTip="Сохранить заказ, выгрузить электронный вид заказа в PDF и текстовый файл с информацией о заказе"
-                        Click="PerformSaveOrder"
+                        Click="PerformSaveOrderAsync"
                         Name="SaveOrderButton"></Button>
                 <Button Content="Назад"
                         ToolTip="Отменить создание заказа"

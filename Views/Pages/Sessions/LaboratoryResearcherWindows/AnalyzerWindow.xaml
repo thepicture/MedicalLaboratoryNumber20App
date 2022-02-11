@@ -128,11 +128,11 @@
                                         </StackPanel.Style>
                                         <Button Content="Одобрить"
                                                 Width="auto"
-                                                Click="OnConformingResult"
+                                                Click="OnConformingResultAsync"
                                                 ToolTip="Оповестить, что результат устраивает, затем он сохранится в базе данных"></Button>
                                         <Button Content="Отвергнуть"
                                                 Width="auto"
-                                                Click="OnNonConformingResult"
+                                                Click="OnNonConformingResultAsync"
                                                 ToolTip="Уведомить о том, что результат некорректен, и необходим повторный забор материала"></Button>
                                     </StackPanel>
                                 </DataTemplate>

@@ -18,12 +18,12 @@
                        Style="{StaticResource LabelBlock}"
                        Width="auto"></TextBlock>
             <TextBox x:Name="LoginSearchBox"
-                     TextChanged="OnLoginSearchTextChanged"></TextBox>
+                     TextChanged="OnLoginSearchTextChangedAsync"></TextBox>
             <TextBlock Text="Сортировка:"
                        Style="{StaticResource LabelBlock}"
                        Width="auto"></TextBlock>
             <ComboBox Name="ComboSort"
-                      SelectionChanged="OnSortChanged"></ComboBox>
+                      SelectionChanged="OnSortChangedAsync"></ComboBox>
         </WrapPanel>
         <TextBlock Text="Ничего не найдено. Попробуйте ввести в поисковое поле другой логин"
                    HorizontalAlignment="Center"

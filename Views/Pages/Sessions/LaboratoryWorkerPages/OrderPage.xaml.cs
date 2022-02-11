@@ -37,15 +37,15 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             Blood = blood;
             BarcodeBox.Text = Blood.Barcode;
             OrderServices.ItemsSource = new List<Service>();
-            LoadBarcodeHint();
-            _ = LoadPatients();
-            _ = LoadDatabaseServices();
+            _ = LoadBarcodeHintAsync();
+            _ = LoadPatientsAsync();
+            _ = LoadDatabaseServicesAsync();
         }
 
         /// <summary>
         /// Подгружает все услуги из базы данных асинхронно.
         /// </summary>
-        private async Task LoadDatabaseServices()
+        private async Task LoadDatabaseServicesAsync()
         {
             IEnumerable<Service> databaseServices = await Task.Run(() =>
             {
@@ -62,7 +62,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// Загружает подсказку штрих-кода, 
         /// если соответствующее поле ввода пустое.
         /// </summary>
-        private async void LoadBarcodeHint()
+        private async Task LoadBarcodeHintAsync()
         {
             if (!string.IsNullOrWhiteSpace(BarcodeBox.Text))
             {
@@ -103,9 +103,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// Позволяет ввести посредством нажатия клавиши Enter
         /// или сохранить штрих-код.
         /// </summary>
-        private async void OnBarcodeKeyDown(object sender, KeyEventArgs e)
+        private async void OnBarcodeKeyDownAsync(object sender,
+                                                 KeyEventArgs e)
         {
-            LoadBarcodeHint();
+            await LoadBarcodeHintAsync();
             if (e.Key == Key.Enter)
             {
                 if (string.IsNullOrEmpty(BarcodeBox.Text))
@@ -125,14 +126,14 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                         }))
                     {
                         GenerateBarcode();
-                        SaveBarcode();
+                        await SaveBarcodeAsync();
                     }
                     else
                     {
                         BarcodeBox.IsEnabled = false;
 
                         _ = await MessageBoxService
-                            .ShowWarning("Не удалось создать штрих-код. "
+                            .ShowWarningAsync("Не удалось создать штрих-код. "
                                          + "Необходимо ввести только "
                                          + "десятичные цифры");
                         BarcodeBox.IsEnabled = true;
@@ -158,7 +159,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Сохраняет штрих-код в память текущего устройства.
         /// </summary>
-        private async void SaveBarcode()
+        private async Task SaveBarcodeAsync()
         {
             byte[] barcodeBytes = null;
             Dispatcher.Invoke(() =>
@@ -174,7 +175,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 != System.Windows.Forms.DialogResult.OK)
             {
                 _ = await MessageBoxService
-                    .ShowWarning("Выбор пути сохранения был отменён");
+                    .ShowWarningAsync("Выбор пути сохранения был отменён");
                 return;
             }
             IsBusy = true;
@@ -219,7 +220,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             if ((bool)addPatientWindow.ShowDialog())
             {
                 MessageBoxService.ShowInfo("Пациент успешно добавлен!");
-                _ = LoadPatients()
+                _ = LoadPatientsAsync()
                     .ContinueWith(t =>
                     {
                         Dispatcher.Invoke(() =>
@@ -243,7 +244,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Загружает пациентов в выпадающий список асинхронно.
         /// </summary>
-        private async Task LoadPatients()
+        private async Task LoadPatientsAsync()
         {
             string searchText = PatientSearchBox.Text;
             IEnumerable<Patient> patients = await Task.Run(() =>
@@ -279,10 +280,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Удаляет услугу из заказа, но оставляет её в базе данных.
         /// </summary>
-        private async void PerformDeleteService(object sender, RoutedEventArgs e)
+        private async void PerformDeleteServiceAsync(object sender,
+                                                     RoutedEventArgs e)
         {
             Service service = (sender as Button).DataContext as Service;
-            await LoadDatabaseServices();
+            await LoadDatabaseServicesAsync();
             DatabaseServices.ItemsSource = DatabaseServices.ItemsSource
                 .Cast<Service>()
                 .Except
@@ -301,9 +303,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Вызывается в момент поиска пациента по ФИО.
         /// </summary>
-        private async void OnPatientSearch(object sender, KeyEventArgs e)
+        private async void OnPatientSearchAsync(object sender,
+                                                KeyEventArgs e)
         {
-            await LoadPatients();
+            await LoadPatientsAsync();
         }
 
         /// <summary>
@@ -326,7 +329,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Вызывается при поиске услуги по названию.
         /// </summary>
-        private async void OnServiceSearch(object sender, KeyEventArgs e)
+        private async void OnServiceSearchAsync(object sender,
+                                                KeyEventArgs e)
         {
             IEnumerable<Service> foundServices = await Task.Run(() =>
             {
@@ -359,18 +363,19 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Сохраняет заказ.
         /// </summary>
-        private async void PerformSaveOrder(object sender, RoutedEventArgs e)
+        private async void PerformSaveOrderAsync(object sender,
+                                                 RoutedEventArgs e)
         {
             if (ComboPatients.SelectedItem is null)
             {
                 _ = await MessageBoxService
-                .ShowWarning("Необходимо указать клиента в выпадающем списке");
+                .ShowWarningAsync("Необходимо указать клиента в выпадающем списке");
                 return;
             }
             if (OrderServices.Items.Count == 0)
             {
                 _ = await MessageBoxService
-                    .ShowWarning("Укажите хотя бы одну услугу для заказа");
+                    .ShowWarningAsync("Укажите хотя бы одну услугу для заказа");
                 return;
             }
             if (string.IsNullOrWhiteSpace(BarcodeBox.Text)
@@ -381,7 +386,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                     return char.IsDigit(c);
                 }))
             {
-                _ = await MessageBoxService.ShowWarning("Введите штрих-код " +
+                _ = await MessageBoxService.ShowWarningAsync("Введите штрих-код " +
                     "в виде десятичных цифр, " +
                     "так как формирование заказа без штрих-кода " +
                     "не допускается");
@@ -420,8 +425,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
             if (isSaved)
             {
-                GenerateOrderReport(order.OrderId);
-                GenerateTextLink(order);
+                await GenerateOrderReportAsync(order.OrderId);
+                await GenerateTextLinkAsync(order);
                 MessageBoxService.ShowInfo("Заказ успешно сформирован!");
                 NavigationService.GoBack();
             }
@@ -439,7 +444,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// </summary>
         /// <param name="order">Заказ, 
         /// определяющий содержимое текстового файла.</param>
-        private async void GenerateTextLink(Order order)
+        private async Task GenerateTextLinkAsync(Order order)
         {
             System.Windows.Forms.FolderBrowserDialog linkBrowserDialog =
                 new System.Windows.Forms.FolderBrowserDialog
@@ -480,7 +485,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 {
                     MessageBoxService.ShowError("Не удалось сохранить ссылку на заказ. " +
                         "Пробуем ещё раз ...");
-                    GenerateTextLink(order);
+                    await GenerateTextLinkAsync(order);
                 }
             }
         }
@@ -489,7 +494,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// Генерирует электронный вид заказа в формате .pdf.
         /// </summary>
         /// <param name="orderId">Идентификатор созданного заказа.</param>
-        private async void GenerateOrderReport(int orderId)
+        private async Task GenerateOrderReportAsync(int orderId)
         {
             Order order = await Task.Run(() =>
             {
@@ -527,7 +532,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                 {
                     MessageBoxService.ShowError("Отчёт не был сформирован в .pdf. " +
                         "Пробуем ещё раз ...");
-                    GenerateOrderReport(order.OrderId);
+                    await GenerateOrderReportAsync(order.OrderId);
                 }
             }
         }
@@ -554,7 +559,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             if ((bool)addPatientWindow.ShowDialog())
             {
                 MessageBoxService.ShowInfo("Пациент успешно изменен!");
-                _ = LoadPatients()
+                _ = LoadPatientsAsync()
                     .ContinueWith(t =>
                     {
                         Dispatcher.Invoke(() =>

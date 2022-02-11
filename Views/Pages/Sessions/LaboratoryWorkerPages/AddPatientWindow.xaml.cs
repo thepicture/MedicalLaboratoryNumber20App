@@ -24,8 +24,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
             {
                 Patient.BirthDate = System.DateTime.Now;
             }
-            LoadInsuranceCompanies();
-            LoadSocialTypes();
+            _ = LoadInsuranceCompaniesAsync();
+            _ = LoadSocialTypesAsync();
         }
 
         public AddPatientWindow(Patient patient) : this()
@@ -36,7 +36,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Загружает страховые полисы.
         /// </summary>
-        private async void LoadSocialTypes()
+        private async Task LoadSocialTypesAsync()
         {
             IEnumerable<PatientSocialType> socialTypesItems =
                 await Task.Run(() =>
@@ -54,7 +54,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Загружает страховые компании.
         /// </summary>
-        private async void LoadInsuranceCompanies()
+        private async Task LoadInsuranceCompaniesAsync()
         {
             IEnumerable<InsuranceCompany> insuranceCompaniesItems =
               await Task.Run(() =>
@@ -72,7 +72,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Вызывается в момент добавления пациента.
         /// </summary>
-        private async void OnPatientSave(object sender, RoutedEventArgs e)
+        private async void OnPatientSaveAsync(object sender, RoutedEventArgs e)
         {
             Patient.InsuranceCompanyId = (InsuranceCompanies.SelectedItem as InsuranceCompany).InsuranceCompanyId;
             Patient.SocialTypeId = (SocialTypes.SelectedItem as PatientSocialType).SocialTypeId;

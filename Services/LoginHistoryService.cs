@@ -1,11 +1,12 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace MedicalLaboratoryNumber20App.Models.Services
 {
     public static class LoginHistoryService
     {
-        public static async void Write(string login, bool isSuccessful)
+        public static async Task WriteHistoryAsync(string login, bool isSuccessful)
         {
             using (MedicalLaboratoryNumber20Entities context =
                 new MedicalLaboratoryNumber20Entities())
