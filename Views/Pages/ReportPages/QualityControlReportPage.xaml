@@ -52,8 +52,53 @@
             </StackPanel>
             <WindowsFormsHost Grid.Row="1">
                 <charts:Chart x:Name="ControlReportChart">
+                    <charts:Chart.Annotations>
+                        <charts:TextAnnotation Text="2"></charts:TextAnnotation>
+                    </charts:Chart.Annotations>
                     <charts:Chart.ChartAreas>
-                        <charts:ChartArea Name="QualityControl"></charts:ChartArea>
+                        <charts:ChartArea Name="QualityControl">
+                            <charts:ChartArea.AxisX>
+                                <charts:Axis IsLabelAutoFit="False">
+                                    <charts:Axis.LabelStyle>
+                                        <charts:LabelStyle Angle="-45"></charts:LabelStyle>
+                                    </charts:Axis.LabelStyle>
+                                </charts:Axis>
+                            </charts:ChartArea.AxisX>
+                            <charts:ChartArea.AxisY>
+                                <charts:Axis Name="YAxis">
+                                    <charts:Axis.CustomLabels>
+                                        <charts:CustomLabel Name="Negative3sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel Name="Negative2sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel Name="Negative1sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel Name="MeanDeviationCenterValue"></charts:CustomLabel>
+                                        <charts:CustomLabel Name="Positive1sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel Name="Positive2sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel Name="Positive3sValue"></charts:CustomLabel>
+                                    </charts:Axis.CustomLabels>
+                                </charts:Axis>
+                            </charts:ChartArea.AxisY>
+                            <charts:ChartArea.AxisY2>
+                                <charts:Axis Enabled="True"
+                                             Name="Y2Axis">
+                                    <charts:Axis.CustomLabels>
+                                        <charts:CustomLabel Text="-3s"
+                                                            Name="Negative3s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="-2s"
+                                                            Name="Negative2s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="-1s"
+                                                            Name="Negative1s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="X"
+                                                            Name="MeanDeviationCenter"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="+1s"
+                                                            Name="Positive1s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="+2s"
+                                                            Name="Positive2s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="+3s"
+                                                            Name="Positive3s"></charts:CustomLabel>
+                                    </charts:Axis.CustomLabels>
+                                </charts:Axis>
+                            </charts:ChartArea.AxisY2>
+                        </charts:ChartArea>
                     </charts:Chart.ChartAreas>
                     <charts:Chart.Legends>
                         <charts:Legend Name="РС">
@@ -61,7 +106,12 @@
                     </charts:Chart.Legends>
                     <charts:Chart.Series>
                         <charts:Series x:Name="ControlReportSeries"
-                                       ChartType="Spline"></charts:Series>
+                                       LegendText="PC"
+                                       ChartType="Spline"
+                                       MarkerStyle="Circle"
+                                       MarkerBorderColor="Black"
+                                       MarkerSize="10">
+                        </charts:Series>
                     </charts:Chart.Series>
                 </charts:Chart>
             </WindowsFormsHost>

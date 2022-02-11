@@ -12,12 +12,12 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
     {
         private float _variationCoefficient;
         private float _meanDeviation;
-        readonly List<string> ReportViewTypesList = new List<string>
+        public readonly List<string> ReportViewTypesList = new List<string>
             {
                 "графиком",
                 "таблицей",
             };
-        readonly List<string> ReportSaveTypesList = new List<string>
+        public readonly List<string> ReportSaveTypesList = new List<string>
             {
                 "график",
                 "только таблица",
@@ -79,7 +79,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             ControlReportSeries.Points.AddXY("2020-01-03 00:00:00", 1);
             ControlReportSeries.Points.AddXY("2020-01-04 00:00:00", 2.5);
             ControlReportSeries.Points.AddXY("2020-01-05 00:00:00", 6);
-            ControlReportSeries.Points.AddXY(4, 5);
         }
 
         public string CurrentSaveType
