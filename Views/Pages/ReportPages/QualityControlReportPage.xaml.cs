@@ -1,10 +1,13 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
+using MedicalLaboratoryNumber20App.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
+using System.Printing;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
@@ -189,6 +192,12 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             }
         }
 
+        /// <summary>
+        /// Высчитывает среднеквадратичное отклонеие.
+        /// </summary>
+        /// <param name="bloodServices">Оказанные услуги.</param>
+        /// <param name="meanValue">Среднее значение результатов.</param>
+        /// <returns>Среднеквадратичное отклонение.</returns>
         private double GetMeanQuadraticDeviation(List<BloodServiceOfUser> bloodServices,
                                              double meanValue)
         {
@@ -253,5 +262,29 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
         private List<Service> _services;
         private Service _currentService;
         private List<BloodServiceOfUser> _bloodServices;
+
+        /// <summary>
+        /// Сохраняет отчёт контроля качества.
+        /// </summary>
+        private void PerformReportSave(object sender, RoutedEventArgs e)
+        {
+            switch (CurrentSaveType)
+            {
+                case "график":
+                    using (PrintServer server = new PrintServer())
+                    {
+                        PrintDialog printDialog = new PrintDialog
+                        {
+                            PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
+                        };
+                        printDialog.PrintVisual(ChartHost, "Экспорт графика " +
+                            "контроля качества в формате .pdf");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            MessageBoxService.ShowInfo("Отчёт успешно экспортирован!");
+        }
     }
 }

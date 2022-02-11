@@ -35,6 +35,9 @@
             <ComboBox Name="ReportSaveTypes"
                       ItemsSource="{Binding ReportSaveTypesList}"
                       SelectedItem="{Binding CurrentSaveType}"></ComboBox>
+            <Button Content="Подтвердить выгрузку отчёта"
+                    Click="PerformReportSave"
+                    Name="BtnSaveReport"></Button>
         </WrapPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -57,7 +60,8 @@
                                Text="{Binding VariationCoefficient, StringFormat={}{0:F2}%}"></TextBlock>
                 </StackPanel>
             </StackPanel>
-            <WindowsFormsHost Grid.Row="1">
+            <WindowsFormsHost Grid.Row="1"
+                              Name="ChartHost">
                 <charts:Chart x:Name="ControlReportChart">
                     <charts:Chart.Annotations>
                         <charts:TextAnnotation Text="2"></charts:TextAnnotation>
