@@ -1,4 +1,5 @@
 ﻿using MedicalLaboratoryNumber20App.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -13,8 +14,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
     /// </summary>
     public partial class QualityControlReportPage : Page, INotifyPropertyChanged
     {
-        private float _variationCoefficient;
-        private float _meanDeviation;
+        private double _variationCoefficient;
+        private double _meanDeviation;
         public readonly List<string> ReportViewTypesList = new List<string>
             {
                 "графиком",
@@ -57,16 +58,16 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public float MeanDeviation
+        public double MeanQuadraticDeviation
         {
             get => _meanDeviation; set
             {
                 _meanDeviation = value;
                 PropertyChanged?.Invoke(this,
-                                        new PropertyChangedEventArgs(nameof(MeanDeviation)));
+                                        new PropertyChangedEventArgs(nameof(MeanQuadraticDeviation)));
             }
         }
-        public float VariationCoefficient
+        public double VariationCoefficient
         {
             get => _variationCoefficient;
             set
@@ -116,6 +117,67 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 return;
             }
 
+            if (BloodServices.Where(bs => decimal.TryParse(bs.Result, out _)).Count() == 0)
+            {
+                return;
+            }
+
+            double meanValue = BloodServices
+                .Where(bs => double.TryParse(bs.Result, out _))
+                .Average(bs => double.Parse(bs.Result));
+
+            MeanQuadraticDeviation = Convert.ToDouble(GetMeanQuadraticDeviation(BloodServices, meanValue));
+
+            Negative3s.FromPosition =
+               Negative3sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 3);
+            Negative3s.ToPosition =
+             Negative3sValue.ToPosition = meanValue - (MeanQuadraticDeviation * 3) + 0.01;
+            Negative3sValue.Text = (meanValue - (MeanQuadraticDeviation * 3)).ToString("N2");
+
+            Negative2s.FromPosition =
+            Negative2sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 2);
+            Negative2s.ToPosition =
+             Negative2sValue.ToPosition = meanValue - (MeanQuadraticDeviation * 2) + 0.01;
+            Negative2sValue.Text = (meanValue - (MeanQuadraticDeviation * 2)).ToString("N2");
+
+            Negative1s.FromPosition =
+            Negative1sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 1);
+            Negative1s.ToPosition =
+             Negative1sValue.ToPosition = meanValue - (MeanQuadraticDeviation * 1) + 0.01;
+            Negative1sValue.Text = (meanValue - (MeanQuadraticDeviation * 1)).ToString("N2");
+
+            Positive3s.FromPosition =
+              Positive3sValue.FromPosition = meanValue + (MeanQuadraticDeviation * 3);
+            Positive3s.ToPosition =
+             Positive3sValue.ToPosition = meanValue + (MeanQuadraticDeviation * 3) + 0.01;
+            Positive3sValue.Text = (meanValue + (MeanQuadraticDeviation * 3)).ToString("N2");
+
+            Positive2s.FromPosition =
+            Positive2sValue.FromPosition = meanValue + (MeanQuadraticDeviation * 2);
+            Positive2s.ToPosition =
+             Positive2sValue.ToPosition = meanValue + (MeanQuadraticDeviation * 2) + 0.01;
+            Positive2sValue.Text = (meanValue + (MeanQuadraticDeviation * 2)).ToString("N2");
+
+            Positive1s.FromPosition =
+            Positive1sValue.FromPosition = meanValue + (MeanQuadraticDeviation * 1);
+            Positive1s.ToPosition =
+             Positive1sValue.ToPosition = meanValue + (MeanQuadraticDeviation * 1) + 0.01;
+            Positive1sValue.Text = (meanValue + (MeanQuadraticDeviation * 1)).ToString("N2");
+
+            VariationCoefficient = MeanQuadraticDeviation / meanValue * 100;
+
+            MeanDeviationCenter.FromPosition =
+                MeanDeviationCenterValue.FromPosition =
+                BloodServices
+                .Where(bs => double.TryParse(bs.Result, out _))
+                .Average(bs => double.Parse(double.Parse(bs.Result).ToString("N2")));
+            MeanDeviationCenter.ToPosition =
+             MeanDeviationCenterValue.ToPosition =
+             BloodServices
+             .Where(bs => double.TryParse(bs.Result, out _))
+             .Average(bs => double.Parse(double.Parse(bs.Result).ToString("N2")) + 0.01);
+            MeanDeviationCenterValue.Text = meanValue.ToString("N2");
+
             foreach (BloodServiceOfUser bloodService in BloodServices)
             {
                 if (decimal.TryParse(bloodService.Result, out decimal result))
@@ -125,6 +187,21 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                                                      result.ToString("N2"));
                 }
             }
+        }
+
+        private double GetMeanQuadraticDeviation(List<BloodServiceOfUser> bloodServices,
+                                             double meanValue)
+        {
+            double currentSum = 0;
+            foreach (BloodServiceOfUser service in bloodServices)
+            {
+                if (double.TryParse(service.Result, out double value))
+                {
+                    currentSum += Math.Pow(meanValue - value, 2);
+                }
+            }
+            double result = currentSum / bloodServices.Count();
+            return Math.Sqrt(result);
         }
 
         public string CurrentSaveType
