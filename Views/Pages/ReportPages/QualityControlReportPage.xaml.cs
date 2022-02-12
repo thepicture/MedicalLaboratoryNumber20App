@@ -315,35 +315,14 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             switch (CurrentSaveType)
             {
                 case "график":
-                    using (PrintServer server = new PrintServer())
-                    {
-                        PointsGrid.Visibility = Visibility.Collapsed;
-                        ChartHost.Visibility = Visibility.Visible;
-                        LoadAsChart();
-                        PrintDialog printDialog = new PrintDialog
-                        {
-                            PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
-                        };
-                        printDialog.PrintVisual(ChartHost, "Экспорт графика " +
-                            "контроля качества в формате .pdf");
-                        MessageBoxService.ShowInfo("Отчёт успешно экспортирован как график!");
-
-                    }
+                    SaveAsChart();
                     break;
                 case "только таблица":
-                    using (PrintServer server = new PrintServer())
-                    {
-                        PointsGrid.Visibility = Visibility.Visible;
-                        ChartHost.Visibility = Visibility.Collapsed;
-                        LoadAsTable();
-                        PrintDialog printDialog = new PrintDialog
-                        {
-                            PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
-                        };
-                        printDialog.PrintVisual(PointsGrid, "Экспорт таблицы " +
-                            "контроля качества в формате .pdf");
-                        MessageBoxService.ShowInfo("Отчёт успешно экспортирован как таблица!");
-                    }
+                    SaveAsTable();
+                    break;
+                case "график и таблица":
+                    SaveAsTable();
+                    SaveAsChart();
                     break;
                 default:
                     break;
@@ -357,6 +336,41 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             {
                 PointsGrid.Visibility = Visibility.Visible;
                 ChartHost.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void SaveAsChart()
+        {
+            using (PrintServer server = new PrintServer())
+            {
+                PointsGrid.Visibility = Visibility.Collapsed;
+                ChartHost.Visibility = Visibility.Visible;
+                LoadAsChart();
+                PrintDialog printDialog = new PrintDialog
+                {
+                    PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
+                };
+                printDialog.PrintVisual(ChartHost, "Экспорт графика " +
+                    "контроля качества в формате .pdf");
+                MessageBoxService.ShowInfo("Отчёт успешно экспортирован как график!");
+
+            }
+        }
+
+        private void SaveAsTable()
+        {
+            using (PrintServer server = new PrintServer())
+            {
+                PointsGrid.Visibility = Visibility.Visible;
+                ChartHost.Visibility = Visibility.Collapsed;
+                LoadAsTable();
+                PrintDialog printDialog = new PrintDialog
+                {
+                    PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
+                };
+                printDialog.PrintVisual(PointsGrid, "Экспорт таблицы " +
+                    "контроля качества в формате .pdf");
+                MessageBoxService.ShowInfo("Отчёт успешно экспортирован как таблица!");
             }
         }
     }
