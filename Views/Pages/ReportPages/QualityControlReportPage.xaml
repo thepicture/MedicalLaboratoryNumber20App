@@ -60,6 +60,9 @@
                                Text="{Binding VariationCoefficient, StringFormat={}{0:F2}%}"></TextBlock>
                 </StackPanel>
             </StackPanel>
+            <DataGrid x:Name="PointsGrid"
+                      ColumnWidth="*"
+                      AutoGenerateColumns="True"></DataGrid>
             <WindowsFormsHost Grid.Row="1"
                               Name="ChartHost">
                 <charts:Chart x:Name="ControlReportChart">

@@ -198,6 +198,7 @@
     </Compile>
     <Compile Include="Models\GetServiceList.cs" />
     <Compile Include="Models\PostServiceList.cs" />
+    <Compile Include="Models\QualityControlPointPair.cs" />
     <Compile Include="Models\SerializedService.cs" />
     <Compile Include="Services\BarcodeScannerService.cs" />
     <Compile Include="Services\BarcodeService.cs" />

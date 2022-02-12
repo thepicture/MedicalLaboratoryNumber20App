@@ -1,4 +1,5 @@
-﻿using MedicalLaboratoryNumber20App.Models.Entities;
+﻿using MedicalLaboratoryNumber20App.Models;
+using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
 using System;
 using System.Collections.Generic;
@@ -136,8 +137,50 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 .Average(bs => double.Parse(bs.Result));
 
             MeanQuadraticDeviation = Convert.ToDouble(GetMeanQuadraticDeviation(BloodServices, meanValue));
+            VariationCoefficient = MeanQuadraticDeviation / meanValue * 100;
+            ChartHost.Visibility = Visibility.Collapsed;
+            PointsGrid.Visibility = Visibility.Collapsed;
+            switch (CurrentViewType)
+            {
+                case "графиком":
+                    ChartHost.Visibility = Visibility.Visible;
+                    LoadAsChart(meanValue);
+                    break;
+                case "таблицей":
+                    PointsGrid.Visibility = Visibility.Visible;
+                    LoadAsTable();
+                    break;
+                default:
+                    break;
+            }
+            IsBusy = false;
+        }
+
+        /// <summary>
+        /// Выводит данные в виде таблицы.
+        /// </summary>
+        private void LoadAsTable()
+        {
+            IList<QualityControlPointPair> points = new List<QualityControlPointPair>();
+            foreach (BloodServiceOfUser bloodService in BloodServices)
+            {
+                if (decimal.TryParse(bloodService.Result, out decimal result))
+                {
+                    points.Add(new QualityControlPointPair(bloodService.FinishedDateTime.ToString("yyyy-MM-dd hh:mm:ss"),
+                                                             result));
+                }
+            }
+            PointsGrid.ItemsSource = points;
+        }
+
+        /// <summary>
+        /// Выводит данные в виде графика.
+        /// </summary>
+        /// <param name="meanValue">Среднее значение результата услуг.</param>
+        private void LoadAsChart(double meanValue)
+        {
             Negative3s.FromPosition =
-               Negative3sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 3);
+                           Negative3sValue.FromPosition = meanValue - (MeanQuadraticDeviation * 3);
             Negative3s.ToPosition =
              Negative3sValue.ToPosition = meanValue - (MeanQuadraticDeviation * 3) + 0.01;
             Negative3sValue.Text = (meanValue - (MeanQuadraticDeviation * 3)).ToString("N2");
@@ -171,7 +214,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
              Positive1sValue.ToPosition = meanValue + (MeanQuadraticDeviation * 1) + 0.01;
             Positive1sValue.Text = (meanValue + (MeanQuadraticDeviation * 1)).ToString("N2");
 
-            VariationCoefficient = MeanQuadraticDeviation / meanValue * 100;
             MeanDeviationCenter.FromPosition =
                 MeanDeviationCenterValue.FromPosition =
                 BloodServices
@@ -187,12 +229,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             {
                 if (decimal.TryParse(bloodService.Result, out decimal result))
                 {
-                    ControlReportSeries.Points.AddXY(bloodService.FinishedDateTime
+                    _ = ControlReportSeries.Points.AddXY(bloodService.FinishedDateTime
                         .ToString("yyyy-MM-dd hh:mm:ss"),
                                                      result.ToString("N2"));
                 }
             }
-            IsBusy = false;
         }
 
         /// <summary>
