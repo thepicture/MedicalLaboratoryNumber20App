@@ -122,6 +122,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 }
             });
             ControlReportSeries.Points.Clear();
+
             ControlReportSeries.LegendText = CurrentService.ServiceName;
             if (BloodServices.Count == 0)
             {
@@ -201,7 +202,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             Positive3s.ToPosition =
              Positive3sValue.ToPosition = meanValue + (MeanQuadraticDeviation * 3) + 0.01;
             Positive3sValue.Text = (meanValue + (MeanQuadraticDeviation * 3)).ToString("N2");
-
             Positive2s.FromPosition =
             Positive2sValue.FromPosition = meanValue + (MeanQuadraticDeviation * 2);
             Positive2s.ToPosition =
@@ -213,7 +213,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             Positive1s.ToPosition =
              Positive1sValue.ToPosition = meanValue + (MeanQuadraticDeviation * 1) + 0.01;
             Positive1sValue.Text = (meanValue + (MeanQuadraticDeviation * 1)).ToString("N2");
-
             MeanDeviationCenter.FromPosition =
                 MeanDeviationCenterValue.FromPosition =
                 BloodServices
@@ -323,6 +322,25 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                         };
                         printDialog.PrintVisual(ChartHost, "Экспорт графика " +
                             "контроля качества в формате .pdf");
+                    }
+                    break;
+                case "только таблица":
+                    using (PrintServer server = new PrintServer())
+                    {
+                        bool wasTableCollapsed = PointsGrid.Visibility == Visibility.Collapsed;
+                        PointsGrid.Visibility = Visibility.Visible;
+                        LoadAsTable();
+                        PrintDialog printDialog = new PrintDialog
+                        {
+                            PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
+                        };
+                        printDialog.PrintVisual(PointsGrid, "Экспорт таблицы " +
+                            "контроля качества в формате .pdf");
+                        if (wasTableCollapsed)
+                        {
+                            PointsGrid.Visibility = Visibility.Collapsed;
+                            ChartHost.Visibility = Visibility.Visible;
+                        }
                     }
                     break;
                 default:
