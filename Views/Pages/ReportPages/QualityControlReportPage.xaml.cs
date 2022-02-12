@@ -326,6 +326,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                         };
                         printDialog.PrintVisual(ChartHost, "Экспорт графика " +
                             "контроля качества в формате .pdf");
+                        MessageBoxService.ShowInfo("Отчёт успешно экспортирован как график!");
+
                     }
                     break;
                 case "только таблица":
@@ -340,6 +342,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                         };
                         printDialog.PrintVisual(PointsGrid, "Экспорт таблицы " +
                             "контроля качества в формате .pdf");
+                        MessageBoxService.ShowInfo("Отчёт успешно экспортирован как таблица!");
                     }
                     break;
                 default:
@@ -355,7 +358,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 PointsGrid.Visibility = Visibility.Visible;
                 ChartHost.Visibility = Visibility.Collapsed;
             }
-            MessageBoxService.ShowInfo("Отчёт успешно экспортирован!");
         }
     }
 }
