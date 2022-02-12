@@ -96,18 +96,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             }
         }
 
-        public bool IsBusy;
-
         /// <summary>
         /// Отображает график/таблицу в соответствии с выбранным типом.
         /// </summary>
         private async void FilterView()
         {
-            if (IsBusy)
-            {
-                return;
-            }
-            IsBusy = true;
             if (Services == null)
             {
                 await LoadServicesAsync();
@@ -153,7 +146,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 default:
                     break;
             }
-            IsBusy = false;
         }
 
         /// <summary>
