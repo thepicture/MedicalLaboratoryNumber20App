@@ -1,0 +1,122 @@
+﻿<Page x:Class="MedicalLaboratoryNumber20App.Views.Pages.ReportPages.AppliedServicesReportPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:MedicalLaboratoryNumber20App.Views.Pages.ReportPages"
+      xmlns:charts="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="Страница отчёта по оказанным услугам">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal">
+            <TextBlock Text="Представлять отчёт"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <ComboBox Name="ReportViewTypes"
+                      ItemsSource="{Binding ReportViewTypesList}"
+                      SelectedItem="{Binding CurrentViewType}"></ComboBox>
+            <TextBlock Text="с периода"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <DatePicker Name="FromPicker"
+                        SelectedDate="{Binding FromDate}"></DatePicker>
+            <TextBlock Text="по период"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <DatePicker Name="ToPicker"
+                        SelectedDate="{Binding ToDate}"></DatePicker>
+            <TextBlock Text="Выгрузить данные отчёта в .pdf файл как"
+                       Style="{StaticResource CommonBlock}"
+                       Width="auto"></TextBlock>
+            <ComboBox x:Name="ReportSaveTypes"
+                      ItemsSource="{Binding ReportSaveTypesList}"
+                      SelectedItem="{Binding CurrentSaveType}"></ComboBox>
+            <Button Content="Подтвердить выгрузку отчёта"
+                    Name="BtnSaveReport"></Button>
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="1">
+                <DataGrid x:Name="PointsGrid"
+                          AutoGenerateColumns="True"
+                          Visibility="Collapsed"></DataGrid>
+            </StackPanel>
+            <WindowsFormsHost Grid.Row="1"
+                              Name="ChartHost"
+                              Visibility="Collapsed">
+                <charts:Chart x:Name="ControlReportChart">
+                    <charts:Chart.Annotations>
+                        <charts:TextAnnotation Text="2"></charts:TextAnnotation>
+                    </charts:Chart.Annotations>
+                    <charts:Chart.ChartAreas>
+                        <charts:ChartArea Name="QualityControl">
+                            <charts:ChartArea.AxisX>
+                                <charts:Axis IsLabelAutoFit="False"
+                                             Interval="2">
+                                    <charts:Axis.LabelStyle>
+                                        <charts:LabelStyle Angle="-45"></charts:LabelStyle>
+                                    </charts:Axis.LabelStyle>
+                                </charts:Axis>
+                            </charts:ChartArea.AxisX>
+                            <charts:ChartArea.AxisY>
+                                <charts:Axis x:Name="YAxis">
+                                    <charts:Axis.CustomLabels>
+                                        <charts:CustomLabel x:Name="Negative3sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel x:Name="Negative2sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel x:Name="Negative1sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel x:Name="MeanDeviationCenterValue"></charts:CustomLabel>
+                                        <charts:CustomLabel x:Name="Positive1sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel x:Name="Positive2sValue"></charts:CustomLabel>
+                                        <charts:CustomLabel x:Name="Positive3sValue"></charts:CustomLabel>
+                                    </charts:Axis.CustomLabels>
+                                </charts:Axis>
+                            </charts:ChartArea.AxisY>
+                            <charts:ChartArea.AxisY2>
+                                <charts:Axis Enabled="True"
+                                             Name="Y2Axis">
+                                    <charts:Axis.CustomLabels>
+                                        <charts:CustomLabel Text="-3s"
+                                                            x:Name="Negative3s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="-2s"
+                                                            x:Name="Negative2s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="-1s"
+                                                            x:Name="Negative1s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="X"
+                                                            x:Name="MeanDeviationCenter"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="+1s"
+                                                            x:Name="Positive1s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="+2s"
+                                                            x:Name="Positive2s"></charts:CustomLabel>
+                                        <charts:CustomLabel Text="+3s"
+                                                            x:Name="Positive3s"></charts:CustomLabel>
+                                    </charts:Axis.CustomLabels>
+                                </charts:Axis>
+                            </charts:ChartArea.AxisY2>
+                        </charts:ChartArea>
+                    </charts:Chart.ChartAreas>
+                    <charts:Chart.Legends>
+                        <charts:Legend>
+                        </charts:Legend>
+                    </charts:Chart.Legends>
+                    <charts:Chart.Series>
+                        <charts:Series x:Name="ControlReportSeries"
+                                       ChartType="Spline"
+                                       MarkerStyle="Circle"
+                                       MarkerBorderColor="Black"
+                                       MarkerSize="10">
+                        </charts:Series>
+                    </charts:Chart.Series>
+                </charts:Chart>
+            </WindowsFormsHost>
+        </Grid>
+    </Grid>
+</Page>

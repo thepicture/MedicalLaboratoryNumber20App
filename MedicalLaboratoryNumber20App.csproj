@@ -88,6 +88,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Pages\ReportPages\AppliedServicesReportPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Pages\ReportPages\QualityControlReportPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -227,6 +231,9 @@
     </Compile>
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ReportPages\AppliedServicesReportPage.xaml.cs">
+      <DependentUpon>AppliedServicesReportPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\ReportPages\QualityControlReportPage.xaml.cs">
       <DependentUpon>QualityControlReportPage.xaml</DependentUpon>

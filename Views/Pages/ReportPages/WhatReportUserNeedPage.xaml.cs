@@ -24,9 +24,14 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             _ = NavigationService.Navigate(new QualityControlReportPage());
         }
 
+        /// <summary>
+        /// Осуществляет навигацию 
+        /// на страницу формирования отчёта 
+        /// по оказанным услугам.
+        /// </summary>
         private void GoToAppliedServicesReportPage(object sender, RoutedEventArgs e)
         {
-
+            _ = NavigationService.Navigate(new AppliedServicesReportPage());
         }
     }
 }

@@ -120,7 +120,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 return;
             }
 
-            if (BloodServices.Where(bs => decimal.TryParse(bs.Result, out _)).Count() == 0)
+            if (BloodServices.Where(bs =>
+            {
+                return decimal.TryParse(bs.Result, out _);
+            })
+                .Count() == 0)
             {
                 return;
             }
