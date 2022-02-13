@@ -10,18 +10,6 @@
       Title="Окно формирования заказа">
     <ScrollViewer>
         <Grid>
-            <Grid Background="{StaticResource AdditionalBackground}"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Opacity="{Binding IsBusy}"
-                  BitmapEffect="{StaticResource ShadowEffect}"
-                  Panel.ZIndex="1">
-                <TextBlock Text="Штрих-код экспортируется ..."
-                           Width="auto"
-                           Style="{StaticResource HeaderBlock}"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"></TextBlock>
-            </Grid>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                 <Grid>

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +25,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         private const int MinimumBarcodeNumber = 100000;
         private const int MaximumBarcodeNumber = 999999 + 1;
         private readonly Random random = new Random();
-        private bool _isBusy;
         private readonly ICalculator<int, string> _levenshteinCalculator
             = new LevenshteinDistanceCalculator();
 
@@ -90,15 +90,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
 
         public Blood Blood { get; }
         public Barcode CurrentBarcode { get; private set; }
-        public bool IsBusy
-        {
-            get => _isBusy; set
-            {
-                _isBusy = value;
-                PropertyChanged?.Invoke(this,
-                                        new PropertyChangedEventArgs(nameof(IsBusy)));
-            }
-        }
 
         /// Позволяет ввести посредством нажатия клавиши Enter
         /// или сохранить штрих-код.
@@ -126,7 +117,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
                         }))
                     {
                         GenerateBarcode();
-                        await SaveBarcodeAsync();
+                        SaveBarcodeAsync();
                     }
                     else
                     {
@@ -159,35 +150,17 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// <summary>
         /// Сохраняет штрих-код в память текущего устройства.
         /// </summary>
-        private async Task SaveBarcodeAsync()
+        private void SaveBarcodeAsync()
         {
-            byte[] barcodeBytes = null;
-            Dispatcher.Invoke(() =>
+            using (PrintServer printServer = new PrintServer())
             {
-                barcodeBytes = ControlImageService.ConvertToPng(BarcodeView);
-            }, DispatcherPriority.Loaded);
-            System.Windows.Forms.FolderBrowserDialog barcodeBrowserDialog =
-                new System.Windows.Forms.FolderBrowserDialog
+                PrintDialog printDialog = new PrintDialog
                 {
-                    Description = "Укажите путь сохранения штрих-кода в формате .pdf"
+                    PrintQueue = new PrintQueue(printServer, "Microsoft Print to PDF"),
                 };
-            if (barcodeBrowserDialog.ShowDialog()
-                != System.Windows.Forms.DialogResult.OK)
-            {
-                _ = await MessageBoxService
-                    .ShowWarningAsync("Выбор пути сохранения был отменён");
-                return;
+                printDialog.PrintVisual(BarcodeView, "Укажите путь сохранения " +
+                    "штрих-кода в формате .pdf");
             }
-            IsBusy = true;
-            ByteArrayToPdfExportService exporter =
-                new ByteArrayToPdfExportService(barcodeBytes,
-                                                barcodeBrowserDialog.SelectedPath,
-                                                "BarCode-"
-                                                 + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss}.pdf");
-            await Task.Run(() => exporter.Export());
-            MessageBoxService.ShowInfo("Штрих-код сохранён " +
-                $"по пути {barcodeBrowserDialog.SelectedPath}");
-            IsBusy = false;
         }
 
         /// <summary>

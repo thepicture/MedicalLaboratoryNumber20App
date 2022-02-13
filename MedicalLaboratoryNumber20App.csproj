@@ -205,7 +205,6 @@
     <Compile Include="Services\InsuranceCompanyReportService.cs" />
     <Compile Include="Services\ServiceEqualityComparer.cs" />
     <Compile Include="Services\CaptchaService.cs" />
-    <Compile Include="Services\ControlImageService.cs" />
     <Compile Include="Services\ICalculator.cs" />
     <Compile Include="Services\IExportService.cs" />
     <Compile Include="Services\IReportService.cs" />
