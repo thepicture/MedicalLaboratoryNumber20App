@@ -1,6 +1,7 @@
 ﻿using MedicalLaboratoryNumber20App.Models;
 using MedicalLaboratoryNumber20App.Models.Entities;
 using MedicalLaboratoryNumber20App.Models.Services;
+using MedicalLaboratoryNumber20App.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -331,39 +332,30 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             }
         }
 
+        /// <summary>
+        /// Экспортирует график контроля качества в формате .pdf.
+        /// </summary>
         private void SaveAsChart()
         {
-            using (PrintServer server = new PrintServer())
-            {
-                PointsGrid.Visibility = Visibility.Collapsed;
-                ChartHost.Visibility = Visibility.Visible;
-                LoadAsChart();
-                PrintDialog printDialog = new PrintDialog
-                {
-                    PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
-                };
-                printDialog.PrintVisual(ChartHost, "Экспорт графика " +
-                    "контроля качества в формате .pdf");
-                MessageBoxService.ShowInfo("Отчёт успешно экспортирован как график!");
-
-            }
+            PointsGrid.Visibility = Visibility.Collapsed;
+            ChartHost.Visibility = Visibility.Visible;
+            LoadAsChart();
+            new PrintVisualExportService(ChartHost, "Экспорт графика " +
+                    "контроля качества в формате .pdf")
+                .Export();
         }
 
+        /// <summary>
+        /// Экспортирует таблицу контроля качества в формате .pdf.
+        /// </summary>
         private void SaveAsTable()
         {
-            using (PrintServer server = new PrintServer())
-            {
-                PointsGrid.Visibility = Visibility.Visible;
-                ChartHost.Visibility = Visibility.Collapsed;
-                LoadAsTable();
-                PrintDialog printDialog = new PrintDialog
-                {
-                    PrintQueue = new PrintQueue(server, "Microsoft Print to PDF")
-                };
-                printDialog.PrintVisual(PointsGrid, "Экспорт таблицы " +
-                    "контроля качества в формате .pdf");
-                MessageBoxService.ShowInfo("Отчёт успешно экспортирован как таблица!");
-            }
+            PointsGrid.Visibility = Visibility.Visible;
+            ChartHost.Visibility = Visibility.Collapsed;
+            LoadAsTable();
+            new PrintVisualExportService(PointsGrid, "Экспорт таблицы" +
+                 "контроля качества в формате .pdf")
+             .Export();
         }
     }
 }

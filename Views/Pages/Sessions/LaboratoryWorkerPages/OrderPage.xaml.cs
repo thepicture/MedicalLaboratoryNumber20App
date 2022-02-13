@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -152,15 +151,9 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.Sessions.LaboratoryWorkerPage
         /// </summary>
         private void SaveBarcodeAsync()
         {
-            using (PrintServer printServer = new PrintServer())
-            {
-                PrintDialog printDialog = new PrintDialog
-                {
-                    PrintQueue = new PrintQueue(printServer, "Microsoft Print to PDF"),
-                };
-                printDialog.PrintVisual(BarcodeView, "Укажите путь сохранения " +
-                    "штрих-кода в формате .pdf");
-            }
+            new PrintVisualExportService(BarcodeView, "Укажите путь сохранения " +
+                    "штрих-кода в формате .pdf")
+                .Export();
         }
 
         /// <summary>
