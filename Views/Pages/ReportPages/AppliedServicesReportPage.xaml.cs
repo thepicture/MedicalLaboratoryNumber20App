@@ -1,12 +1,13 @@
 ﻿using MedicalLaboratoryNumber20App.Models;
 using MedicalLaboratoryNumber20App.Models.Entities;
+using MedicalLaboratoryNumber20App.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
@@ -176,6 +177,46 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
 
             ToDate = DateTime.Now;
             FromDate = DateTime.Now - TimeSpan.FromDays(365);
+        }
+
+        private void PerformSaveReport(object sender, RoutedEventArgs e)
+        {
+            bool wasTableCollapsed = PointsGrid.Visibility == Visibility.Collapsed;
+            switch (CurrentSaveType)
+            {
+                case "график":
+                    ExportAsChart();
+                    break;
+                case "только таблица":
+                    break;
+                case "график и таблица":
+                    break;
+                default:
+                    break;
+            }
+            if (wasTableCollapsed)
+            {
+                PointsGrid.Visibility = Visibility.Collapsed;
+                ChartHost.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PointsGrid.Visibility = Visibility.Visible;
+                ChartHost.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// Экспортирует оказанные услуги как график в формат .pdf.
+        /// </summary>
+        private void ExportAsChart()
+        {
+            PointsGrid.Visibility = Visibility.Collapsed;
+            ChartHost.Visibility = Visibility.Visible;
+            LoadAsChart();
+            new PrintVisualExportService(ChartHost, "Экспорт графика " +
+                    "контроля качества в формате .pdf")
+                .Export();
         }
     }
 }

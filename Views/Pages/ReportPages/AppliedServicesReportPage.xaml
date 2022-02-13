@@ -38,7 +38,8 @@
                       ItemsSource="{Binding ReportSaveTypesList}"
                       SelectedItem="{Binding CurrentSaveType}"></ComboBox>
             <Button Content="Подтвердить выгрузку отчёта"
-                    Name="BtnSaveReport"></Button>
+                    Name="BtnSaveReport"
+                    Click="PerformSaveReport"></Button>
         </WrapPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
