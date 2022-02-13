@@ -81,6 +81,7 @@ namespace MedicalLaboratoryNumber20App.Services
             }
             else if (TimeSpan.Zero == TimeLeft)
             {
+                (App.Current as App).User = null;
                 timer.Stop();
                 while (navigationService.CanGoBack)
                 {

@@ -1,13 +1,11 @@
 ﻿using MedicalLaboratoryNumber20App.Models;
 using MedicalLaboratoryNumber20App.Models.Entities;
-using MedicalLaboratoryNumber20App.Models.Services;
 using MedicalLaboratoryNumber20App.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
-using System.Printing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -159,8 +157,10 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             {
                 if (decimal.TryParse(bloodService.Result, out decimal result))
                 {
-                    points.Add(new QualityControlPointPair(bloodService.FinishedDateTime.ToString("yyyy-MM-dd hh:mm:ss"),
-                                                             result));
+                    QualityControlPointPair pointPair =
+                        new QualityControlPointPair(bloodService.FinishedDateTime
+                        .ToString("yyyy-MM-dd hh:mm:ss"), result);
+                    points.Add(pointPair);
                 }
             }
             PointsGrid.ItemsSource = points;
@@ -233,8 +233,6 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
         /// Высчитывает среднеквадратичное отклонеие.
         /// </summary>
         /// <param name="bloodServices">Оказанные услуги.</param>
-        /// <param name="meanValue">Среднее значение результатов.</param>
-        /// <returns>Среднеквадратичное отклонение.</returns>
         private double GetMeanQuadraticDeviation(List<BloodServiceOfUser> bloodServices)
         {
             double currentSum = 0;
