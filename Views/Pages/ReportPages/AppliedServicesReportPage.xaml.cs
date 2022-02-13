@@ -1,7 +1,12 @@
-﻿using System;
+﻿using MedicalLaboratoryNumber20App.Models;
+using MedicalLaboratoryNumber20App.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
@@ -35,8 +40,84 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
             }
         }
 
-        private void FilterView()
+        /// <summary>
+        /// Фильтрует представление в зависимости от выбранных параметров.
+        /// </summary>
+        private async void FilterView()
         {
+            if ((FromDate == null && ToDate == null)
+                || FromDate >= ToDate)
+            {
+                return;
+            }
+            BloodServices = await Task.Run(() =>
+            {
+                using (MedicalLaboratoryNumber20Entities context =
+                new MedicalLaboratoryNumber20Entities())
+                {
+                    return context.BloodServiceOfUser
+                    .Where(bs => bs.FinishedDateTime < ToDate
+                                 && bs.FinishedDateTime > FromDate)
+                    .Include(bs => bs.Service)
+                    .Include(bs => bs.Blood)
+                    .Include(bs => bs.Blood.Patient)
+                    .ToList();
+                }
+            });
+            ChartHost.Visibility = System.Windows.Visibility.Collapsed;
+            PointsGrid.Visibility = System.Windows.Visibility.Collapsed;
+            switch (CurrentViewType)
+            {
+                case "графиком":
+                    ChartHost.Visibility = System.Windows.Visibility.Visible;
+                    LoadAsChart();
+                    break;
+                case "таблицей":
+                    PointsGrid.Visibility = System.Windows.Visibility.Visible;
+                    LoadAsTable();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Загружает данные в виде графика.
+        /// </summary>
+        private void LoadAsChart()
+        {
+            IEnumerable<ServiceAndApplyPoint> serviceAndApplyPoints =
+                BloodServices
+                .Select(bs => bs.Service)
+                .Distinct()
+                .Select(s => new ServiceAndApplyPoint(s, 0))
+                .ToList();
+            foreach (BloodServiceOfUser bloodServiceOfUser in BloodServices)
+            {
+                serviceAndApplyPoints
+                    .First(p =>
+                    {
+                        return p.CurrentService.Code == bloodServiceOfUser.ServiceCode;
+                    })
+                    .Increment();
+            }
+            AppliedServicesSeries.Points.Clear();
+            AppliedServicesSeries.LegendText = $"Оказанные услуги " +
+                $"с {FromDate:yyyy-mm-dd} по {ToDate:yyyy-mm-dd}";
+            foreach (ServiceAndApplyPoint point in serviceAndApplyPoints)
+            {
+                _ = AppliedServicesSeries.Points
+                    .AddXY(point.CurrentService.ServiceName,
+                           point.ApplyCount);
+            }
+        }
+
+        /// <summary>
+        /// Загружает данные в виде таблицы.
+        /// </summary>
+        private void LoadAsTable()
+        {
+            throw new NotImplementedException();
         }
 
         public string CurrentSaveType
@@ -58,6 +139,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 _fromDate = value;
                 PropertyChanged?.Invoke(this,
                                      new PropertyChangedEventArgs(nameof(FromDate)));
+                FilterView();
             }
         }
         public DateTime ToDate
@@ -68,8 +150,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                 _toDate = value;
                 PropertyChanged?.Invoke(this,
                                      new PropertyChangedEventArgs(nameof(ToDate)));
+                FilterView();
             }
         }
+
+        public List<BloodServiceOfUser> BloodServices { get; set; }
 
         private string _currentSaveType;
         private string _currentViewType;
