@@ -269,6 +269,8 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                     ExportAsTable();
                     break;
                 case "график и таблица":
+                    ExportAsChart();
+                    ExportAsTable();
                     break;
                 default:
                     break;
