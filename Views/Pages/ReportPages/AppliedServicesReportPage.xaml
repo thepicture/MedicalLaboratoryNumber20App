@@ -42,21 +42,22 @@
                     Click="PerformSaveReport"></Button>
         </WrapPanel>
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <Grid IsHitTestVisible="False"
+                  Opacity="{Binding IsBusy}"
+                  Panel.ZIndex="1">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".7"></SolidColorBrush>
+                </Grid.Background>
                     <TextBlock Text="Слишком длинный диапазон дат может потребовать долгое время. В данный момент генерируется таблица..."
                                TextWrapping="Wrap"
                                Width="auto"
-                               Panel.ZIndex="1"
-                               Grid.Row="1"
                                TextAlignment="Center"
+                               Foreground="White"
                                Style="{StaticResource HeaderBlock}"
-                               IsHitTestVisible="False"
-                               Opacity="{Binding IsBusy}"
-                               Background="White"></TextBlock>
-            <ScrollViewer Grid.Row="1">
+                               Opacity="{Binding IsBusy}"></TextBlock>
+            </Grid>
+            <ScrollViewer Grid.Row="1"
+                          HorizontalScrollBarVisibility="Visible">
                 <StackPanel>
                     <DataGrid x:Name="PointsGrid"
                               Visibility="Collapsed">

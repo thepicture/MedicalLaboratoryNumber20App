@@ -186,7 +186,11 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                     }
                 }
             });
-            PointsGrid.ItemsSource = keyValueRows;
+            foreach (var row in keyValueRows)
+            {
+                PointsGrid.Items.Add(row);
+                await Task.Delay(50);
+            }
             IsBusy = false;
         }
 
