@@ -266,6 +266,7 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
                     ExportAsChart();
                     break;
                 case "только таблица":
+                    ExportAsTable();
                     break;
                 case "график и таблица":
                     break;
@@ -285,7 +286,20 @@ namespace MedicalLaboratoryNumber20App.Views.Pages.ReportPages
         }
 
         /// <summary>
-        /// Экспортирует оказанные услуги как график в формат .pdf.
+        /// Экспортирует оказанные услуги как таблицу в формате .pdf.
+        /// </summary>
+        private async void ExportAsTable()
+        {
+            PointsGrid.Visibility = Visibility.Visible;
+            ChartHost.Visibility = Visibility.Collapsed;
+            await LoadAsTable();
+            new PrintVisualExportService(PointsGrid, "Экспорт таблицы " +
+                    "контроля качества в формате .pdf")
+                .Export();
+        }
+
+        /// <summary>
+        /// Экспортирует оказанные услуги как график в формате .pdf.
         /// </summary>
         private void ExportAsChart()
         {

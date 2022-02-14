@@ -48,7 +48,6 @@
             </Grid.RowDefinitions>
                     <TextBlock Text="Слишком длинный диапазон дат может потребовать долгое время. В данный момент генерируется таблица..."
                                TextWrapping="Wrap"
-                               HorizontalAlignment="Center"
                                Width="auto"
                                Panel.ZIndex="1"
                                Grid.Row="1"
