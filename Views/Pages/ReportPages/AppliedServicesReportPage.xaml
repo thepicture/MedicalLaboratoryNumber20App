@@ -46,11 +46,30 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1">
-                <DataGrid x:Name="PointsGrid"
-                          AutoGenerateColumns="True"
-                          Visibility="Collapsed"></DataGrid>
-            </StackPanel>
+                    <TextBlock Text="Слишком длинный диапазон дат может потребовать долгое время. В данный момент генерируется таблица..."
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Center"
+                               Width="auto"
+                               Panel.ZIndex="1"
+                               Grid.Row="1"
+                               TextAlignment="Center"
+                               Style="{StaticResource HeaderBlock}"
+                               IsHitTestVisible="False"
+                               Opacity="{Binding IsBusy}"
+                               Background="White"></TextBlock>
+            <ScrollViewer Grid.Row="1">
+                <StackPanel>
+                    <DataGrid x:Name="PointsGrid"
+                              Visibility="Collapsed">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Параметр"
+                                                Binding="{Binding Key}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Значение"
+                                                Binding="{Binding Value}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </ScrollViewer>
             <WindowsFormsHost Grid.Row="1"
                               Name="ChartHost"
                               Visibility="Collapsed">

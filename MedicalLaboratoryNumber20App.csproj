@@ -136,6 +136,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\KeyValueRow.cs" />
     <Compile Include="Models\Barcode.cs" />
     <Compile Include="Models\BarcodeStrip.cs" />
     <Compile Include="Models\BloodStatuses.cs" />
